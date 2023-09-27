@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "216626847807",
+    "project_id": "taminiapp",
+    "storage_bucket": "taminiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216626847807:android:8e158427a9c98c16a7988a",
+        "android_client_info": {
+          "package_name": "com.example.tamini_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ7cQoZ2JwAHCIUXdZR47K29aU7Hl-mxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
