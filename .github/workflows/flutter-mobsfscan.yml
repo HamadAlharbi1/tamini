@@ -41,10 +41,10 @@ jobs:
         uses: MobSF/mobsfscan@main
         with:
           args: '. --json'
-        # env:
-        #   INPUT_FILE_NAME: build/app/outputs/flutter-apk/app-release.apk
-        #   SCAN_TYPE: apk
-        #   OUTPUT_FILE_NAME: mobsf-report
+        env:
+          INPUT_FILE_NAME: build/app/outputs/flutter-apk/app-release.apk
+          SCAN_TYPE: apk
+          OUTPUT_FILE_NAME: mobsf-report
       - name: Cleanup MobSF Permissions
         run: |
           set -e
