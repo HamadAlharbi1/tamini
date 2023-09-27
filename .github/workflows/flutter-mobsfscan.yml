@@ -2,9 +2,9 @@ name: flutter mobsfscan
 
 on:
   push:
-    branches: [master, main, release/**]
+    branches: [main, release/**]
   pull_request:
-    branches: [master, main, release/**]
+    branches: [main, release/**]
 
 jobs:
   build:
@@ -38,7 +38,9 @@ jobs:
         env:
           REPO_NAME: "${{ github.event.repository.name }}"
       - name: Run MobSF Analysis
-        uses: fundacaocerti/mobsf-action@v1.7.1
+        uses: MobSF/mobsfscan@main
+        with:
+          args: '. --json'
         env:
           INPUT_FILE_NAME: build/app/outputs/flutter-apk/app-release.apk
           SCAN_TYPE: apk
