@@ -27,8 +27,11 @@ class DefaultFirebaseOptions {
         return android;
       case TargetPlatform.iOS:
         return ios;
-      // case TargetPlatform.macOS:
-      //   return macos;
+      case TargetPlatform.macOS:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macOS - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -72,13 +75,4 @@ class DefaultFirebaseOptions {
     storageBucket: dotenv.env["ios_storageBucket"]!,
     iosBundleId: dotenv.env["ios_iosBundleId"]!,
   );
-
-  // static const FirebaseOptions macos = FirebaseOptions(
-  //   apiKey: 'AIzaSyAPOW7wSJ2ImxkD9yq7qOuG9nDeFFC_8Hg',
-  //   appId: '1:216626847807:ios:444d1f914ad07ee3a7988a',
-  //   messagingSenderId: '216626847807',
-  //   projectId: 'taminiapp',
-  //   storageBucket: 'taminiapp.appspot.com',
-  //   iosBundleId: 'com.tameenk.app.RunnerTests',
-  // );
 }
