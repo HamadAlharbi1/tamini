@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -10,7 +11,9 @@ void main() async {
   await dotenv.load();
   var config = await Firebase.initializeApp(
       options: DefaultFirebaseOptions().currentPlatform);
-  print(config);
+  if (kDebugMode) {
+    print(config);
+  }
   runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,
