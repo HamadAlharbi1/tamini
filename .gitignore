@@ -44,6 +44,5 @@ app.*.map.json
 /android/app/release
 
 assets/.env
-assets/firebase_options.json
 android/app/google-services.json
 macos/Runner/GoogleService-Info.plist
