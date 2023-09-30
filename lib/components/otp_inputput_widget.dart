@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:tamini_app/CustomComponents/custom_button.dart';
+import 'package:tamini_app/components/custom_button.dart';
 
 class OtpInputWidget extends StatefulWidget {
   final Function(String) onOtpEntered;
@@ -8,6 +8,7 @@ class OtpInputWidget extends StatefulWidget {
   const OtpInputWidget({super.key, required this.onOtpEntered});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OtpInputWidgetState createState() => _OtpInputWidgetState();
 }
 

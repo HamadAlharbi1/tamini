@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tamini_app/CustomComponents/custom_button.dart';
-import 'package:tamini_app/CustomComponents/custom_textField.dart';
-import 'package:tamini_app/CustomComponents/otp_inputput_widget.dart';
+import 'package:tamini_app/components/custom_button.dart';
+import 'package:tamini_app/components/custom_text_field.dart';
+import 'package:tamini_app/components/otp_inputput_widget.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({
@@ -39,7 +39,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 // If OTP is incorrect, show an error message
                 // You can add error handling logic here
                 // For example, displaying an error message to the user
-                print('Invalid OTP. Please try again.');
+                // print('Invalid OTP. Please try again.');
               }
             },
           ),
