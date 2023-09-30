@@ -43,6 +43,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-assets/.env
+.env
 android/app/google-services.json
 macos/Runner/GoogleService-Info.plist

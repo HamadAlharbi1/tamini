@@ -1,4 +1,4 @@
-package com.example.tamini_app
+package com.tamini.androidapp
 
 import io.flutter.embedding.android.FlutterActivity
 
