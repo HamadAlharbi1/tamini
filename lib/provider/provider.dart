@@ -38,4 +38,22 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> requestRefund(String reason) async {
+    if (_user != null) {
+      await FirebaseFirestore.instance.collection('refundRequests').add({
+        'userId': _user!.uid,
+        'reason': reason,
+        'timestamp': Timestamp.now(),
+      });
+    }
+  }
+
+  Future<bool> get isEligibleForRefund async {
+    if (_user != null) {
+      DocumentSnapshot userPurchase = await FirebaseFirestore.instance.collection('purchases').doc(_user!.uid).get();
+      return userPurchase.exists && userPurchase['hasActiveSubscription'] == true;
+    }
+    return false;
+  }
 }
