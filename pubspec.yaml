@@ -37,9 +37,19 @@ dependencies:
     # firebase_core provides the core functionality needed to use Firebase services in a Flutter app.
     firebase_core: ^2.16.0
     # https://pub.dev/packages/firebase_auth
-    #firebase_auth provides authentication functionality using Firebase Authentication.
+    # firebase_auth provides authentication functionality using Firebase Authentication.
     firebase_auth: ^4.10.0
+    # https://pub.dev/packages/cloud_firestore
+    # cloud_firestore package allows integrating Cloud Firestore into Flutter app
+    cloud_firestore: ^4.9.2
     flutter_dotenv: ^5.1.0
+    #  https://pub.dev/packages/flutter_localization
+    # Flutter package used for adding localization and internationalization support to Flutter apps
+    flutter_localization: ^0.1.12
+    # https://pub.dev/packages/pin_input_text_field
+    # The pin_input_text_field package provides a Flutter widget that allows input of a pin code or password.
+    pin_input_text_field: ^4.5.1
+    url_launcher: ^6.0.22
 
 dev_dependencies:
     flutter_test:
