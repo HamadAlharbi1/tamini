@@ -11,7 +11,14 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Center(child: Text('تأميني')),
       ),
-      body: const Center(),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/refundRequest');
+          },
+          child: const Text('Go to Edit Profile Page'),
+        ),
+      ),
     );
   }
 }

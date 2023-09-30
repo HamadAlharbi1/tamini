@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:tamini_app/app.dart';
 import 'package:tamini_app/firebase_options.dart';
-import 'package:tamini_app/pages/EditProfilePage.dart';
 import 'package:tamini_app/provider/provider.dart';
 
 Future<void> main() async {
@@ -19,10 +19,7 @@ Future<void> main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: EditProfilePage(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
