@@ -28,7 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           content: OtpInputWidget(
             onOtpEntered: (otp) {
               // Handle the OTP verification logic here
-              if (otp == '1234') {
+              if (kDebugMode) {
                 // If OTP is correct, navigate to the RegistrationPage
                 Navigator.of(context).pop(); // Close the OTP dialog
                 Navigator.push(
