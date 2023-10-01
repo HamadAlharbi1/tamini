@@ -55,7 +55,7 @@ class _RefundRequestPageState extends State<RefundRequestPage> {
                   // navigate to a "Thank You" or "Confirmation" page
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => EditProfilePage()), // Or navigate to a "Thank You" page
+                    MaterialPageRoute(builder: (context) => EditProfilePage()), // Or navigate to a "Thank Yuo" page
                   );
                 } else {
                   // show a message not eligible for a refund
