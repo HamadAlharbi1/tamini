@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tamini_app/provider/provider.dart';
 
 class EditProfilePage extends StatelessWidget {
+  EditProfilePage({Key? key}) : super(key: key);
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -15,9 +17,10 @@ class EditProfilePage extends StatelessWidget {
     emailController.text = userProvider.email ?? '';
     phoneController.text = userProvider.phoneNumber ?? '';
 
+    //final TextEditingController nameController = TextEditingController(text: userProvider.name ?? '');
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        title: const Text("Edit Profile"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -25,16 +28,16 @@ class EditProfilePage extends StatelessWidget {
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
               keyboardType: TextInputType.emailAddress,
             ),
             TextField(
               controller: phoneController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
+              decoration: const InputDecoration(labelText: 'Phone Number'),
               keyboardType: TextInputType.phone,
             ),
             ElevatedButton(
@@ -46,7 +49,7 @@ class EditProfilePage extends StatelessWidget {
                   phoneController.text,
                 );
               },
-              child: Text("Save"),
+              child: const Text("Save"),
             ),
           ],
         ),

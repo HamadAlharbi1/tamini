@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamini_app/pages/EditProfilePage.dart';
+import 'package:tamini_app/pages/edit_profile_page.dart.dart';
 import 'package:tamini_app/provider/provider.dart';
 
 class RefundRequestPage extends StatefulWidget {

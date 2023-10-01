@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tamini_app/pages/EditProfilePage.dart';
-import 'package:tamini_app/pages/RefundRequestPage.dart';
-import 'package:tamini_app/pages/aboutAndSetting.dart';
+import 'package:tamini_app/pages/edit_profile_page.dart.dart';
+import 'package:tamini_app/pages/refund_request_page.dart.dart';
+import 'package:tamini_app/pages/about_and_setting.dart.dart';
 import 'package:tamini_app/pages/homepage.dart';
 
 // class MyApp extends StatelessWidget {
