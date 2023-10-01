@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         LocalJsonLocalization.delegate,
       ],
-      locale: const Locale('en', 'US'), // Set the default locale to Arabic
+      locale: const Locale('ar', 'SA'), // Set the default locale to Arabic
       supportedLocales: const [
         Locale('ar', 'SA'), // Arabic
         Locale('en', 'US'), // English

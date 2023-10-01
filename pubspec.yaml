@@ -50,7 +50,7 @@ dependencies:
     # https://pub.dev/packages/pin_input_text_field
     # The pin_input_text_field package provides a Flutter widget that allows input of a pin code or password.
     pin_input_text_field: ^4.5.1
-    localize_and_translate: ^5.1.1
+
     flutter_localizations:
         sdk: flutter
 dev_dependencies:
