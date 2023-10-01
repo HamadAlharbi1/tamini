@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/otp_inputput_widget.dart';
+import 'package:tamini_app/pages/login_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({
@@ -33,7 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Navigator.of(context).pop(); // Close the OTP dialog
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const RegistrationPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               } else {
                 // If OTP is incorrect, show an error message
