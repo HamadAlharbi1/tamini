@@ -1,42 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-import 'package:tamini_app/components/locale_language.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:localization/localization.dart';
 import 'package:tamini_app/pages/registration_page.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final FlutterLocalization localization = FlutterLocalization.instance;
-
-  @override
-  void initState() {
-    localization.init(
-      mapLocales: [
-        const MapLocale('ar', AppLocale.ar),
-        const MapLocale('en', AppLocale.en),
-      ],
-      initLanguageCode: 'ar',
-    );
-    localization.onTranslatedLanguage = _onTranslatedLanguage;
-    super.initState();
-  }
-
-// the setState function here is a must to add
-  void _onTranslatedLanguage(Locale? locale) {
-    setState(() {});
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Set the directories where the translation JSON files are located
+    LocalJsonLocalization.delegate.directories = ['lib/i18n'];
+
     return MaterialApp(
-      supportedLocales: localization.supportedLocales,
-      localizationsDelegates: localization.localizationsDelegates,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        LocalJsonLocalization.delegate,
+      ],
+      locale: const Locale('en', 'US'), // Set the default locale to Arabic
+      supportedLocales: const [
+        Locale('ar', 'SA'), // Arabic
+        Locale('en', 'US'), // English
+      ],
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        // If the device's language is Arabic and Arabic is supported by the app
+        if (deviceLocale?.languageCode == 'ar' && supportedLocales.contains(const Locale('ar', 'SA'))) {
+          return const Locale('ar', 'SA'); // Use Arabic
+        } else {
+          return const Locale('en', 'US'); // Use English otherwise
+        }
+      },
+      theme: themeData,
       debugShowCheckedModeBanner: false,
       home: const RegistrationPage(),
     );
   }
+}
+
+final ThemeData themeData = ThemeData(
+  primarySwatch: createMaterialColor(const Color.fromARGB(255, 36, 87, 102)), // Replace with your color
+);
+MaterialColor createMaterialColor(Color color) {
+  List<int> strengths = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  Map<int, Color> swatch = <int, Color>{};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int strength in strengths) {
+    final double blend = 1.0 - (strength / 900);
+    swatch[strength] = Color.fromRGBO(
+      r,
+      g,
+      b,
+      blend,
+    );
+  }
+  return MaterialColor(color.value, swatch);
 }

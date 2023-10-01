@@ -27,12 +27,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       autofocus: true,
       obscureText: false,
       decoration: InputDecoration(
-        label: Row(
-          // mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(widget.labelText),
-          ],
-        ),
+        label: Text(widget.labelText),
         hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
@@ -66,7 +61,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
       ),
       keyboardType: widget.keyboardType,
-      // textAlign: TextAlign.right,
     );
   }
 }

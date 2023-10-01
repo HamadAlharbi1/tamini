@@ -1,0 +1,18 @@
+{
+	"registration_title": "التسجيل برقم الجوال",
+	"phone_number": "رقم الجوال",
+	"enter_phone_number": "ادخل رقم الجوال...",
+	"register": "تسجيل",
+	"enter_otp": "ادخل الرمز المكون من 4ارقام ",
+	"sign_up_new_user": "تسجيل حساب جديد",
+	"user_name": "اسم المستخدم",
+	"pass_word": "كلمة المرور",
+	"enter_pass_word": "ادخل كلمة المرور...",
+	"enter_user_name": "ادخل اسم المستخدم",
+	"re_enter_pass_word": "أعد إدخال كلمة المرور...",
+	"confirm_pass_word": "تأكيد كلمة المرور...",
+	"verify": "تحقق",
+	"email": "البريد الالكتروني",
+	"enter_email": "ادخل عنوان البريد الالكتروني",
+	"continue": "متابعه"
+}

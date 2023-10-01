@@ -1,13 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/otp_inputput_widget.dart';
-import 'package:tamini_app/pages/login_page.dart';
+import 'package:tamini_app/pages/sign_up_new_user_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
@@ -15,6 +17,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController phoneNumberController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -25,16 +28,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ادخل الرمز المرسل الى جوالك'),
+          title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
           content: OtpInputWidget(
             onOtpEntered: (otp) {
               // Handle the OTP verification logic here
               if (kDebugMode) {
-                // If OTP is correct, navigate to the RegistrationPage
+                // If OTP is correct, navigate to the LoginPage
                 Navigator.of(context).pop(); // Close the OTP dialog
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  MaterialPageRoute(builder: (context) => const SignUpNewUserPage()),
                 );
               } else {
                 // If OTP is incorrect, show an error message
@@ -53,29 +56,41 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 83, 109),
-        title: const Center(child: Text('التسجيل برقم الجوال ')),
+        title: Center(child: Text('registration_title'.i18n())),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: CustomTextField(
-                  controller: phoneNumberController,
-                  labelText: 'رقم الجوال',
-                  hintText: '...ادخل رقم الجوال',
-                  keyboardType: TextInputType.phone,
+            Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(50),
+                  padding: const EdgeInsets.all(50),
+                  height: 200,
+                  width: 200,
+                  color: const Color.fromARGB(255, 180, 180, 180),
+                  child: const Center(
+                      child: Text(
+                    "Logo",
+                    style: TextStyle(fontSize: 30),
+                  )),
                 ),
-              ),
-            ),
-            CustomButton(
-              onPressed: () {
-                createNewUserFromMobile(context, phoneNumberController.text);
-              },
-              buttonText: 'تسجيل ',
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CustomTextField(
+                    controller: phoneNumberController,
+                    labelText: 'phone_number'.i18n(),
+                    hintText: 'enter_phone_number'.i18n(),
+                    keyboardType: TextInputType.phone,
+                  ),
+                ),
+                CustomButton(
+                  onPressed: () {
+                    createNewUserFromMobile(context, phoneNumberController.text);
+                  },
+                  buttonText: 'continue'.i18n(),
+                ),
+              ],
             ),
           ],
         ),

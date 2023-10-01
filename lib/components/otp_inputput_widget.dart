@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:tamini_app/components/custom_button.dart';
 
@@ -43,7 +44,7 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
             String otp = otpController.text;
             widget.onOtpEntered(otp);
           },
-          buttonText: "تحقق",
+          buttonText: "verify".i18n(),
         )
       ],
     );
