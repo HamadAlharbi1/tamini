@@ -28,6 +28,18 @@ class _RefundRequestPageState extends State<RefundRequestPage> {
       });
     }
 
+    Future<void> asyncFunction(BuildContext context) async {
+      // Store context in a local variable before the async gap.
+      var localContext = context;
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      // Use localContext after the async gap.
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        const SnackBar(content: Text('Async operation completed')),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Request for Refund'),

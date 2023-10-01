@@ -27,15 +27,20 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> updateUserProfile(String newName, String newEmail, String newPhoneNumber) async {
     if (_user != null) {
-      await FirebaseFirestore.instance.collection('users').doc(_user!.uid).update({
-        'name': newName,
-        'email': newEmail,
-        'phoneNumber': newPhoneNumber,
-      });
-      name = newName;
-      email = newEmail;
-      phoneNumber = newPhoneNumber;
-      notifyListeners();
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(_user!.uid).update({
+          'name': newName,
+          'email': newEmail,
+          'phoneNumber': newPhoneNumber,
+        });
+        name = newName;
+        email = newEmail;
+        phoneNumber = newPhoneNumber;
+        notifyListeners();
+      } catch (e) {
+        print('Error updating user profile: $e');
+        // Consider notifying the user about the error
+      }
     }
   }
 
