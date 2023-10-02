@@ -1,0 +1,21 @@
+{
+	"registration_title": "Mobile Number Registration",
+	"phone_number": "Mobile Number",
+	"enter_phone_number": "Enter your mobile number...",
+	"register": "Register",
+	"enter_otp": "Enter the 4-digit OTP code",
+	"sign_up_new_user": "Sign Up as a New User",
+	"user_name": "Username",
+	"pass_word": "Password",
+	"enter_pass_word": "Enter your password...",
+	"enter_user_name": "Enter your username",
+	"re_enter_pass_word": "Re-enter your password...",
+	"confirm_pass_word": "Confirm Password...",
+	"verify": "Verify",
+	"email": "Email",
+	"enter_email": "Enter your email address",
+	"continue": "Continue",
+	"Home_Page": "Home Page",
+	"Request_Quotations": "Request Insurance Quotation",
+	"Request_Refund": "Request Insurance Refund"
+}

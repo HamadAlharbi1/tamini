@@ -30,6 +30,7 @@ environment:
 dependencies:
     flutter:
         sdk: flutter
+    intl: ^0.18.1
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
     cupertino_icons: ^1.0.2
@@ -37,10 +38,21 @@ dependencies:
     # firebase_core provides the core functionality needed to use Firebase services in a Flutter app.
     firebase_core: ^2.16.0
     # https://pub.dev/packages/firebase_auth
-    #firebase_auth provides authentication functionality using Firebase Authentication.
+    # firebase_auth provides authentication functionality using Firebase Authentication.
     firebase_auth: ^4.10.0
+    # https://pub.dev/packages/cloud_firestore
+    # cloud_firestore package allows integrating Cloud Firestore into Flutter app
+    cloud_firestore: ^4.9.2
     flutter_dotenv: ^5.1.0
+    #  https://pub.dev/packages/localization
+    # Flutter package used for adding localization and internationalization support to Flutter apps
+    localization: ^2.1.0
+    # https://pub.dev/packages/pin_input_text_field
+    # The pin_input_text_field package provides a Flutter widget that allows input of a pin code or password.
+    pin_input_text_field: ^4.5.1
 
+    flutter_localizations:
+        sdk: flutter
 dev_dependencies:
     flutter_test:
         sdk: flutter
@@ -59,10 +71,13 @@ flutter:
     # The following line ensures that the Material Icons font is
     # included with your application, so that you can use the icons in
     # the material Icons class.
+    generate: true
     uses-material-design: true
 
     # To add assets to your application, add an assets section, like this:
     assets:
+        - lib/i18n/ar_SA.json
+        - lib/i18n/en_US.json
         - .env
     #   - assets/firebase_options.json
     #   - images/a_dot_ham.jpeg

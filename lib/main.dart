@@ -9,17 +9,13 @@ import 'package:tamini_app/firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// default will load [.env] file which located in project root
+  // Load .env file and Firebase configuration
   await dotenv.load();
-  var config = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions().currentPlatform);
+  var config = await Firebase.initializeApp(options: DefaultFirebaseOptions().currentPlatform);
   if (kDebugMode) {
     print(config);
   }
   runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyApp(),
-    ),
+    const MyApp(),
   );
 }
