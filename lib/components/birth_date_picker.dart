@@ -12,6 +12,7 @@ class BirthDatePicker extends StatefulWidget {
   final Function(DateTime) onDateChanged;
 
   @override
+  // ignore: library_private_types_in_public_api
   _BirthDatePickerState createState() => _BirthDatePickerState();
 }
 

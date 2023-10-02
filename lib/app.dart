@@ -39,8 +39,9 @@ class MyApp extends StatelessWidget {
 }
 
 final ThemeData themeData = ThemeData(
-  primarySwatch: createMaterialColor(const Color.fromARGB(255, 36, 87, 102)), // Replace with your color
+  primarySwatch: createMaterialColor(const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
 );
+
 MaterialColor createMaterialColor(Color color) {
   List<int> strengths = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
   Map<int, Color> swatch = <int, Color>{};
