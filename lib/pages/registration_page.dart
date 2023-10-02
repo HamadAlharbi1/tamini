@@ -4,7 +4,7 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/otp_inputput_widget.dart';
-import 'package:tamini_app/pages/sign_up_new_user_page.dart';
+import 'package:tamini_app/pages/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({
@@ -37,7 +37,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Navigator.of(context).pop(); // Close the OTP dialog
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignUpNewUserPage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               } else {
                 // If OTP is incorrect, show an error message

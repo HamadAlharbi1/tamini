@@ -14,5 +14,8 @@
 	"verify": "تحقق",
 	"email": "البريد الالكتروني",
 	"enter_email": "ادخل عنوان البريد الالكتروني",
-	"continue": "متابعه"
+	"continue": "متابعه",
+	"Home_Page": "الصفحة الرئيسيه",
+	"Request_Quotations": "طلب تسعيرة تأمين",
+	"Request_Refund": "استرجاع مبلغ تأمين"
 }
