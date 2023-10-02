@@ -5,9 +5,10 @@ class CustomTextField extends StatefulWidget {
   final String labelText;
   final String hintText;
   final TextInputType keyboardType;
-
+  final Widget? prefixIcon;
   const CustomTextField({
     super.key,
+    this.prefixIcon,
     required this.controller,
     required this.labelText,
     required this.hintText,
@@ -27,11 +28,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
       autofocus: true,
       obscureText: false,
       decoration: InputDecoration(
+        prefixIcon: widget.prefixIcon != null
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [widget.prefixIcon!],
+                ),
+              )
+            : null,
         label: Text(widget.labelText),
         hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color.fromARGB(246, 0, 95, 150),
+            color: Color.fromARGB(246, 28, 29, 29),
             width: 1,
           ),
           borderRadius: BorderRadius.circular(12),

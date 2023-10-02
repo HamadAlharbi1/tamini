@@ -17,5 +17,12 @@
 	"continue": "متابعه",
 	"Home_Page": "الصفحة الرئيسيه",
 	"Request_Quotations": "طلب تسعيرة تأمين",
-	"Request_Refund": "استرجاع مبلغ تأمين"
+	"Request_Refund": "استرجاع مبلغ تأمين",
+	"id_number": "رقم الهويه الوطنيه",
+	"enter_id_number": "ادخل رقم الهويه الوطنيه",
+	"birth_date": "تاريخ الميلاد",
+	"enter_birth_date": "ادخل تاريخ الميلاد",
+	"vehicle_serial_number": "الرقم التسلسلي للسياره",
+	"enter_vehicle_serial_number": "ادخل الرقم التسلسلي للسياره",
+	"send": "ارسال الطلب"
 }
