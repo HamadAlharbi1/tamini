@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -17,28 +18,26 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController phoneNumberController = TextEditingController();
-
+  TextEditingController otpController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  late AuthCredential _credential;
   @override
   void initState() {
     super.initState();
   }
 
-  createNewUserFromMobile(BuildContext context, String phoneNumber) {
+  phoneAuth() async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
           content: OtpInputWidget(
-            onOtpEntered: (otp) {
+            onOtpEntered: (otp) async {
               // Handle the OTP verification logic here
+
               if (kDebugMode) {
                 // If OTP is correct, navigate to the LoginPage
-                Navigator.of(context).pop(); // Close the OTP dialog
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
               } else {
                 // If OTP is incorrect, show an error message
                 // You can add error handling logic here
@@ -48,6 +47,65 @@ class _RegistrationPageState extends State<RegistrationPage> {
             },
           ),
         );
+      },
+    );
+  }
+
+  createNewUserFromMobile(BuildContext context, String phoneNumber) async {
+    // Check if the phone number starts with '05' and replace it with '+9665'
+    if (phoneNumber.startsWith('05')) {
+      phoneNumber = '+9665${phoneNumber.substring(2)}';
+    }
+    await auth.verifyPhoneNumber(
+      timeout: const Duration(seconds: 60),
+      phoneNumber: phoneNumber,
+      verificationCompleted: (AuthCredential credential) async {
+        try {
+          auth
+              .signInWithCredential(_credential)
+              .then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                    return const HomePage();
+                  })));
+        } catch (e) {
+          final snackBar = SnackBar(
+            content: Text('Error: $e'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        setState(() {
+          final snackBar = SnackBar(
+            content: Text('Error: $e'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
+              content: OtpInputWidget(
+                onOtpEntered: (otp) async {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  String smsCode = otp;
+                  _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+                  auth.signInWithCredential(_credential).then((result) {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                  }).catchError((e) {
+                    print(e);
+                  });
+                },
+              ),
+            );
+          },
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Called when the automatic code retrieval process times out.
       },
     );
   }
@@ -95,6 +153,30 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class VeryFayForm extends StatelessWidget {
+  const VeryFayForm({
+    super.key,
+    required this.veryFayController,
+  });
+
+  final TextEditingController veryFayController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        const Text(
+          'رمز التحقق',
+        ),
+        TextField(
+          controller: veryFayController,
+        ),
+      ],
     );
   }
 }

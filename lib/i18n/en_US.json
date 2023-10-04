@@ -3,7 +3,7 @@
 	"phone_number": "Phone Number",
 	"enter_phone_number": "Enter phone number...",
 	"register": "Register",
-	"enter_otp": "Enter a 4-digit OTP code",
+	"enter_otp": "Enter a 6-digit OTP code",
 	"sign_up_new_user": "Sign up as a new user",
 	"user_name": "Username",
 	"pass_word": "Password",

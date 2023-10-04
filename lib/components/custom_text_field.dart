@@ -30,7 +30,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         prefixIcon: widget.prefixIcon != null
             ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [widget.prefixIcon!],

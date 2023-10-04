@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
-
+  final bool isText;
+  final Widget? child;
   const CustomButton({
     super.key,
+    this.isText = true,
+    this.child,
     required this.onPressed,
     required this.buttonText,
   });
@@ -20,10 +23,12 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: Text(
-          buttonText,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+        child: isText == true
+            ? Text(
+                buttonText,
+              )
+            : child,
       ),
     );
   }

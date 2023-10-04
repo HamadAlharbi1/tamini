@@ -22,19 +22,15 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         PinInputTextField(
-          controller: otpController,
-          pinLength: 4,
-          decoration: UnderlineDecoration(
-            colorBuilder: PinListenColorBuilder(
-              const Color.fromARGB(246, 0, 95, 150),
-              const Color.fromARGB(246, 0, 95, 150),
+          pinLength: 6,
+          decoration: BoxLooseDecoration(
+            gapSpace: 2,
+            strokeWidth: 1,
+            strokeColorBuilder: const FixedColorBuilder(
+              Color.fromARGB(255, 50, 122, 128),
             ),
+            textStyle: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
           ),
-          autoFocus: true,
-          textInputAction: TextInputAction.done,
-          onSubmit: (pin) {
-            widget.onOtpEntered(pin);
-          },
         ),
         const SizedBox(
           height: 8,

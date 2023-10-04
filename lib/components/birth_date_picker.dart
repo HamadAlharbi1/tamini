@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tamini_app/components/custom_button.dart';
 
 // ignore: must_be_immutable
 class BirthDatePicker extends StatefulWidget {
@@ -46,9 +47,11 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: InkWell(
+      child: CustomButton(
+        buttonText: '',
+        isText: false,
         child: const Icon(Icons.date_range),
-        onTap: () => _selectDate(context),
+        onPressed: () => _selectDate(context),
       ),
     );
   }
