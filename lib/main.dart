@@ -17,4 +17,3 @@ Future<void> main() async {
     const MyApp(),
   );
 }
-//Desktop/projects/tamini

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/components/custom_button.dart';
@@ -26,29 +25,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
     super.initState();
   }
 
-  phoneAuth() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
-          content: OtpInputWidget(
-            onOtpEntered: (otp) async {
-              // Handle the OTP verification logic here
-
-              if (kDebugMode) {
-                // If OTP is correct, navigate to the LoginPage
-              } else {
-                // If OTP is incorrect, show an error message
-                // You can add error handling logic here
-                // For example, displaying an error message to the user
-                // print('Invalid OTP. Please try again.');
-              }
-            },
-          ),
-        );
-      },
+  displayError(Object e) {
+    final snackBar = SnackBar(
+      content: Text('Error: $e'),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   createNewUserFromMobile(BuildContext context, String phoneNumber) async {
@@ -57,7 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       phoneNumber = '+9665${phoneNumber.substring(2)}';
     }
     await auth.verifyPhoneNumber(
-      timeout: const Duration(seconds: 60),
+      timeout: const Duration(seconds: 120),
       phoneNumber: phoneNumber,
       verificationCompleted: (AuthCredential credential) async {
         try {
@@ -67,23 +48,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     return const HomePage();
                   })));
         } catch (e) {
-          final snackBar = SnackBar(
-            content: Text('Error: $e'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          displayError(e);
         }
       },
       verificationFailed: (FirebaseAuthException e) {
         setState(() {
-          final snackBar = SnackBar(
-            content: Text('Error: $e'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          displayError(e);
         });
       },
       codeSent: (String verificationId, int? resendToken) {
         showDialog(
-          barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -96,7 +70,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   auth.signInWithCredential(_credential).then((result) {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                   }).catchError((e) {
-                    print(e);
+                    displayError(e);
                   });
                 },
               ),
@@ -122,16 +96,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Column(
               children: [
                 Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.rectangle,
+                  ),
                   margin: const EdgeInsets.all(50),
-                  padding: const EdgeInsets.all(50),
-                  height: 200,
-                  width: 200,
-                  color: const Color.fromARGB(255, 180, 180, 180),
-                  child: const Center(
-                      child: Text(
-                    "Logo",
-                    style: TextStyle(fontSize: 30),
-                  )),
+                  child: Image.network(
+                      'https://cdn.discordapp.com/attachments/1083124198827888830/1159214780209434726/image.png?ex=653035e4&is=651dc0e4&hm=e703873e965917a1d19716ea732c2f6383908ed6d89c33444c09213aa64d5dcf&'),
+                ),
+                const SizedBox(
+                  height: 80,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -153,30 +127,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class VeryFayForm extends StatelessWidget {
-  const VeryFayForm({
-    super.key,
-    required this.veryFayController,
-  });
-
-  final TextEditingController veryFayController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        const Text(
-          'رمز التحقق',
-        ),
-        TextField(
-          controller: veryFayController,
-        ),
-      ],
     );
   }
 }
