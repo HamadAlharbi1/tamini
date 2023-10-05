@@ -48,7 +48,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
 
   requestQuotation() async {
     final requestId = const Uuid().v4();
-
+    final DateTime requestDate = DateTime.now();
     try {
       await FirebaseFirestore.instance.collection('RequestQuotations').doc(requestId).set({
         'nationalId': nationalIdNumberController.text,
@@ -59,6 +59,8 @@ class _RequestQuotationsState extends State<RequestQuotations> {
         'phoneNumber': phoneNumber,
         'insuranceAmount': 1.5,
         'requestId': requestId,
+        'requestType': "Request_Quotations",
+        'requestDate': requestDate.toString(),
       });
 
       // Call the function to show the snackbar

@@ -1,4 +1,4 @@
-class RequestQuotations {
+class Quotations {
   String nationalId;
   String birthDate;
   String carSerialNumber;
@@ -7,8 +7,10 @@ class RequestQuotations {
   String phoneNumber;
   double insuranceAmount;
   String requestId;
+  String requestType;
+  String requestDate;
 
-  RequestQuotations({
+  Quotations({
     required this.nationalId,
     required this.birthDate,
     required this.carSerialNumber,
@@ -17,10 +19,12 @@ class RequestQuotations {
     required this.phoneNumber,
     required this.insuranceAmount,
     required this.requestId,
+    required this.requestType,
+    required this.requestDate,
   });
 
-  factory RequestQuotations.fromMap(Map<String, dynamic> map) {
-    return RequestQuotations(
+  factory Quotations.fromMap(Map<String, dynamic> map) {
+    return Quotations(
       nationalId: map['nationalId'] ?? '0',
       birthDate: map['birthDate'] ?? '',
       carSerialNumber: map['carSerialNumber'] ?? '',
@@ -29,6 +33,8 @@ class RequestQuotations {
       phoneNumber: map['phoneNumber'] ?? '',
       insuranceAmount: map['insuranceAmount'] ?? 0.0,
       requestId: map['requestId'] ?? '',
+      requestType: map['requestType'] ?? '',
+      requestDate: map['requestDate'] ?? '',
     );
   }
 
@@ -42,6 +48,8 @@ class RequestQuotations {
       'phoneNumber': phoneNumber,
       'insuranceAmount': insuranceAmount,
       'requestId': requestId,
+      'requestType': requestType,
+      'requestDate': requestDate,
     };
   }
 }
