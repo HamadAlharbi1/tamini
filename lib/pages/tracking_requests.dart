@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/components/quotations_model.dart';
 import 'package:tamini_app/components/quotation_card_item.dart';
+import 'package:tamini_app/components/quotations_model.dart';
 
 class TrackingRequests extends StatefulWidget {
   const TrackingRequests({Key? key}) : super(key: key);
@@ -15,16 +15,18 @@ class TrackingRequests extends StatefulWidget {
 
 class _TrackingRequestsState extends State<TrackingRequests> {
   List<Quotations> quotations = [];
-  getRequestQuotations() async {
+  listenRequestQuotations() async {
     final collection =
-        await FirebaseFirestore.instance.collection('RequestQuotations').where('userId', isEqualTo: '$uid').get();
-    List<Quotations> newList = [];
-    for (final doc in collection.docs) {
-      final tDetail = Quotations.fromMap(doc.data());
-      newList.add(tDetail);
-    }
-    quotations = newList;
-    setState(() {});
+        FirebaseFirestore.instance.collection('RequestQuotations').where('userId', isEqualTo: '$uid').snapshots();
+    collection.listen((snapshot) {
+      List<Quotations> newList = [];
+      for (final doc in snapshot.docs) {
+        final tDetail = Quotations.fromMap(doc.data());
+        newList.add(tDetail);
+      }
+      quotations = newList;
+      setState(() {});
+    });
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -34,7 +36,7 @@ class _TrackingRequestsState extends State<TrackingRequests> {
     User? user = _auth.currentUser;
     uid = user?.uid;
     super.initState();
-    getRequestQuotations();
+    listenRequestQuotations();
   }
 
   @override
