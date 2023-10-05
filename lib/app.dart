@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/pages/home_page.dart';
 import 'package:tamini_app/pages/registration_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       },
       theme: themeData,
       debugShowCheckedModeBanner: false,
-      home: const RegistrationPage(),
+      home: buildFirstWidget(),
     );
   }
 }
@@ -57,4 +59,13 @@ MaterialColor createMaterialColor(Color color) {
     );
   }
   return MaterialColor(color.value, swatch);
+}
+
+Widget buildFirstWidget() {
+  final User? firebaseUser = FirebaseAuth.instance.currentUser;
+  if (firebaseUser == null) {
+    return const RegistrationPage();
+  } else {
+    return const HomePage();
+  }
 }

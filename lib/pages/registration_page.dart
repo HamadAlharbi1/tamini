@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/otp_inputput_widget.dart';
+import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/pages/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {

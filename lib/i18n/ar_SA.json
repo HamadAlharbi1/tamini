@@ -18,11 +18,12 @@
 	"Home_Page": "الصفحة الرئيسيه",
 	"Request_Quotations": "طلب تسعيرة تأمين",
 	"Request_Refund": "استرجاع مبلغ تأمين",
-	"id_number": "رقم الهويه الوطنيه",
-	"enter_id_number": "ادخل رقم الهويه الوطنيه",
+	"national_id_number": "رقم الهويه الوطنيه",
+	"enter_national_id_number": "ادخل رقم الهويه الوطنيه",
 	"birth_date": "تاريخ الميلاد",
 	"enter_birth_date": "ادخل تاريخ الميلاد",
 	"vehicle_serial_number": "الرقم التسلسلي للسياره",
 	"enter_vehicle_serial_number": "ادخل الرقم التسلسلي للسياره",
-	"send": "ارسال الطلب"
+	"send": "ارسال الطلب",
+	"under_review": "قيد المراجعة","request_added":"تم اضافة الطلب بنجاح"
 }

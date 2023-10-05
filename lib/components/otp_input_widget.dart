@@ -11,12 +11,13 @@ class OtpInputWidget extends StatefulWidget {
   const OtpInputWidget({Key? key, required this.onOtpEntered}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _OtpInputWidgetState createState() => _OtpInputWidgetState();
 }
 
 class _OtpInputWidgetState extends State<OtpInputWidget> {
   TextEditingController otpController = TextEditingController();
-  int timerSeconds = 120; // Initial timer value
+  int timerSeconds = 180; // Initial timer value
   late Timer timer;
 
   @override
