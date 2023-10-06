@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
       },
       theme: themeData,
       debugShowCheckedModeBanner: false,
-      home: buildFirstWidget(),
+      isAuthenticated = false;      
+      home: isAuthenticated ? HomePage() : RegistrationPage(),
     );
   }
 }
