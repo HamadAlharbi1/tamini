@@ -17,7 +17,7 @@ class _TrackingRequestsState extends State<TrackingRequests> {
   List<Quotations> quotations = [];
   listenRequestQuotations() async {
     final collection =
-        FirebaseFirestore.instance.collection('RequestQuotations').where('userId', isEqualTo: '$uid').snapshots();
+        FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
     collection.listen((snapshot) {
       List<Quotations> newList = [];
       for (final doc in snapshot.docs) {
