@@ -60,12 +60,7 @@ MaterialColor createMaterialColor(Color color) {
   }
   return MaterialColor(color.value, swatch);
 }
-
-Widget buildFirstWidget() {
-  final User? firebaseUser = FirebaseAuth.instance.currentUser;
-  if (firebaseUser == null) {
-    return const RegistrationPage();
-  } else {
-    return const HomePage();
-  }
+bool checkUserAuthentication() {
+    final User? firebaseUser = FirebaseAuth.instance.currentUser;
+    firebaseUser != null ? true : false;
 }
