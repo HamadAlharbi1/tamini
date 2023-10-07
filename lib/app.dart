@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
       ],
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         // If the device's language is Arabic and Arabic is supported by the app
-        if (deviceLocale?.languageCode == 'ar' && supportedLocales.contains(const Locale('ar', 'SA'))) {
+        if (deviceLocale?.languageCode == 'ar' &&
+            supportedLocales.contains(const Locale('ar', 'SA'))) {
           return const Locale('ar', 'SA'); // Use Arabic
         } else {
           return const Locale('en', 'US'); // Use English otherwise
@@ -35,14 +36,16 @@ class MyApp extends StatelessWidget {
       },
       theme: themeData,
       debugShowCheckedModeBanner: false,
-      isAuthenticated = false;      
-      home: isAuthenticated ? HomePage() : RegistrationPage(),
+      home: checkUserAuthentication()
+          ? const HomePage()
+          : const RegistrationPage(),
     );
   }
 }
 
 final ThemeData themeData = ThemeData(
-  primarySwatch: createMaterialColor(const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
+  primarySwatch: createMaterialColor(
+      const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
 );
 
 MaterialColor createMaterialColor(Color color) {
@@ -61,7 +64,11 @@ MaterialColor createMaterialColor(Color color) {
   }
   return MaterialColor(color.value, swatch);
 }
+
 bool checkUserAuthentication() {
-    final User? firebaseUser = FirebaseAuth.instance.currentUser;
-    firebaseUser != null ? true : false;
+  /// Get the current user from Firebase Authentication
+  /// Check if the firebaseUser is not null, indicating the user is authenticated
+  /// Return true if authenticated, otherwise return false
+
+  return FirebaseAuth.instance.currentUser != null ? true : false;
 }
