@@ -23,6 +23,7 @@ class _OwnerTrackingRequestsState extends State<OwnerTrackingRequests> {
         newList.add(tDetail);
       }
       quotations = newList;
+      newList.sort((b, a) => a.requestId.compareTo(b.requestId));
       setState(() {});
     });
   }

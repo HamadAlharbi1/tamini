@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return checkUserAuthentication()
-              ? const HomePage()
-              : const Registration();
+          return checkUserAuthentication() ? const HomePage() : const Registration();
         },
         routes: <RouteBase>[
           GoRoute(
@@ -78,8 +76,7 @@ class MyApp extends StatelessWidget {
       ],
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         // If the device's language is Arabic and Arabic is supported by the app
-        if (deviceLocale?.languageCode == 'ar' &&
-            supportedLocales.contains(const Locale('ar', 'SA'))) {
+        if (deviceLocale?.languageCode == 'ar' && supportedLocales.contains(const Locale('ar', 'SA'))) {
           return const Locale('ar', 'SA'); // Use Arabic
         } else {
           return const Locale('en', 'US'); // Use English otherwise
@@ -92,8 +89,7 @@ class MyApp extends StatelessWidget {
 }
 
 final ThemeData themeData = ThemeData(
-  primarySwatch: createMaterialColor(
-      const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
+  primarySwatch: createMaterialColor(const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
 );
 
 MaterialColor createMaterialColor(Color color) {

@@ -35,7 +35,11 @@ class UpdateQuotationCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           QuotationCardItem(
-            itemDescription: "${"request_date".i18n()}:",
+            itemDescription: "request_id".i18n(),
+            itemValue: request.requestId,
+          ),
+          QuotationCardItem(
+            itemDescription: "request_date".i18n(),
             itemValue: ' ${DateFormat('dd/MM/yyyy').format(requestDate)}',
           ),
           QuotationCardItem(
@@ -98,7 +102,7 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
   update(context) async {
     try {
       await FirebaseFirestore.instance.collection('quotations').doc(widget.requestId).update(
-        {"insuranceAmount": double.parse(itemValueController.text), 'status': "sent_awaiting_approval".i18n()},
+        {"insuranceAmount": double.parse(itemValueController.text), 'status': "sent_awaiting_approval"},
       );
       await showRequestUpdatedSnackbar();
     } catch (e) {

@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/snack_bar_utils.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/notifications.dart';
 import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/pages/home_page.dart';
 
@@ -40,12 +40,12 @@ class _RegistrationState extends State<Registration> {
         try {
           auth.signInWithCredential(_credential).then((value) => context.go('/registration'));
         } catch (e) {
-          Notifications.displayError(context, e);
+          ErrorMessages.displayError(context, e);
         }
       },
       verificationFailed: (FirebaseAuthException e) {
         setState(() {
-          Notifications.displayError(context, e);
+          ErrorMessages.displayError(context, e);
         });
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -62,7 +62,7 @@ class _RegistrationState extends State<Registration> {
                   auth.signInWithCredential(_credential).then((result) {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                   }).catchError((e) {
-                    Notifications.displayError(context, e);
+                    ErrorMessages.displayError(context, e);
                   });
                 },
               ),

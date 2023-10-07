@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Notifications {
+class ErrorMessages {
   static void displayError(context, Object e) {
     final snackBar = SnackBar(
       content: Text('Error: $e'),
