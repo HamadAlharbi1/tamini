@@ -42,7 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
+.vscode
 .env
 android/app/google-services.json
 macos/Runner/GoogleService-Info.plist

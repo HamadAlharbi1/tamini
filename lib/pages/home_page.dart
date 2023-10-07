@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/components/home_page_actions_container.dart';
-import 'package:tamini_app/pages/request_quotations_page.dart';
-import 'package:tamini_app/pages/request_refund.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,10 +12,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          InkWell(
+            onTap: () {
+              signOut();
+              context.go('/registration');
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(12),
+              child: Icon(
+                Icons.logout_outlined,
+                size: 26,
+              ),
+            ),
+          ),
+        ],
         title: Text('Home_Page'.i18n()), // Use the i18n() method to get the translated string
       ),
       body: Center(
@@ -24,14 +43,24 @@ class _HomePageState extends State<HomePage> {
           children: [
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RequestQuotations()));
+                  context.go('/request_quotations');
                 },
                 text: "Request_Quotations".i18n()),
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RequestRefund()));
+                  context.go('/request_refund');
                 },
                 text: "Request_Refund".i18n()),
+            HomePageActionsContainer(
+                onPressed: () {
+                  context.go('/user_tracking_requests');
+                },
+                text: "${'Tracking_Requests'.i18n()} ${'user'.i18n()}"),
+            HomePageActionsContainer(
+                onPressed: () {
+                  context.go('/owner_tracking_requests');
+                },
+                text: "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}"),
           ],
         ),
       ),
