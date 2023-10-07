@@ -12,14 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
           InkWell(
-            onTap: () async {
-              await FirebaseAuth.instance.signOut();
+            onTap: () {
+              signOut();
               context.go('/registration');
             },
             child: const Padding(
