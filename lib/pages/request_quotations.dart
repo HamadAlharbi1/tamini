@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/common/snack_bar_utils.dart';
+import 'package:tamini_app/common/error_messages.dart';
 import 'package:tamini_app/components/birth_date_picker.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
