@@ -4,6 +4,58 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/quotation_card_item.dart';
 import 'package:tamini_app/components/quotations_model.dart';
 
+<<<<<<< HEAD:lib/components/quotation_card.dart
+=======
+class TrackingRequests extends StatefulWidget {
+  const TrackingRequests({Key? key}) : super(key: key);
+
+  @override
+  State<TrackingRequests> createState() => _TrackingRequestsState();
+}
+
+class _TrackingRequestsState extends State<TrackingRequests> {
+  List<Quotations> quotations = [];
+  listenRequestQuotations() async {
+    final collection =
+        FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
+    collection.listen((snapshot) {
+      List<Quotations> newList = [];
+      for (final doc in snapshot.docs) {
+        final tDetail = Quotations.fromMap(doc.data());
+        newList.add(tDetail);
+      }
+      quotations = newList;
+      setState(() {});
+    });
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  dynamic uid;
+  @override
+  void initState() {
+    User? user = _auth.currentUser;
+    uid = user?.uid;
+    super.initState();
+    listenRequestQuotations();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tracking_Requests'.i18n()), // Use the i18n() method to get the translated string
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [for (var request in quotations) QuotationCard(request: request)],
+        ),
+      ),
+    );
+  }
+}
+
+>>>>>>> 78f9f2dd60ccbcfe22a4d3e49d9b2c8b68dc0830:lib/pages/tracking_requests.dart
 class QuotationCard extends StatelessWidget {
   const QuotationCard({
     Key? key,
