@@ -42,7 +42,10 @@ class _RequestQuotationsState extends State<RequestQuotations> {
   requestQuotation() async {
     final DateTime requestDate = DateTime.now();
     try {
-      DocumentSnapshot metadata = await FirebaseFirestore.instance.collection('metadata').doc('requestId').get();
+      DocumentSnapshot metadata = await FirebaseFirestore.instance
+          .collection('metadata')
+          .doc('requestId')
+          .get();
       Map<String, dynamic>? data = metadata.data() as Map<String, dynamic>?;
       int currentRequestId;
       if (data != null && data.containsKey('currentRequestId')) {
@@ -52,12 +55,18 @@ class _RequestQuotationsState extends State<RequestQuotations> {
       }
       int newRequestId = currentRequestId + 1;
 
-      await FirebaseFirestore.instance.collection('metadata').doc('requestId').set({
+      await FirebaseFirestore.instance
+          .collection('metadata')
+          .doc('requestId')
+          .set({
         'currentRequestId': newRequestId,
       });
 
       // Use the new requestId for the new request
-      await FirebaseFirestore.instance.collection('quotations').doc(newRequestId.toString()).set({
+      await FirebaseFirestore.instance
+          .collection('quotations')
+          .doc(newRequestId.toString())
+          .set({
         'nationalId': nationalIdNumberController.text,
         'birthDate': birthDateController.text,
         'carSerialNumber': carSerialNumberController.text,
@@ -87,7 +96,8 @@ class _RequestQuotationsState extends State<RequestQuotations> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request_Quotations'.i18n()), // Use the i18n() method to get the translated string
+        title: Text('Request_Quotations'
+            .i18n()), // Use the i18n() method to get the translated string
       ),
       body: Center(
         child: Column(
@@ -106,7 +116,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
               padding: const EdgeInsets.all(16.0),
               child: CustomTextField(
                 prefixIcon: BirthDatePicker(
-                  initialDate: initialDate,
+                  // initialDate: initialDate,
                   onDateChanged: (newDate) {
                     setState(() {
                       initialDate = newDate;

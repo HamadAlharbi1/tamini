@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:tamini_app/components/custom_button.dart';
 
-// ignore: must_be_immutable
 class BirthDatePicker extends StatefulWidget {
-  BirthDatePicker({
+  const BirthDatePicker({
     super.key,
-    required this.initialDate,
     required this.onDateChanged,
   });
 
-  DateTime initialDate;
   final Function(DateTime) onDateChanged;
 
   @override
-  // ignore: library_private_types_in_public_api
-  _BirthDatePickerState createState() => _BirthDatePickerState();
+  State<BirthDatePicker> createState() => _BirthDatePickerState();
 }
 
 class _BirthDatePickerState extends State<BirthDatePicker> {
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: widget.initialDate,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
@@ -35,11 +31,10 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
         );
       },
     );
-    if (picked != null && picked != widget.initialDate) {
-      setState(() {
-        widget.initialDate = picked;
-      });
 
+    /// if the user selects cancel picked value will be null
+    if (picked != null) {
+      debugPrint(picked.toString());
       widget.onDateChanged(picked);
     }
   }
