@@ -14,6 +14,6 @@ Future<void> main() async {
     print(config);
   }
   runApp(
-    const MyApp(),
+    MyApp(),
   );
 }

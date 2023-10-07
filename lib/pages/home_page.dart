@@ -1,12 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/components/home_page_actions_container.dart';
-import 'package:tamini_app/pages/owner_tracking_requests.dart';
-import 'package:tamini_app/pages/registration_page.dart';
-import 'package:tamini_app/pages/request_quotations_page.dart';
-import 'package:tamini_app/pages/request_refund.dart';
-import 'package:tamini_app/pages/user_tracking_requests.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,10 +20,7 @@ class _HomePageState extends State<HomePage> {
           InkWell(
             onTap: () async {
               await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const RegistrationPage()),
-              );
+              context.go('/registration');
             },
             child: const Padding(
               padding: EdgeInsets.all(12),
@@ -46,22 +39,22 @@ class _HomePageState extends State<HomePage> {
           children: [
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RequestQuotations()));
+                  context.go('/request_quotations');
                 },
                 text: "Request_Quotations".i18n()),
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RequestRefund()));
+                  context.go('/request_refund');
                 },
                 text: "Request_Refund".i18n()),
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const UserTrackingRequests()));
+                  context.go('/user_tracking_requests');
                 },
                 text: "${'Tracking_Requests'.i18n()} ${'user'.i18n()}"),
             HomePageActionsContainer(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const OwnerTrackingRequests()));
+                  context.go('/owner_tracking_requests');
                 },
                 text: "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}"),
           ],

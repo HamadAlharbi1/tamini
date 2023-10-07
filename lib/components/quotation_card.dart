@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/components/quotation_card_item.dart';
 import 'package:tamini_app/components/quotations_model.dart';
 
-<<<<<<< HEAD:lib/components/quotation_card.dart
-=======
 class TrackingRequests extends StatefulWidget {
   const TrackingRequests({Key? key}) : super(key: key);
 
@@ -55,7 +55,6 @@ class _TrackingRequestsState extends State<TrackingRequests> {
   }
 }
 
->>>>>>> 78f9f2dd60ccbcfe22a4d3e49d9b2c8b68dc0830:lib/pages/tracking_requests.dart
 class QuotationCard extends StatelessWidget {
   const QuotationCard({
     Key? key,

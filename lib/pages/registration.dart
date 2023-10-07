@@ -4,20 +4,20 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/components/masseges.dart';
+import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/pages/home_page.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({
+class Registration extends StatefulWidget {
+  const Registration({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  State<Registration> createState() => _RegistrationState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationState extends State<Registration> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;

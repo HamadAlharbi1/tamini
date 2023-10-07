@@ -55,6 +55,9 @@ dependencies:
     #  https://pub.dev/packages/uuid
     #  A Dart package for generating and parsing universally unique identifiers (UUIDs).
     uuid: ^4.1.0
+    # https://pub.dev/packages/go_router
+    # A Flutter package for declarative routing using the Router API, enabling URL-based navigation, pattern definition, deep link handling, and more.
+    go_router: ^11.1.2
 dev_dependencies:
     flutter_test:
         sdk: flutter
