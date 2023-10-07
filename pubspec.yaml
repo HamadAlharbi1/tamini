@@ -50,9 +50,10 @@ dependencies:
     # https://pub.dev/packages/pin_input_text_field
     # The pin_input_text_field package provides a Flutter widget that allows input of a pin code or password.
     pin_input_text_field: ^4.5.1
-
     flutter_localizations:
         sdk: flutter
+    #  https://pub.dev/packages/uuid
+    #  A Dart package for generating and parsing universally unique identifiers (UUIDs).
     uuid: ^4.1.0
 dev_dependencies:
     flutter_test:

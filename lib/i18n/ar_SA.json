@@ -26,10 +26,15 @@
 	"enter_vehicle_serial_number": "ادخل الرقم التسلسلي للسياره",
 	"send": "ارسال الطلب",
 	"under_review": "قيد المراجعة",
+	"sent_awaiting_approval": "تم الإرسال بانتظار الموافقة",
 	"request_added": "تم اضافة الطلب بنجاح",
-	"Tracking_Requests": "متابعة طلباتي",
+	"Tracking_Requests": "متابعة طلبات",
 	"request_status": "حالة الطلب",
 	"request_type": "نوع الطلب",
 	"insurance_amount": "سعر التأمين",
-	"request_date": "تاريخ الطلب"
+	"request_date": "تاريخ الطلب",
+	"owner": "المالك",
+	"user": "المستخدم",
+	"request_updated": "تم تعديل الطلب بنجاح",
+	"quotation": "طلب تسعيرة تأمين"
 }

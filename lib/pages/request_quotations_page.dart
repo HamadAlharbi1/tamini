@@ -5,7 +5,7 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/birth_date_picker.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:uuid/uuid.dart';
+import 'package:tamini_app/components/masseges.dart';
 
 class RequestQuotations extends StatefulWidget {
   const RequestQuotations({Key? key}) : super(key: key);
@@ -15,8 +15,8 @@ class RequestQuotations extends StatefulWidget {
 }
 
 class _RequestQuotationsState extends State<RequestQuotations> {
-  dynamic uid;
-  dynamic phoneNumber;
+  String? uid;
+  String? phoneNumber;
 
   @override
   void initState() {
@@ -39,34 +39,43 @@ class _RequestQuotationsState extends State<RequestQuotations> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Future<void> errorShow(var e) async {
-    final snackBar = SnackBar(
-      content: Text('error:$e'.i18n()),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   requestQuotation() async {
-    final requestId = const Uuid().v4();
     final DateTime requestDate = DateTime.now();
     try {
-      await FirebaseFirestore.instance.collection('RequestQuotations').doc(requestId).set({
+      DocumentSnapshot metadata = await FirebaseFirestore.instance.collection('metadata').doc('requestId').get();
+      Map<String, dynamic>? data = metadata.data() as Map<String, dynamic>?;
+      int currentRequestId;
+      if (data != null && data.containsKey('currentRequestId')) {
+        currentRequestId = data['currentRequestId'];
+      } else {
+        currentRequestId = 1000;
+      }
+      int newRequestId = currentRequestId + 1;
+
+      await FirebaseFirestore.instance.collection('metadata').doc('requestId').set({
+        'currentRequestId': newRequestId,
+      });
+
+      // Use the new requestId for the new request
+      await FirebaseFirestore.instance.collection('quotations').doc(newRequestId.toString()).set({
         'nationalId': nationalIdNumberController.text,
         'birthDate': birthDateController.text,
         'carSerialNumber': carSerialNumberController.text,
         'userId': uid,
         'status': "under_review",
         'phoneNumber': phoneNumber,
-        'insuranceAmount': 1.5,
-        'requestId': requestId,
-        'requestType': "Request_Quotations",
+        'insuranceAmount': 0.00,
+        'requestId': newRequestId.toString(),
+        'requestType': 'quotation',
         'requestDate': requestDate.toString(),
       });
 
       // Call the function to show the snackbar
+
       await showRequestAddedSnackbar();
     } catch (e) {
-      await errorShow(e);
+      // ignore: use_build_context_synchronously
+      Notifications.displayError(context, e);
     }
   }
 

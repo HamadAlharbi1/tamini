@@ -17,7 +17,7 @@ class OtpInputWidget extends StatefulWidget {
 
 class _OtpInputWidgetState extends State<OtpInputWidget> {
   TextEditingController otpController = TextEditingController();
-  int timerSeconds = 180; // Initial timer value
+  int timerSeconds = 120; // Initial timer value "maximum 120 seconds"
   late Timer timer;
 
   @override

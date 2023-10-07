@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/otp_input_widget.dart';
+import 'package:tamini_app/components/masseges.dart';
 import 'package:tamini_app/pages/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -25,13 +27,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     super.initState();
   }
 
-  displayError(Object e) {
-    final snackBar = SnackBar(
-      content: Text('Error: $e'),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   createNewUserFromMobile(BuildContext context, String phoneNumber) async {
     // Check if the phone number starts with '05' and replace it with '+9665'
     if (phoneNumber.startsWith('05')) {
@@ -48,12 +43,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     return const HomePage();
                   })));
         } catch (e) {
-          displayError(e);
+          Notifications.displayError(context, e);
         }
       },
       verificationFailed: (FirebaseAuthException e) {
         setState(() {
-          displayError(e);
+          Notifications.displayError(context, e);
         });
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -70,7 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   auth.signInWithCredential(_credential).then((result) {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                   }).catchError((e) {
-                    displayError(e);
+                    Notifications.displayError(context, e);
                   });
                 },
               ),
@@ -101,8 +96,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     shape: BoxShape.rectangle,
                   ),
                   margin: const EdgeInsets.all(50),
-                  child: Image.network(
-                      'https://cdn.discordapp.com/attachments/1083124198827888830/1159214780209434726/image.png?ex=653035e4&is=651dc0e4&hm=e703873e965917a1d19716ea732c2f6383908ed6d89c33444c09213aa64d5dcf&'),
+                  child: Image.network(Constants.appLogoUrl),
                 ),
                 const SizedBox(
                   height: 80,
