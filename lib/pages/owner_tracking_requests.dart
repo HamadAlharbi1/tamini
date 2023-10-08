@@ -4,7 +4,7 @@ import 'package:localization/localization.dart';
 
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
-import 'package:tamini_app/components/quotations/update_qutation_card.dart';
+import 'package:tamini_app/components/quotations/update_quotation_card.dart';
 
 class OwnerTrackingRequests extends StatefulWidget {
   const OwnerTrackingRequests({Key? key}) : super(key: key);
