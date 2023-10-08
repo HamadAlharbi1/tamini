@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/components/quotation_card.dart';
-import 'package:tamini_app/components/quotations_model.dart';
+
+import 'package:tamini_app/common/quotation_service.dart';
+import 'package:tamini_app/components/quotations/quotation_card.dart';
+import 'package:tamini_app/components/quotations/quotations_model.dart';
 
 class UserTrackingRequests extends StatefulWidget {
   const UserTrackingRequests({Key? key}) : super(key: key);
@@ -13,20 +14,7 @@ class UserTrackingRequests extends StatefulWidget {
 }
 
 class _UserTrackingRequestsState extends State<UserTrackingRequests> {
-  List<Quotations> quotations = [];
-  listenRequestQuotations() async {
-    final collection =
-        FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
-    collection.listen((snapshot) {
-      List<Quotations> newList = [];
-      for (final doc in snapshot.docs) {
-        final tDetail = Quotations.fromMap(doc.data());
-        newList.add(tDetail);
-      }
-      quotations = newList;
-      setState(() {});
-    });
-  }
+  List<Quotations> userQuotations = [];
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   dynamic uid;
@@ -35,7 +23,12 @@ class _UserTrackingRequestsState extends State<UserTrackingRequests> {
     User? user = _auth.currentUser;
     uid = user?.uid;
     super.initState();
-    listenRequestQuotations();
+    // listenRequestQuotations();
+    QuotationService.listenToUserQuotations(uid, (quotations) {
+      setState(() {
+        userQuotations = quotations;
+      });
+    });
   }
 
   @override
@@ -46,7 +39,7 @@ class _UserTrackingRequestsState extends State<UserTrackingRequests> {
       ),
       body: Center(
         child: ListView(
-          children: [for (var request in quotations) QuotationCard(request: request)],
+          children: [for (final request in userQuotations) QuotationCard(request: request)],
         ),
       ),
     );

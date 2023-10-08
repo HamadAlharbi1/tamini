@@ -37,6 +37,7 @@ class _RegistrationState extends State<Registration> {
       timeout: const Duration(seconds: 120),
       phoneNumber: phoneNumber,
       verificationCompleted: (AuthCredential credential) async {
+        _credential = credential;
         try {
           auth.signInWithCredential(_credential).then((value) => context.go('/registration'));
         } catch (e) {

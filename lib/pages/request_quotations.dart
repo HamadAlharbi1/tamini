@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/common/error_messages.dart';
+import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/birth_date_picker.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
@@ -32,55 +31,9 @@ class _RequestQuotationsState extends State<RequestQuotations> {
   TextEditingController nationalIdNumberController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController carSerialNumberController = TextEditingController();
-  Future<void> showRequestAddedSnackbar() async {
-    final snackBar = SnackBar(
-      content: Text('request_added'.i18n()),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  requestQuotation() async {
-    final DateTime requestDate = DateTime.now();
-    try {
-      DocumentSnapshot metadata = await FirebaseFirestore.instance.collection('metadata').doc('requestId').get();
-      Map<String, dynamic>? data = metadata.data() as Map<String, dynamic>?;
-      int currentRequestId;
-      if (data != null && data.containsKey('currentRequestId')) {
-        currentRequestId = data['currentRequestId'];
-      } else {
-        currentRequestId = 1000;
-      }
-      int newRequestId = currentRequestId + 1;
-
-      await FirebaseFirestore.instance.collection('metadata').doc('requestId').set({
-        'currentRequestId': newRequestId,
-      });
-
-      // Use the new requestId for the new request
-      await FirebaseFirestore.instance.collection('quotations').doc(newRequestId.toString()).set({
-        'nationalId': nationalIdNumberController.text,
-        'birthDate': birthDateController.text,
-        'carSerialNumber': carSerialNumberController.text,
-        'userId': uid,
-        'status': "under_review",
-        'phoneNumber': phoneNumber,
-        'insuranceAmount': 0.00,
-        'requestId': newRequestId.toString(),
-        'requestType': 'quotation',
-        'requestDate': requestDate.toString(),
-      });
-
-      // Call the function to show the snackbar
-
-      await showRequestAddedSnackbar();
-    } catch (e) {
-      // ignore: use_build_context_synchronously
-      ErrorMessages.displayError(context, e);
-    }
-  }
 
   String formatDate(DateTime date) {
-    return "${date.day}/${date.month}/${date.year}"; // Format date as you need
+    return "${date.year}/${date.month}/${date.day}"; // Format date as you need
   }
 
   @override
@@ -106,7 +59,6 @@ class _RequestQuotationsState extends State<RequestQuotations> {
               padding: const EdgeInsets.all(16.0),
               child: CustomTextField(
                 prefixIcon: BirthDatePicker(
-                  // initialDate: initialDate,
                   onDateChanged: (newDate) {
                     setState(() {
                       initialDate = newDate;
@@ -131,7 +83,8 @@ class _RequestQuotationsState extends State<RequestQuotations> {
             ),
             CustomButton(
               onPressed: () {
-                requestQuotation();
+                QuotationService.requestQuotation(context, nationalIdNumberController.text, birthDateController.text,
+                    carSerialNumberController.text, uid!, phoneNumber!);
               },
               buttonText: 'send'.i18n(),
             ),

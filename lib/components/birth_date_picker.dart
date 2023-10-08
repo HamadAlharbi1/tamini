@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 
 class BirthDatePicker extends StatefulWidget {
@@ -23,8 +24,8 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color.fromARGB(255, 27, 120, 136),
+            colorScheme: ColorScheme.light(
+              primary: Constants.primary,
             ),
           ),
           child: child!,

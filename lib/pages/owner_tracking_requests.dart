@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/components/quotations_model.dart';
-import 'package:tamini_app/components/update_qutation_card.dart';
+
+import 'package:tamini_app/common/quotation_service.dart';
+import 'package:tamini_app/components/quotations/quotations_model.dart';
+import 'package:tamini_app/components/quotations/update_qutation_card.dart';
 
 class OwnerTrackingRequests extends StatefulWidget {
   const OwnerTrackingRequests({Key? key}) : super(key: key);
@@ -13,29 +14,19 @@ class OwnerTrackingRequests extends StatefulWidget {
 }
 
 class _OwnerTrackingRequestsState extends State<OwnerTrackingRequests> {
-  List<Quotations> quotations = [];
-  listenRequestQuotations() async {
-    final collection = FirebaseFirestore.instance.collection('quotations').snapshots();
-    collection.listen((snapshot) {
-      List<Quotations> newList = [];
-      for (final doc in snapshot.docs) {
-        final tDetail = Quotations.fromMap(doc.data());
-        newList.add(tDetail);
-      }
-      quotations = newList;
-      newList.sort((b, a) => a.requestId.compareTo(b.requestId));
-      setState(() {});
-    });
-  }
-
+  List<Quotations> ownerQuotations = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  dynamic uid;
+  String? uid;
   @override
   void initState() {
     User? user = _auth.currentUser;
     uid = user?.uid;
     super.initState();
-    listenRequestQuotations();
+    QuotationService.listenToOwnerQuotations((quotations) {
+      setState(() {
+        ownerQuotations = quotations;
+      });
+    });
   }
 
   @override
@@ -47,7 +38,7 @@ class _OwnerTrackingRequestsState extends State<OwnerTrackingRequests> {
       ),
       body: Center(
         child: ListView(
-          children: [for (var request in quotations) UpdateQuotationCard(request: request)],
+          children: [for (var request in ownerQuotations) UpdateQuotationCard(request: request)],
         ),
       ),
     );

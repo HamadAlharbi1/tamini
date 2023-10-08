@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/pages/home_page.dart';
 import 'package:tamini_app/pages/owner_tracking_requests.dart';
 import 'package:tamini_app/pages/registration.dart';
@@ -89,7 +90,7 @@ class MyApp extends StatelessWidget {
 }
 
 final ThemeData themeData = ThemeData(
-  primarySwatch: createMaterialColor(const Color.fromARGB(255, 27, 120, 136)), // Replace with your color
+  primarySwatch: createMaterialColor(Constants.primary),
 );
 
 MaterialColor createMaterialColor(Color color) {
