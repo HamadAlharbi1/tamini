@@ -95,9 +95,10 @@ class QuotationService {
       });
 
       // ignore: use_build_context_synchronously
-      await showRequestAddedSnackbar(context);
+      await showSnackbar(context, 'request_added'.i18n());
     } catch (e) {
-      // Handle error
+      // ignore: use_build_context_synchronously
+      showSnackbar(context, 'Error: $e');
     }
   }
 }
