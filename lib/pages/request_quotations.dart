@@ -31,6 +31,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
   TextEditingController nationalIdNumberController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController carSerialNumberController = TextEditingController();
+  QuotationService quotationService = QuotationService();
 
   String formatDate(DateTime date) {
     return "${date.year}/${date.month}/${date.day}"; // Format date as you need
@@ -83,7 +84,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
             ),
             CustomButton(
               onPressed: () {
-                QuotationService.requestQuotation(context, nationalIdNumberController.text, birthDateController.text,
+                quotationService.requestQuotation(context, nationalIdNumberController.text, birthDateController.text,
                     carSerialNumberController.text, uid!, phoneNumber!, 'request_added'.i18n());
               },
               buttonText: 'send'.i18n(),

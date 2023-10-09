@@ -24,7 +24,7 @@ class QuotationData extends StatelessWidget {
           itemValue: request.requestId,
         ),
         QuotationCardItem(
-          itemDescription: "${"request_date".i18n()}:",
+          itemDescription: "request_date".i18n(),
           itemValue: ' ${DateFormat('dd/MM/yyyy').format(requestDate)}',
         ),
         QuotationCardItem(

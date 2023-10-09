@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
@@ -19,6 +20,8 @@ class QuotationCard extends StatefulWidget {
 }
 
 class _QuotationCardState extends State<QuotationCard> {
+  QuotationService quotationService = QuotationService();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,10 +36,10 @@ class _QuotationCardState extends State<QuotationCard> {
             request: widget.request,
           ),
           QuotationCardItem(
-            itemDescription: "${"insurance_amount".i18n()}:",
+            itemDescription: "insurance_amount".i18n(),
             itemValue: widget.request.insuranceAmount.toString(),
           ),
-          widget.request.status == 'sent_awaiting_approval'
+          widget.request.status == RequestStatus.pending.toString()
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -44,8 +47,8 @@ class _QuotationCardState extends State<QuotationCard> {
                       buttonText: '',
                       isText: false,
                       onPressed: () async {
-                        await QuotationService.updateQuotation(
-                            context, widget.request.requestId, {'status': 'approved'}, "approved");
+                        await quotationService.updateQuotation(context, widget.request.requestId,
+                            {'status': RequestStatus.approved.toString()}, RequestStatus.approved.toString());
                       },
                       child: const Icon(Icons.done),
                     ),
@@ -53,8 +56,8 @@ class _QuotationCardState extends State<QuotationCard> {
                       buttonText: '',
                       isText: false,
                       onPressed: () async {
-                        await QuotationService.updateQuotation(
-                            context, widget.request.requestId, {'status': 'reject'}, "reject");
+                        await quotationService.updateQuotation(context, widget.request.requestId,
+                            {'status': RequestStatus.reject.toString()}, RequestStatus.reject.toString());
                       },
                       child: const Text('X'),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
@@ -28,10 +29,10 @@ class UpdateQuotationCard extends StatelessWidget {
           QuotationData(
             request: request,
           ),
-          request.status == 'sent_awaiting_approval' || request.status == "under_review"
+          request.status == RequestStatus.pending.toString() || request.status == RequestStatus.newRequest.toString()
               ? UpdateQuotationCardItem(
                   requestId: request.requestId,
-                  itemDescription: "${"insurance_amount".i18n()}:",
+                  itemDescription: "insurance_amount".i18n(),
                   itemValue: request.insuranceAmount.toString(),
                 )
               : QuotationCardItem(
@@ -66,6 +67,7 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
     itemValueController.text = widget.itemValue;
   }
 
+  QuotationService quotationService = QuotationService();
   TextEditingController itemValueController = TextEditingController();
   bool isEdit = false;
   @override
@@ -91,11 +93,14 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
           ),
           onPressed: () async {
             isEdit
-                ? await QuotationService.updateQuotation(
+                ? await quotationService.updateQuotation(
                     context,
                     widget.requestId,
-                    {"insuranceAmount": double.parse(itemValueController.text), 'status': "sent_awaiting_approval"},
-                    "sent_awaiting_approval")
+                    {
+                      "insuranceAmount": double.parse(itemValueController.text),
+                      'status': RequestStatus.pending.toString()
+                    },
+                    RequestStatus.pending.toString())
                 : null;
             setState(() {
               isEdit = !isEdit;

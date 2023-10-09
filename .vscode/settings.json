@@ -17,6 +17,7 @@
         "الرئيسيه",
         "الرقم",
         "الرمز",
+        "السعر",
         "الصفحة",
         "المالك",
         "المراجعة",
@@ -49,5 +50,8 @@
         "متابعة",
         "متابعه"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "files.associations": {
+        "memory": "cpp"
+    }
 }

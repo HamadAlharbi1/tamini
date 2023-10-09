@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
 import 'package:tamini_app/components/quotations/update_quotation_card.dart';
@@ -14,6 +15,8 @@ class OwnerTrackingRequests extends StatefulWidget {
 }
 
 class _OwnerTrackingRequestsState extends State<OwnerTrackingRequests> {
+  QuotationService quotationService = QuotationService();
+  StreamSubscription? ownerQuotationsListener;
   List<Quotations> ownerQuotations = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? uid;
@@ -22,11 +25,17 @@ class _OwnerTrackingRequestsState extends State<OwnerTrackingRequests> {
     User? user = _auth.currentUser;
     uid = user?.uid;
     super.initState();
-    QuotationService.listenToOwnerQuotations((quotations) {
+    ownerQuotationsListener = quotationService.listenToOwnerQuotations((quotations) {
       setState(() {
         ownerQuotations = quotations;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    ownerQuotationsListener?.cancel();
+    super.dispose();
   }
 
   @override

@@ -1,31 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
 
 class QuotationService {
-  static Future<void> updateQuotation(context, String requestId, Map<String, dynamic> updates, String massage) async {
+  Future<void> updateQuotation(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
       await FirebaseFirestore.instance.collection('quotations').doc(requestId).update(updates);
-
       await showSnackbar(context, massage.i18n());
     } catch (e) {
       await showSnackbar(context, 'Error: $e');
     }
   }
 
-  static Future<void> showSnackbar(context, String message) async {
+  Future<void> showSnackbar(context, String message) async {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static listenToUserQuotations(uid, updateUI) {
+  listenToUserQuotations(uid, updateUI) {
     final collection =
         FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
-
     collection.listen((snapshot) {
       List<Quotations> newList = [];
-
       for (final doc in snapshot.docs) {
         final quotation = Quotations.fromMap(doc.data());
         newList.add(quotation);
@@ -35,7 +33,7 @@ class QuotationService {
     });
   }
 
-  static listenToOwnerQuotations(updateUI) {
+  listenToOwnerQuotations(updateUI) {
     final collection = FirebaseFirestore.instance.collection('quotations').snapshots();
     collection.listen((snapshot) {
       List<Quotations> newList = [];
@@ -48,7 +46,7 @@ class QuotationService {
     });
   }
 
-  static Future<void> requestQuotation(
+  Future<void> requestQuotation(
     context,
     String nationalId,
     String birthDate,
@@ -71,7 +69,7 @@ class QuotationService {
 
       int newRequestId = currentRequestId + 1;
 
-      await FirebaseFirestore.instance.collection('metadata').doc('requestId').set({
+      await FirebaseFirestore.instance.collection('metadata').doc('requestId').update({
         'currentRequestId': newRequestId,
       });
 
@@ -80,7 +78,7 @@ class QuotationService {
         'birthDate': birthDate,
         'carSerialNumber': carSerialNumber,
         'userId': uid,
-        'status': "under_review",
+        'status': RequestStatus.newRequest.toString(),
         'phoneNumber': phoneNumber,
         'insuranceAmount': 0.00,
         'requestId': newRequestId.toString(),
