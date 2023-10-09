@@ -48,20 +48,14 @@ class QuotationService {
     });
   }
 
-  static Future<void> showRequestAddedSnackbar(BuildContext context) async {
-    final snackBar = SnackBar(
-      content: Text('request_added'.i18n()),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   static Future<void> requestQuotation(
-    BuildContext context,
+    context,
     String nationalId,
     String birthDate,
     String carSerialNumber,
     String uid,
     String phoneNumber,
+    String message,
   ) async {
     final DateTime requestDate = DateTime.now();
 
@@ -94,10 +88,8 @@ class QuotationService {
         'requestDate': requestDate.toString(),
       });
 
-      // ignore: use_build_context_synchronously
-      await showSnackbar(context, 'request_added'.i18n());
+      showSnackbar(context, message);
     } catch (e) {
-      // ignore: use_build_context_synchronously
       showSnackbar(context, 'Error: $e');
     }
   }
