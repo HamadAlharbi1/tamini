@@ -5,7 +5,8 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/home_page_actions_container.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String userId;
+  const HomePage({super.key, required this.userId});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -61,6 +62,11 @@ class _HomePageState extends State<HomePage> {
                   context.go('/owner_tracking_requests');
                 },
                 text: "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}"),
+            HomePageActionsContainer(
+                onPressed: () {
+                  context.go('/profile');
+                },
+                text: "${'الملف الشخصي'.i18n()} ${''.i18n()}"),
           ],
         ),
       ),

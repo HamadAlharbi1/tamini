@@ -43,5 +43,12 @@
 	"approved": "Quotation Approved",
 	"reject": "Quotation Rejected",
 	"RequestStatus.reject": "Quotation Rejected",
-	"RequestStatus.newRequest": "Waiting for Quotation"
+	"RequestStatus.newRequest": "Waiting for Quotation",
+	"Delete_User": "Delete Account",
+	"Update_User": "Update Account",
+	"Profile_Page": "Profile Page",
+	"user_type": "User Type",
+	"UserType.user": "User",
+	"UserType.owner": "Owner",
+	"Update": "Update"
 }

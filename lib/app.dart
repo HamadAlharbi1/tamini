@@ -6,6 +6,7 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/pages/home_page.dart';
 import 'package:tamini_app/pages/owner_tracking_requests.dart';
+import 'package:tamini_app/pages/profile.dart';
 import 'package:tamini_app/pages/registration.dart';
 import 'package:tamini_app/pages/request_quotations.dart';
 import 'package:tamini_app/pages/request_refund.dart';
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return checkUserAuthentication() ? const HomePage() : const Registration();
+          return checkUserAuthentication()
+              ? HomePage(
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                )
+              : const Registration();
         },
         routes: <RouteBase>[
           GoRoute(
@@ -48,6 +53,14 @@ class MyApp extends StatelessWidget {
             path: 'owner_tracking_requests',
             builder: (BuildContext context, GoRouterState state) {
               return const OwnerTrackingRequests();
+            },
+          ),
+          GoRoute(
+            path: 'profile',
+            builder: (BuildContext context, GoRouterState state) {
+              return ProfilePage(
+                userId: FirebaseAuth.instance.currentUser!.uid,
+              );
             },
           ),
         ],

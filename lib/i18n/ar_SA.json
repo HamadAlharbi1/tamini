@@ -1,6 +1,7 @@
 {
 	"registration_title": "التسجيل برقم الجوال",
 	"phone_number": "رقم الجوال",
+	"update_phone_number": "تحديث رقم الجوال",
 	"enter_phone_number": "ادخل رقم الجوال...",
 	"register": "تسجيل",
 	"enter_otp": "ادخل الرمز المكون من 6ارقام ",
@@ -42,5 +43,12 @@
 	"approved": "تم قبول عرض السعر",
 	"reject": "تم رفض عرض السعر",
 	"RequestStatus.reject": "تم رفض عرض السعر",
-	"RequestStatus.newRequest": "بانتظار عرض السعر "
+	"RequestStatus.newRequest": "بانتظار عرض السعر ",
+	"Delete_User": "حذف الحساب ",
+	"Update_User": "تحديث بيانات الحساب",
+	"Profile_Page": "الملف الشخصي",
+	"user_type": "نوع المستخدم",
+	"UserType.user": "مستخدم",
+	"UserType.owner": "المالك",
+	"Update": "تحديث"
 }

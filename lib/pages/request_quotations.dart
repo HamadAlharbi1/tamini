@@ -7,7 +7,9 @@ import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 
 class RequestQuotations extends StatefulWidget {
-  const RequestQuotations({Key? key}) : super(key: key);
+  const RequestQuotations({
+    super.key,
+  });
 
   @override
   State<RequestQuotations> createState() => _RequestQuotationsState();

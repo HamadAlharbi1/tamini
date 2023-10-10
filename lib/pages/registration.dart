@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/error_messages.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/otp_input_widget.dart';
-import 'package:tamini_app/pages/home_page.dart';
+import 'package:tamini_app/components/user_service.dart';
 
 class Registration extends StatefulWidget {
   const Registration({
@@ -22,59 +20,11 @@ class _RegistrationState extends State<Registration> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-  late AuthCredential _credential;
+
+  final UserService userService = UserService();
   @override
   void initState() {
     super.initState();
-  }
-
-  createNewUserFromMobile(BuildContext context, String phoneNumber) async {
-    // Check if the phone number starts with '05' and replace it with '+9665'
-    if (phoneNumber.startsWith('05')) {
-      phoneNumber = '+9665${phoneNumber.substring(2)}';
-    }
-    await auth.verifyPhoneNumber(
-      timeout: const Duration(seconds: 120),
-      phoneNumber: phoneNumber,
-      verificationCompleted: (AuthCredential credential) async {
-        _credential = credential;
-        try {
-          auth.signInWithCredential(_credential).then((value) => context.go('/registration'));
-        } catch (e) {
-          ErrorMessages.displayError(context, e);
-        }
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        setState(() {
-          ErrorMessages.displayError(context, e);
-        });
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
-              content: OtpInputWidget(
-                onOtpEntered: (otp) async {
-                  FirebaseAuth auth = FirebaseAuth.instance;
-                  String smsCode = otp;
-                  _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-                  auth.signInWithCredential(_credential).then((result) {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
-                  }).catchError((e) {
-                    ErrorMessages.displayError(context, e);
-                  });
-                },
-              ),
-            );
-          },
-        );
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // Called when the automatic code retrieval process times out.
-      },
-    );
   }
 
   @override
@@ -109,8 +59,13 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 CustomButton(
-                  onPressed: () {
-                    createNewUserFromMobile(context, phoneNumberController.text);
+                  onPressed: () async {
+                    try {
+                      await userService.createNewUserFromMobile(context, phoneNumberController.text);
+                    } catch (e) {
+                      // ignore: use_build_context_synchronously
+                      ErrorMessages.displayError(context, e);
+                    }
                   },
                   buttonText: 'continue'.i18n(),
                 ),
