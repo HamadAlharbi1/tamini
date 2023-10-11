@@ -29,7 +29,7 @@ class UpdateQuotationCard extends StatelessWidget {
           QuotationData(
             request: request,
           ),
-          request.status == RequestStatus.pending.toString() || request.status == RequestStatus.newRequest.toString()
+          request.status == RequestStatus.pending.name || request.status == RequestStatus.newRequest.name
               ? UpdateQuotationCardItem(
                   requestId: request.requestId,
                   itemDescription: "insurance_amount".i18n(),
@@ -96,11 +96,8 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
                 ? await quotationService.updateQuotation(
                     context,
                     widget.requestId,
-                    {
-                      "insuranceAmount": double.parse(itemValueController.text),
-                      'status': RequestStatus.pending.toString()
-                    },
-                    RequestStatus.pending.toString())
+                    {"insuranceAmount": double.parse(itemValueController.text), 'status': RequestStatus.pending.name},
+                    RequestStatus.pending.name)
                 : null;
             setState(() {
               isEdit = !isEdit;

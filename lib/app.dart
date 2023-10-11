@@ -18,11 +18,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return checkUserAuthentication()
-              ? HomePage(
-                  userId: FirebaseAuth.instance.currentUser!.uid,
-                )
-              : const Registration();
+          return checkUserAuthentication() ? const HomePage() : const Registration();
         },
         routes: <RouteBase>[
           GoRoute(
@@ -58,9 +54,7 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: 'profile',
             builder: (BuildContext context, GoRouterState state) {
-              return ProfilePage(
-                userId: FirebaseAuth.instance.currentUser!.uid,
-              );
+              return const ProfilePage();
             },
           ),
         ],

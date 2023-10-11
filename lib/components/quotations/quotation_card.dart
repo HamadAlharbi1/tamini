@@ -39,7 +39,7 @@ class _QuotationCardState extends State<QuotationCard> {
             itemDescription: "insurance_amount".i18n(),
             itemValue: widget.request.insuranceAmount.toString(),
           ),
-          widget.request.status == RequestStatus.pending.toString()
+          widget.request.status == RequestStatus.pending.name
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -48,7 +48,7 @@ class _QuotationCardState extends State<QuotationCard> {
                       isText: false,
                       onPressed: () async {
                         await quotationService.updateQuotation(context, widget.request.requestId,
-                            {'status': RequestStatus.approved.toString()}, RequestStatus.approved.toString());
+                            {'status': RequestStatus.approved.name}, RequestStatus.approved.name);
                       },
                       child: const Icon(Icons.done),
                     ),
@@ -57,7 +57,7 @@ class _QuotationCardState extends State<QuotationCard> {
                       isText: false,
                       onPressed: () async {
                         await quotationService.updateQuotation(context, widget.request.requestId,
-                            {'status': RequestStatus.reject.toString()}, RequestStatus.reject.toString());
+                            {'status': RequestStatus.reject.name}, RequestStatus.reject.name);
                       },
                       child: const Text('X'),
                     ),

@@ -44,6 +44,7 @@
 	"reject": "Quotation Rejected",
 	"RequestStatus.reject": "Quotation Rejected",
 	"RequestStatus.newRequest": "Waiting for Quotation",
+	"newRequest": "Waiting for Quotation",
 	"Delete_User": "Delete Account",
 	"Update_User": "Update Account",
 	"Profile_Page": "Profile Page",

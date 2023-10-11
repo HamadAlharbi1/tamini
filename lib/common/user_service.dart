@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/error_messages.dart';
+import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/components/user_model.dart';
 import 'package:tamini_app/pages/home_page.dart';
@@ -31,11 +36,12 @@ class UserService {
     BuildContext context,
     String phoneNumber,
   ) async {
+    bool isLogin = false;
     if (phoneNumber.startsWith('05')) {
       phoneNumber = '+9665${phoneNumber.substring(2)}';
     }
     await auth.verifyPhoneNumber(
-      timeout: const Duration(seconds: 120),
+      timeout: const Duration(seconds: 60),
       phoneNumber: phoneNumber,
       verificationCompleted: (AuthCredential credential) async {
         _credential = credential;
@@ -60,12 +66,7 @@ class UserService {
                   String smsCode = otp;
                   _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
                   auth.signInWithCredential(_credential).then((result) async {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(
-                                  userId: result.user!.uid,
-                                )));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                     bool exists = await userExists(result.user!.uid);
                     if (!exists) {
                       UserData newUser = UserData(
@@ -73,10 +74,16 @@ class UserService {
                         userName: 'guest',
                         email: result.user!.email ?? '',
                         phoneNumber: phoneNumber,
-                        profilePictureUrl: 'https://cdn4.iconfinder.com/data/icons/web-ui-color/128/Account-512.png',
-                        userType: UserType.user.toString(),
+                        profilePictureUrl: Constants.profileAvatarUrl,
+                        userType: UserType.user.name,
                       );
                       await createUser(newUser);
+
+                      showSnackbar(context, "registration_massage".i18n());
+                      isLogin = true;
+                    } else if (exists) {
+                      showSnackbar(context, "login_massage".i18n());
+                      isLogin = true;
                     }
                   }).catchError((e) {
                     ErrorMessages.displayError(context, e);
@@ -88,7 +95,24 @@ class UserService {
         );
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        // Called when the automatic code retrieval process times out.
+        isLogin ? null : context.pop();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("time_out".i18n()),
+              content: Text("time_out_massage".i18n()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("ok".i18n()),
+                  onPressed: () {
+                    context.pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
@@ -98,11 +122,13 @@ class UserService {
     return doc.exists;
   }
 
-  Future<void> updateUser(UserData user) async {
+  Future<void> updateUser(context, UserData user) async {
     await fireStore.collection('users').doc(user.userId).update(user.toMap());
+    showSnackbar(context, "user_account_updated".i18n());
   }
 
-  Future<void> updatePhoneNumber(BuildContext context, String newPhoneNumber) async {
+  Future<void> updatePhoneNumber(BuildContext context, String newPhoneNumber, UserData user) async {
+    bool isLogin = false;
     if (newPhoneNumber.startsWith('05')) {
       newPhoneNumber = '+9665${newPhoneNumber.substring(2)}';
     }
@@ -113,7 +139,6 @@ class UserService {
         try {
           await auth.currentUser!.updatePhoneNumber(credential);
         } catch (e) {
-          // ignore: use_build_context_synchronously
           ErrorMessages.displayError(context, e);
         }
       },
@@ -134,12 +159,13 @@ class UserService {
                   try {
                     await auth.currentUser!.updatePhoneNumber(credential);
 
-                    // ignore: use_build_context_synchronously
+                    // Update the phone number in Firestore users collection
+                    user.phoneNumber = newPhoneNumber;
+                    await updateUser(context, user);
                     Navigator.pop(context);
-                    // ignore: use_build_context_synchronously
                     Navigator.pop(context);
+                    isLogin = true;
                   } catch (e) {
-                    // ignore: use_build_context_synchronously
                     ErrorMessages.displayError(context, e);
                   }
                 },
@@ -149,18 +175,67 @@ class UserService {
         );
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        // Handle the timeout case
+        isLogin ? null : context.pop();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("time_out".i18n()),
+              content: Text("time_out_massage".i18n()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("ok".i18n()),
+                  onPressed: () {
+                    context.pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
 
-  Future<UserData> getUser(String userId) async {
-    DocumentSnapshot doc = await fireStore.collection('users').doc(userId).get();
-    return UserData.fromMap(doc.data() as Map<String, dynamic>);
+  Stream<UserData> streamUserData(String userId) {
+    return fireStore.collection('users').doc(userId).snapshots().map((doc) {
+      return UserData.fromMap(doc.data() as Map<String, dynamic>);
+    });
   }
 
-  Future<void> deleteUser(String userId) async {
-    await fireStore.collection('users').doc(userId).delete();
+  Future<UserData> getUser(String userId) async {
+    final document = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final userData = UserData.fromMap(document.data() as Map<String, dynamic>);
+    return userData;
+  }
+
+  Future<void> deleteUser(context, String userId) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete_User'.i18n()),
+          content: Text("Delete_User_massage".i18n()),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Cancel'.i18n()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: Text('Delete'.i18n()),
+              onPressed: () async {
+                await fireStore.collection('users').doc(userId).delete();
+
+                context.go('/registration');
+                showSnackbar(context, "user_account_deleted".i18n());
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> showSnackbar(context, String message) async {

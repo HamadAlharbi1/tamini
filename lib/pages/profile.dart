@@ -1,39 +1,43 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/error_messages.dart';
+import 'package:tamini_app/common/user_service.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/user_model.dart';
-import 'package:tamini_app/components/user_service.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String userId;
-
-  const ProfilePage({super.key, required this.userId});
+  const ProfilePage({
+    super.key,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final UserService _userService = UserService();
-  late Future<UserData> _futureUser;
+  final UserService userService = UserService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String uid = "";
 
   @override
   void initState() {
     super.initState();
-    _futureUser = _userService.getUser(widget.userId);
+    User? user = _auth.currentUser;
+    uid = user!.uid;
   }
 
-  final UserService userService = UserService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile_Page'.i18n()),
       ),
-      body: FutureBuilder<UserData>(
-        future: _futureUser,
+      body: StreamBuilder<UserData>(
+        stream: userService.streamUserData(uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -54,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text('${"user_name".i18n()}: ${user.userName}'),
                   Text('${"email".i18n()}: ${user.email}'),
                   Text('${"phone_number".i18n()}: ${user.phoneNumber}'),
-                  user.userType == UserType.user.toString()
+                  user.userType == UserType.user.name
                       ? const SizedBox()
                       : Text('${"user_type".i18n()}: ${user.userType.i18n()}'),
                   ElevatedButton(
@@ -99,8 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   user.userName = userNameController.text;
                                   user.email = emailController.text;
                                   user.profilePictureUrl = profilePictureUrlController.text;
-                                  await _userService.updateUser(user);
-                                  // ignore: use_build_context_synchronously
+                                  await userService.updateUser(context, user);
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -127,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     controller: phoneNumberController,
                                     labelText: "phone_number".i18n(),
                                     hintText: "enter_phone_number".i18n(),
-                                    keyboardType: TextInputType.emailAddress,
+                                    keyboardType: TextInputType.phone,
                                   ),
                                   const SizedBox(
                                     height: 4,
@@ -135,19 +138,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                             ),
-                            actions: <Widget>[
+                            actions: [
                               ElevatedButton(
                                 child: Text('update_phone_number'.i18n()),
                                 onPressed: () async {
                                   try {
-                                    await userService.updatePhoneNumber(
-                                      context,
-                                      phoneNumberController.text,
-                                    );
-                                    user.phoneNumber = phoneNumberController.text;
-                                    await _userService.updateUser(user);
+                                    await userService.updatePhoneNumber(context, phoneNumberController.text, user);
                                   } catch (e) {
-                                    // ignore: use_build_context_synchronously
                                     ErrorMessages.displayError(context, e);
                                   }
                                 },
@@ -161,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await _userService.deleteUser(user.userId);
+                      await userService.deleteUser(context, uid);
                     },
                     child: Text('Delete_User'.i18n()),
                   ),
