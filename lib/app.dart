@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/components/constants.dart';
+import 'package:tamini_app/themes/primary_theme.dart';
 import 'package:tamini_app/pages/home_page.dart';
 import 'package:tamini_app/pages/owner_tracking_requests.dart';
 import 'package:tamini_app/pages/profile.dart';
@@ -90,31 +90,10 @@ class MyApp extends StatelessWidget {
           return const Locale('en', 'US'); // Use English otherwise
         }
       },
-      theme: themeData,
+      theme: primaryTheme,
       debugShowCheckedModeBanner: false,
     );
   }
-}
-
-final ThemeData themeData = ThemeData(
-  primarySwatch: createMaterialColor(Constants.primary),
-);
-
-MaterialColor createMaterialColor(Color color) {
-  List<int> strengths = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-  Map<int, Color> swatch = <int, Color>{};
-  final int r = color.red, g = color.green, b = color.blue;
-
-  for (int strength in strengths) {
-    final double blend = 1.0 - (strength / 900);
-    swatch[strength] = Color.fromRGBO(
-      r,
-      g,
-      b,
-      blend,
-    );
-  }
-  return MaterialColor(color.value, swatch);
 }
 
 bool checkUserAuthentication() {

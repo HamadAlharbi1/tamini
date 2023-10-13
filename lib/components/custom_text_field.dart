@@ -47,22 +47,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color.fromARGB(246, 0, 95, 150),
+          borderSide: BorderSide(
+            color: Theme.of(context).primaryColor,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color.fromARGB(246, 0, 95, 150),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color.fromARGB(246, 150, 0, 0),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(12),

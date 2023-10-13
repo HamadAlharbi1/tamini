@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
-import 'package:tamini_app/components/quotations/quotations_model.dart';
+import 'package:tamini_app/components/refunds/refunds_model.dart';
 
-class QuotationService {
-  Future<void> updateQuotation(context, String requestId, Map<String, dynamic> updates, String massage) async {
+class RefundService {
+  Future<void> updateRefund(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
-      await FirebaseFirestore.instance.collection('quotations').doc(requestId).update(updates);
+      await FirebaseFirestore.instance.collection('refunds').doc(requestId).update(updates);
       await showSnackbar(context, massage.i18n());
     } catch (e) {
       await showSnackbar(context, 'Error: $e');
@@ -19,44 +19,44 @@ class QuotationService {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  listenToUserQuotations(uid, updateUI) {
-    final collection =
-        FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
+  listenToUserRefunds(uid, updateUI) {
+    final collection = FirebaseFirestore.instance.collection('refunds').where('userId', isEqualTo: '$uid').snapshots();
     collection.listen((snapshot) {
-      List<Quotations> newList = [];
+      List<Refunds> newList = [];
       for (final doc in snapshot.docs) {
-        final quotation = Quotations.fromMap(doc.data());
-        newList.add(quotation);
+        final refund = Refunds.fromMap(doc.data());
+        newList.add(refund);
       }
       newList.sort((b, a) => a.requestId.compareTo(b.requestId));
       updateUI(newList);
     });
   }
 
-  listenToOwnerQuotations(updateUI) {
-    final collection = FirebaseFirestore.instance.collection('quotations').snapshots();
+  listenToOwnerRefunds(updateUI) {
+    final collection = FirebaseFirestore.instance.collection('refunds').snapshots();
     collection.listen((snapshot) {
-      List<Quotations> newList = [];
+      List<Refunds> newList = [];
       for (final doc in snapshot.docs) {
-        final quotation = Quotations.fromMap(doc.data());
-        newList.add(quotation);
+        final refund = Refunds.fromMap(doc.data());
+        newList.add(refund);
       }
       newList.sort((b, a) => a.requestId.compareTo(b.requestId));
       updateUI(newList);
     });
   }
 
-  Future<void> requestQuotation(
+  Future<void> requestRefund(
     context,
-    String nationalId,
-    String birthDate,
-    String carSerialNumber,
+    String idCard,
+    String ibanBankAccount,
+    String vehicleRegistrationCard,
+    String insuranceDocument,
     String uid,
     String phoneNumber,
     String message,
+    String companyName,
   ) async {
     final DateTime requestDate = DateTime.now();
-
     try {
       DocumentSnapshot metadata = await FirebaseFirestore.instance.collection('metadata').doc('requestId').get();
       Map<String, dynamic>? data = metadata.data() as Map<String, dynamic>?;
@@ -73,19 +73,19 @@ class QuotationService {
         'currentRequestId': newRequestId,
       });
 
-      await FirebaseFirestore.instance.collection('quotations').doc(newRequestId.toString()).set({
-        'nationalId': nationalId,
-        'birthDate': birthDate,
-        'carSerialNumber': carSerialNumber,
+      await FirebaseFirestore.instance.collection('refunds').doc(currentRequestId.toString()).set({
+        'idCard': idCard,
+        'ibanBankAccount': ibanBankAccount,
+        'vehicleRegistrationCard': vehicleRegistrationCard,
+        'insuranceDocument': insuranceDocument,
         'userId': uid,
         'status': RequestStatus.newRequest.name,
         'phoneNumber': phoneNumber,
-        'insuranceAmount': 0.00,
-        'requestId': newRequestId.toString(),
-        'requestType': RequestType.quotation.name,
+        'requestId': currentRequestId.toString(),
+        'requestType': RequestType.refund.name,
         'requestDate': requestDate.toString(),
+        'companyName': companyName,
       });
-
       showSnackbar(context, message);
     } catch (e) {
       showSnackbar(context, 'Error: $e');

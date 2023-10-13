@@ -46,41 +46,38 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             appBar: AppBar(
               actions: [
-                InkWell(
-                  onTap: () {
+                IconButton(
+                  icon: const Icon(Icons.logout_outlined, size: 26),
+                  onPressed: () {
                     signOut();
                     context.go('/registration');
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Icon(
-                      Icons.logout_outlined,
-                      size: 26,
-                    ),
-                  ),
                 ),
               ],
               title: Text('Home_Page'.i18n()), // Use the i18n() method to get the translated string
             ),
             body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
                 children: [
                   HomePageActionsContainer(
                       onPressed: () {
                         context.go('/request_quotations');
                       },
                       text: "Request_Quotations".i18n()),
+                  const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {
                         context.go('/request_refund');
                       },
                       text: "Request_Refund".i18n()),
+                  const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {
                         context.go('/user_tracking_requests');
                       },
                       text: "${'Tracking_Requests'.i18n()} ${'user'.i18n()}"),
+                  user.userType == UserType.owner.name ? const SizedBox(height: 16) : const SizedBox(),
                   user.userType == UserType.owner.name
                       ? HomePageActionsContainer(
                           onPressed: () {
@@ -88,11 +85,12 @@ class _HomePageState extends State<HomePage> {
                           },
                           text: "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}")
                       : const SizedBox(),
+                  const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {
                         context.go('/profile');
                       },
-                      text: "${'الملف الشخصي'.i18n()} ${''.i18n()}"),
+                      text: "${'Profile_Page'.i18n()} ${''.i18n()}"),
                   // Add more HomePageActionsContainer here based on user features
                 ],
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
+import 'package:tamini_app/themes/primary_theme.dart';
 
 class BirthDatePicker extends StatefulWidget {
   const BirthDatePicker({
@@ -23,19 +23,13 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Constants.primary,
-            ),
-          ),
+          data: primaryTheme,
           child: child!,
         );
       },
     );
 
-    /// if the user selects cancel picked value will be null
     if (picked != null) {
-      debugPrint(picked.toString());
       widget.onDateChanged(picked);
     }
   }
