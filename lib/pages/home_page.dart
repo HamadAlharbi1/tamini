@@ -28,16 +28,12 @@ class _HomePageState extends State<HomePage> {
     uid = user!.uid;
   }
 
-  signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserData>(
-      future: userService.getUser(uid),
+    return StreamBuilder<UserData>(
+      stream: userService.streamUserData(uid),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting || snapshot.data?.userType == null) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -45,11 +41,13 @@ class _HomePageState extends State<HomePage> {
           UserData user = snapshot.data!;
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               actions: [
                 IconButton(
                   icon: const Icon(Icons.logout_outlined, size: 26),
-                  onPressed: () {
-                    signOut();
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    // ignore: use_build_context_synchronously
                     context.go('/registration');
                   },
                 ),
@@ -74,17 +72,19 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {
-                        context.go('/user_tracking_requests');
+                        context.go('/user_tracking');
                       },
-                      text: "${'Tracking_Requests'.i18n()} ${'user'.i18n()}"),
+                      text: 'Tracking_Requests'.i18n()),
                   user.userType == UserType.owner.name ? const SizedBox(height: 16) : const SizedBox(),
+
                   user.userType == UserType.owner.name
                       ? HomePageActionsContainer(
                           onPressed: () {
-                            context.go('/owner_tracking_requests');
+                            context.go('/owner_tracking');
                           },
-                          text: "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}")
+                          text: "${'Tracking_Requests'.i18n()} ${'for_owner'.i18n()}")
                       : const SizedBox(),
+
                   const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {

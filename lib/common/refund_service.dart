@@ -79,7 +79,7 @@ class RefundService {
         'vehicleRegistrationCard': vehicleRegistrationCard,
         'insuranceDocument': insuranceDocument,
         'userId': uid,
-        'status': RequestStatus.newRequest.name,
+        'status': QuotationStatus.newRequest.name,
         'phoneNumber': phoneNumber,
         'requestId': currentRequestId.toString(),
         'requestType': RequestType.refund.name,

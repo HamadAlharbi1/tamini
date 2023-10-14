@@ -3,6 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
+import 'package:tamini_app/app.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/error_messages.dart';
 import 'package:tamini_app/common/pic_image.dart';
@@ -35,9 +37,35 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = context.watch<LanguageProvider>();
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile_Page'.i18n()),
+        actions: <Widget>[
+          DropdownButton<String>(
+            value: languageProvider.currentLocale.languageCode,
+            items: <String>['en', 'ar'].map((String value) {
+              String displayText = (value == 'en') ? 'English' : 'العربية';
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(displayText),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              setState(() {
+                Locale newLocale;
+                if (newValue == 'en') {
+                  newLocale = const Locale('en', 'US');
+                } else if (newValue == 'ar') {
+                  newLocale = const Locale('ar', 'SA');
+                } else {
+                  newLocale = const Locale('en', 'US'); // default to English if something goes wrong
+                }
+                languageProvider.changeLanguage(newLocale);
+              });
+            },
+          ),
+        ],
       ),
       body: StreamBuilder<UserData>(
         stream: userService.streamUserData(uid),

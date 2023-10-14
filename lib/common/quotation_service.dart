@@ -78,7 +78,7 @@ class QuotationService {
         'birthDate': birthDate,
         'carSerialNumber': carSerialNumber,
         'userId': uid,
-        'status': RequestStatus.newRequest.name,
+        'status': QuotationStatus.newRequest.name,
         'phoneNumber': phoneNumber,
         'insuranceAmount': 0.00,
         'requestId': newRequestId.toString(),

@@ -22,12 +22,23 @@ class ShowFile extends StatelessWidget {
           children: [
             SizedBox(
               child: Expanded(
-                child: Text(
-                  "${'file_uploaded'.i18n()}$description",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  children: [
+                    Text(
+                      'file_uploaded'.i18n(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

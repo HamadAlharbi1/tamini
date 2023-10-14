@@ -24,48 +24,111 @@ class _QuotationCardState extends State<QuotationCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(8),
-      decoration:
-          BoxDecoration(color: const Color.fromARGB(255, 221, 221, 221), borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          QuotationData(
-            request: widget.request,
-          ),
-          QuotationCardItem(
-            itemDescription: "insurance_amount".i18n(),
-            itemValue: widget.request.insuranceAmount.toString(),
-          ),
-          widget.request.status == RequestStatus.pending.name
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CustomButton(
-                      buttonText: '',
-                      isText: false,
-                      onPressed: () async {
-                        await quotationService.updateQuotation(context, widget.request.requestId,
-                            {'status': RequestStatus.approved.name}, RequestStatus.approved.name);
-                      },
-                      child: const Icon(Icons.done),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              QuotationData(
+                request: widget.request,
+              ),
+              widget.request.status == QuotationStatus.pending.name
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        const Divider(),
+                        Tcard(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              QuotationCardItem(
+                                itemDescription: "insurance_amount".i18n(),
+                                itemValue: widget.request.insuranceAmount.toString(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    CustomButton(
-                      buttonText: '',
-                      isText: false,
-                      onPressed: () async {
-                        await quotationService.updateQuotation(context, widget.request.requestId,
-                            {'status': RequestStatus.reject.name}, RequestStatus.reject.name);
-                      },
-                      child: const Text('X'),
-                    ),
-                  ],
-                )
-              : const SizedBox()
-        ],
+              widget.request.status == QuotationStatus.pending.name
+                  ? Column(
+                      children: [
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CustomButton(
+                              buttonText: '',
+                              isText: false,
+                              onPressed: () async {
+                                await quotationService.updateQuotation(context, widget.request.requestId,
+                                    {'status': QuotationStatus.approved.name}, QuotationStatus.approved.name);
+                              },
+                              child: const Icon(Icons.done),
+                            ),
+                            Tcard(
+                              child: QuotationCardItem(
+                                itemDescription: "insurance_amount".i18n(),
+                                itemValue: widget.request.insuranceAmount.toString(),
+                              ),
+                            ),
+                            CustomButton(
+                              buttonText: '',
+                              isText: false,
+                              onPressed: () async {
+                                await quotationService.updateQuotation(context, widget.request.requestId,
+                                    {'status': QuotationStatus.reject.name}, QuotationStatus.reject.name);
+                              },
+                              child: const Icon(
+                                Icons.cancel,
+                                size: 25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : const SizedBox()
+            ],
+          ),
+        ),
       ),
     );
+  }
+}
+
+class Tcard extends StatelessWidget {
+  const Tcard({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: child);
   }
 }

@@ -4,6 +4,7 @@ import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
+import 'package:tamini_app/components/quotations/quotation_card.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
 import 'package:tamini_app/components/quotations/quotation_data.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
@@ -18,28 +19,53 @@ class UpdateQuotationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(8),
-      decoration:
-          BoxDecoration(color: const Color.fromARGB(255, 221, 221, 221), borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          QuotationData(
-            request: request,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              QuotationData(
+                request: request,
+              ),
+              request.status == QuotationStatus.pending.name || request.status == QuotationStatus.newRequest.name
+                  ? Column(
+                      children: [
+                        const Divider(),
+                        Tcard(
+                          child: UpdateQuotationCardItem(
+                            requestId: request.requestId,
+                            itemDescription: "insurance_amount".i18n(),
+                            itemValue: request.insuranceAmount.toString(),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        const Divider(),
+                        Tcard(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              QuotationCardItem(
+                                itemDescription: "insurance_amount".i18n(),
+                                itemValue: request.insuranceAmount.toString(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+            ],
           ),
-          request.status == RequestStatus.pending.name || request.status == RequestStatus.newRequest.name
-              ? UpdateQuotationCardItem(
-                  requestId: request.requestId,
-                  itemDescription: "insurance_amount".i18n(),
-                  itemValue: request.insuranceAmount.toString(),
-                )
-              : QuotationCardItem(
-                  itemDescription: "insurance_amount".i18n(),
-                  itemValue: request.insuranceAmount.toString(),
-                ),
-        ],
+        ),
       ),
     );
   }
@@ -96,8 +122,8 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
                 ? await quotationService.updateQuotation(
                     context,
                     widget.requestId,
-                    {"insuranceAmount": double.parse(itemValueController.text), 'status': RequestStatus.pending.name},
-                    RequestStatus.pending.name)
+                    {"insuranceAmount": double.parse(itemValueController.text), 'status': QuotationStatus.pending.name},
+                    QuotationStatus.pending.name)
                 : null;
             setState(() {
               isEdit = !isEdit;
