@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/util.dart';
@@ -7,6 +6,7 @@ import 'package:tamini_app/components/refunds/refunds_model.dart';
 
 class RefundService {
   /// updates is used to update any special fields for example  {'status': QuotationStatus.reject.name}
+  /// Updates refund request with given updates
   Future<void> updateRefund(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
       await FirebaseFirestore.instance.collection('refunds').doc(requestId).update(updates);
@@ -16,11 +16,7 @@ class RefundService {
     }
   }
 
-  Future<void> showSnackbar(context, String message) async {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
+  /// Listen to refund requests for given user
   listenToUserRefunds(uid, updateUI) {
     final collection = FirebaseFirestore.instance.collection('refunds').where('userId', isEqualTo: '$uid').snapshots();
     collection.listen((snapshot) {
@@ -34,6 +30,7 @@ class RefundService {
     });
   }
 
+  /// Listen to all refund requests
   listenToOwnerRefunds(updateUI) {
     final collection = FirebaseFirestore.instance.collection('refunds').snapshots();
     collection.listen((snapshot) {
@@ -47,6 +44,7 @@ class RefundService {
     });
   }
 
+  /// Create new refund request
   Future<void> requestRefund(
     context,
     String idCard,

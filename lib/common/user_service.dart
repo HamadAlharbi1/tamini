@@ -15,10 +15,18 @@ import 'package:tamini_app/components/user_model.dart';
 import 'package:tamini_app/pages/home_page.dart';
 
 class UserService {
+  /// Gets an instance of Firebase Firestore
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
+  /// Gets an instance of Firebase Auth
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  /// Auth credential for phone authentication
   late AuthCredential _credential;
+
+  /// Creates a new user document in Firestore
   Future<void> createUser(UserData user) async {
+    // Get latest guest number
     DocumentSnapshot doc = await fireStore.collection('metadata').doc('guestNumber').get();
     int latestNumber;
     if (!doc.exists) {
@@ -27,11 +35,18 @@ class UserService {
     } else {
       latestNumber = doc['number'] ?? 1000;
     }
+
+    // Generate guest username
     user.userName = 'guest${latestNumber + 1}';
+
+    // Increment guest number
     await fireStore.collection('metadata').doc('guestNumber').update({'number': latestNumber + 1});
+
+    // Add user document
     await fireStore.collection('users').doc(user.userId).set(user.toMap());
   }
 
+  /// Creates a new user by verifying phone number and saving to Firestore
   Future<void> createNewUserFromMobile(
     BuildContext context,
     String phoneNumber,
@@ -59,7 +74,7 @@ class UserService {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('enter_otp'.i18n()), // Use the i18n() method to get the translated string
+              title: Text('enter_otp'.i18n()),
               content: OtpInputWidget(
                 onOtpEntered: (otp) async {
                   FirebaseAuth auth = FirebaseAuth.instance;
@@ -117,16 +132,19 @@ class UserService {
     );
   }
 
+  /// Checks if a user document exists for the given ID
   Future<bool> userExists(String userId) async {
     DocumentSnapshot doc = await fireStore.collection('users').doc(userId).get();
     return doc.exists;
   }
 
+  /// Updates an existing user document
   Future<void> updateUser(context, UserData user) async {
     await fireStore.collection('users').doc(user.userId).update(user.toMap());
     showSnackbar(context, "user_account_updated".i18n());
   }
 
+  /// Updates user's phone number after verification
   Future<void> updatePhoneNumber(BuildContext context, String newPhoneNumber, UserData user) async {
     bool isLogin = false;
     if (newPhoneNumber.startsWith('05')) {
@@ -197,18 +215,14 @@ class UserService {
     );
   }
 
+  /// Gets a user data stream
   Stream<UserData> streamUserData(String userId) {
     return fireStore.collection('users').doc(userId).snapshots().map((doc) {
       return UserData.fromMap(doc.data() as Map<String, dynamic>);
     });
   }
 
-  Future<UserData> getUser(String userId) async {
-    final document = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    final userData = UserData.fromMap(document.data() as Map<String, dynamic>);
-    return userData;
-  }
-
+  /// Deletes a user document
   Future<void> deleteUser(context, String userId) async {
     showDialog(
       context: context,

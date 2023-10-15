@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/util.dart';
@@ -7,6 +6,8 @@ import 'package:tamini_app/components/quotations/quotations_model.dart';
 
 class QuotationService {
   /// updates is used to update any special fields for example  {'status': QuotationStatus.reject.name}
+  /// Updates the quotation with the given requestId using the provided updates map.
+  /// Shows a snackbar with the given message.
   Future<void> updateQuotation(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
       await FirebaseFirestore.instance.collection('quotations').doc(requestId).update(updates);
@@ -16,11 +17,7 @@ class QuotationService {
     }
   }
 
-  Future<void> showSnackbar(context, String message) async {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
+  /// Listens to quotations for the given user uid and calls updateUI with the list on each change.
   listenToUserQuotations(uid, updateUI) {
     final collection =
         FirebaseFirestore.instance.collection('quotations').where('userId', isEqualTo: '$uid').snapshots();
@@ -35,6 +32,7 @@ class QuotationService {
     });
   }
 
+  /// Listens to all quotations and calls updateUI with the full list on each change.
   listenToOwnerQuotations(updateUI) {
     final collection = FirebaseFirestore.instance.collection('quotations').snapshots();
     collection.listen((snapshot) {
@@ -48,6 +46,8 @@ class QuotationService {
     });
   }
 
+  /// Requests a new quotation by generating a requestId and adding a document.
+  /// Shows a snackbar with the given message on success.
   Future<void> requestQuotation(
     context,
     String nationalId,
