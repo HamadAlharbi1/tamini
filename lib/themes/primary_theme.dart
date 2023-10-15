@@ -99,3 +99,90 @@ final ThemeData galacticNight = ThemeData(
     ),
   ),
 );
+
+final ThemeData midnightBlue = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: const Color(0xFF003366),
+  colorScheme: const ColorScheme.dark(
+    primary: Color(0xFF0066CC),
+    secondary: Color(0xFF3399FF),
+  ),
+  scaffoldBackgroundColor: const Color(0xFF000033),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
+    titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF3399FF)),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF0066CC),
+      foregroundColor: const Color(0xFFFFFFFF),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    ),
+  ),
+);
+
+final ThemeData deepSpace = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: const Color(0xFF000033),
+  colorScheme: const ColorScheme.dark(
+    primary: Color(0xFF330099),
+    secondary: Color(0xFF6600CC),
+  ),
+  scaffoldBackgroundColor: const Color(0xFF000000),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
+    titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF6600CC)),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF330099),
+      foregroundColor: const Color(0xFFFFFFFF),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    ),
+  ),
+);
+
+final ThemeData twilightPurple = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: const Color(0xFF330033),
+  colorScheme: const ColorScheme.dark(
+    primary: Color(0xFF660066),
+    secondary: Color(0xFFCC00CC),
+  ),
+  scaffoldBackgroundColor: const Color(0xFF000000),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
+    titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFFCC00CC)),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF660066),
+      foregroundColor: const Color(0xFFFFFFFF),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    ),
+  ),
+);

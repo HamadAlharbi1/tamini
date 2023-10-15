@@ -6,9 +6,9 @@ import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tamini_app/app.dart';
 import 'package:tamini_app/common/enum.dart';
-import 'package:tamini_app/common/error_messages.dart';
 import 'package:tamini_app/common/pic_image.dart';
 import 'package:tamini_app/common/user_service.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/user_model.dart';
@@ -38,6 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final languageProvider = context.watch<LanguageProvider>();
+    String fixNumber(String number) {
+      if (number.startsWith("+966")) {
+        return number.replaceFirst("+966", "0");
+      }
+      return number;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile_Page'.i18n()),
@@ -120,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ListTile(
                           leading: Icon(Icons.phone, color: Theme.of(context).primaryColor),
                           title: Text(
-                            user.phoneNumber,
+                            fixNumber(user.phoneNumber),
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
@@ -137,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    String imageUrl = await uploadImage.selectAndUploadImage(context, 'profile_images', uid);
+                    String? imageUrl = await uploadImage.selectAndUploadImage(context, 'profile_images', uid);
                     if (imageUrl.isNotEmpty) {
                       user.profilePictureUrl = imageUrl;
                       await userService.updateUser(context, user);
@@ -239,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 try {
                                   await userService.updatePhoneNumber(context, phoneNumberController.text, user);
                                 } catch (e) {
-                                  ErrorMessages.displayError(context, e);
+                                  displayError(context, e);
                                 }
                               },
                             ),

@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tamini_app/common/error_messages.dart';
+import 'package:tamini_app/common/util.dart';
 
 class UploadImage {
-  picImage(ImageSource source) async {
+  Future<Uint8List?> picImage(ImageSource source) async {
     final ImagePicker imagepicker = ImagePicker();
     XFile? file = await imagepicker.pickImage(source: source);
     if (file != null) {
       return await file.readAsBytes();
     }
+    return null;
   }
 
   Future<String> selectAndUploadImage(context, String path, String uid) async {
@@ -30,10 +32,9 @@ class UploadImage {
         UploadTask uploadTask = ref.putFile(file);
         // Get the download URL
         await uploadTask.whenComplete(() {});
-        final String downloadUrl = await ref.getDownloadURL();
-        return downloadUrl;
+        return await ref.getDownloadURL();
       } catch (e) {
-        ErrorMessages.displayError(context, e);
+        displayError(context, e);
       }
     }
     return '';

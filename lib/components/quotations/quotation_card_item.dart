@@ -14,17 +14,20 @@ class QuotationCardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(itemDescription, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
-          Text(
-            itemValue,
-            style: theme.textTheme.bodyLarge,
-          ),
-        ],
+    return SizedBox(
+      width: 110,
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(itemDescription, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+            Text(
+              itemValue,
+              style: theme.textTheme.bodyLarge,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -100,7 +100,7 @@ class MyApp extends StatelessWidget {
                 return const Locale('en', 'US');
               }
             },
-            theme: emeraldDusk,
+            theme: slateBlue,
             debugShowCheckedModeBanner: false,
           );
         },

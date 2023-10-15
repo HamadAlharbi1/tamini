@@ -24,11 +24,11 @@ class CompanyCard extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
+                color: Theme.of(context).shadowColor.withOpacity(0.5),
+                spreadRadius: 2,
                 blurRadius: 7,
                 offset: const Offset(0, 3),
               ),
@@ -54,9 +54,9 @@ class CompanyCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 company.description,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
                 textAlign: TextAlign.center,
               ),

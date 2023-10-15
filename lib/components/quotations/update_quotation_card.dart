@@ -38,7 +38,7 @@ class UpdateQuotationCard extends StatelessWidget {
                   ? Column(
                       children: [
                         const Divider(),
-                        Tcard(
+                        DecoratedRowCard(
                           child: UpdateQuotationCardItem(
                             requestId: request.requestId,
                             itemDescription: "insurance_amount".i18n(),
@@ -50,7 +50,7 @@ class UpdateQuotationCard extends StatelessWidget {
                   : Column(
                       children: [
                         const Divider(),
-                        Tcard(
+                        DecoratedRowCard(
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [

@@ -44,7 +44,7 @@ class _QuotationCardState extends State<QuotationCard> {
                   : Column(
                       children: [
                         const Divider(),
-                        Tcard(
+                        DecoratedRowCard(
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -75,7 +75,7 @@ class _QuotationCardState extends State<QuotationCard> {
                               },
                               child: const Icon(Icons.done),
                             ),
-                            Tcard(
+                            DecoratedRowCard(
                               child: QuotationCardItem(
                                 itemDescription: "insurance_amount".i18n(),
                                 itemValue: widget.request.insuranceAmount.toString(),
@@ -106,29 +106,31 @@ class _QuotationCardState extends State<QuotationCard> {
   }
 }
 
-class Tcard extends StatelessWidget {
-  const Tcard({
-    super.key,
+class DecoratedRowCard extends StatelessWidget {
+  const DecoratedRowCard({
+    Key? key,
     required this.child,
-  });
+  }) : super(key: key);
 
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: child);
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: child,
+    );
   }
 }

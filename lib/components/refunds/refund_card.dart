@@ -37,7 +37,7 @@ class _RefundCardState extends State<RefundCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Tcard(
+              DecoratedRowCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -53,7 +53,7 @@ class _RefundCardState extends State<RefundCard> {
                 ),
               ),
               const Divider(),
-              Tcard(
+              DecoratedRowCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,7 +69,7 @@ class _RefundCardState extends State<RefundCard> {
                 ),
               ),
               const Divider(),
-              Tcard(
+              DecoratedRowCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

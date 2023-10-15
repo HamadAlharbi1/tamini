@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/refunds/refunds_model.dart';
 
 class RefundService {
+  /// updates is used to update any special fields for example  {'status': QuotationStatus.reject.name}
   Future<void> updateRefund(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
       await FirebaseFirestore.instance.collection('refunds').doc(requestId).update(updates);
       await showSnackbar(context, massage.i18n());
     } catch (e) {
-      await showSnackbar(context, 'Error: $e');
+      displayError(context, e);
     }
   }
 
@@ -88,7 +90,7 @@ class RefundService {
       });
       showSnackbar(context, message);
     } catch (e) {
-      showSnackbar(context, 'Error: $e');
+      displayError(context, e);
     }
   }
 }

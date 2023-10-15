@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
-import 'package:tamini_app/common/error_messages.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/components/user_model.dart';
@@ -48,7 +48,7 @@ class UserService {
         try {
           auth.signInWithCredential(_credential).then((value) => context.go('/registration'));
         } catch (e) {
-          ErrorMessages.displayError(context, e);
+          displayError(context, e);
         }
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -86,7 +86,7 @@ class UserService {
                       isLogin = true;
                     }
                   }).catchError((e) {
-                    ErrorMessages.displayError(context, e);
+                    displayError(context, e);
                   });
                 },
               ),
@@ -139,7 +139,7 @@ class UserService {
         try {
           await auth.currentUser!.updatePhoneNumber(credential);
         } catch (e) {
-          ErrorMessages.displayError(context, e);
+          displayError(context, e);
         }
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -166,7 +166,7 @@ class UserService {
                     Navigator.pop(context);
                     isLogin = true;
                   } catch (e) {
-                    ErrorMessages.displayError(context, e);
+                    displayError(context, e);
                   }
                 },
               ),
@@ -236,10 +236,5 @@ class UserService {
         );
       },
     );
-  }
-
-  Future<void> showSnackbar(context, String message) async {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
 
 class QuotationService {
+  /// updates is used to update any special fields for example  {'status': QuotationStatus.reject.name}
   Future<void> updateQuotation(context, String requestId, Map<String, dynamic> updates, String massage) async {
     try {
       await FirebaseFirestore.instance.collection('quotations').doc(requestId).update(updates);
       await showSnackbar(context, massage.i18n());
     } catch (e) {
-      await showSnackbar(context, 'Error: $e');
+      displayError(context, e);
     }
   }
 
@@ -88,7 +90,7 @@ class QuotationService {
 
       showSnackbar(context, message);
     } catch (e) {
-      showSnackbar(context, 'Error: $e');
+      displayError(context, e);
     }
   }
 }

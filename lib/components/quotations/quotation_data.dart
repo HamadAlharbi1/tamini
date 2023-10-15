@@ -20,7 +20,7 @@ class QuotationData extends StatelessWidget {
     final requestDate = DateTime.parse(request.requestDate);
     return Column(
       children: [
-        Tcard(
+        DecoratedRowCard(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -36,7 +36,7 @@ class QuotationData extends StatelessWidget {
           ),
         ),
         const Divider(),
-        Tcard(
+        DecoratedRowCard(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,7 +52,7 @@ class QuotationData extends StatelessWidget {
           ),
         ),
         const Divider(),
-        Tcard(
+        DecoratedRowCard(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -68,7 +68,7 @@ class QuotationData extends StatelessWidget {
           ),
         ),
         const Divider(),
-        Tcard(
+        DecoratedRowCard(
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
