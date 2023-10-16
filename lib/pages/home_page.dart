@@ -32,9 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final languageProvider =
-        Provider.of<LanguageProvider>(context); // this is added since the language could changes on profile_page
+    Provider.of<LanguageProvider>(context); // this is added since the language could changes on profile_page
     return StreamBuilder<UserData>(
       stream: userService.streamUserData(uid),
       builder: (context, snapshot) {
