@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> {
                       },
                       text: 'Tracking_Requests'.i18n()),
                   user.userType == UserType.owner.name ? const SizedBox(height: 16) : const SizedBox(),
-
                   user.userType == UserType.owner.name
                       ? HomePageActionsContainer(
                           onPressed: () {
@@ -87,14 +86,12 @@ class _HomePageState extends State<HomePage> {
                           },
                           text: "${'Tracking_Requests'.i18n()} ${'for_owner'.i18n()}")
                       : const SizedBox(),
-
                   const SizedBox(height: 16),
                   HomePageActionsContainer(
                       onPressed: () {
                         context.go('/profile');
                       },
                       text: "${'profile_page'.i18n()} ${''.i18n()}"),
-                  // Add more HomePageActionsContainer here based on user features
                 ],
               ),
             ),

@@ -21,6 +21,17 @@ class _RegistrationState extends State<Registration> {
   TextEditingController otpController = TextEditingController();
 
   final UserService userService = UserService();
+  bool? _prevIsEnglish;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    bool isEnglish = Localizations.localeOf(context).languageCode == 'en';
+    if (_prevIsEnglish != null && _prevIsEnglish != isEnglish) {
+      setState(() {});
+    }
+    _prevIsEnglish = isEnglish;
+  }
 
   @override
   Widget build(BuildContext context) {
