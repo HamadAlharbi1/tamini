@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tamini_app/pages/home_page.dart';
 import 'package:tamini_app/pages/owner_tracking.dart';
 import 'package:tamini_app/pages/profile.dart';
@@ -12,9 +11,18 @@ import 'package:tamini_app/pages/registration.dart';
 import 'package:tamini_app/pages/request_quotations.dart';
 import 'package:tamini_app/pages/request_refund.dart';
 import 'package:tamini_app/pages/user_tracking.dart';
-import 'package:tamini_app/themes/primary_theme.dart';
+import 'package:tamini_app/provider/language_provider.dart';
+import 'package:tamini_app/provider/theme_provider.dart';
+import 'package:tamini_app/themes/tamini_themes.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final GoRouter _router = GoRouter(
     routes: <RouteBase>[
       GoRoute(
@@ -69,17 +77,25 @@ class MyApp extends StatelessWidget {
       ),
     ],
   );
-  final LanguageProvider languageProvider = LanguageProvider();
-  MyApp({Key? key}) : super(key: key);
+
+  LanguageProvider languageProvider = LanguageProvider();
+
   @override
   Widget build(BuildContext context) {
     // Set the directories where the translation JSON files are located
     LocalJsonLocalization.delegate.directories = ['lib/i18n'];
 
-    return ChangeNotifierProvider<LanguageProvider>(
-      create: (context) => languageProvider,
-      child: Consumer<LanguageProvider>(
-        builder: (context, languageProvider, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LanguageProvider>(
+          create: (context) => languageProvider,
+        ),
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(slateBlue, 'slateBlue'), // default theme
+        ),
+      ],
+      child: Consumer2<LanguageProvider, ThemeProvider>(
+        builder: (context, languageProvider, themeProvider, child) {
           return MaterialApp.router(
             routerConfig: _router,
             localizationsDelegates: [
@@ -100,7 +116,7 @@ class MyApp extends StatelessWidget {
                 return const Locale('en', 'US');
               }
             },
-            theme: slateBlue,
+            theme: themeProvider.getTheme,
             debugShowCheckedModeBanner: false,
           );
         },
@@ -115,45 +131,4 @@ bool checkUserAuthentication() {
   /// Return true if authenticated, otherwise return false
 
   return FirebaseAuth.instance.currentUser != null ? true : false;
-}
-
-class LanguageProvider with ChangeNotifier {
-  Locale _currentLocale = const Locale('ar', 'SA');
-
-  LanguageProvider() {
-    loadLocale();
-  }
-
-  Locale get currentLocale => _currentLocale;
-
-  void changeLanguage(Locale locale) async {
-    if (_currentLocale == locale) return;
-
-    if (locale == const Locale("ar", "SA")) {
-      _currentLocale = const Locale("ar", "SA");
-      await _saveLocale("ar", "SA");
-    } else {
-      _currentLocale = const Locale("en", "US");
-      await _saveLocale("en", "US");
-    }
-
-    notifyListeners();
-  }
-
-  _saveLocale(String languageCode, String countryCode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('languageCode', languageCode);
-    await prefs.setString('countryCode', countryCode);
-  }
-
-  loadLocale() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? languageCode = prefs.getString('languageCode');
-    String? countryCode = prefs.getString('countryCode');
-
-    if (languageCode != null) {
-      _currentLocale = Locale(languageCode, countryCode ?? '');
-    }
-    notifyListeners();
-  }
 }

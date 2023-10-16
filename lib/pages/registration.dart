@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:provider/provider.dart';
-import 'package:tamini_app/app.dart';
 import 'package:tamini_app/common/user_service.dart';
 import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
+import 'package:tamini_app/components/language_dropdown.dart';
 
 class Registration extends StatefulWidget {
   const Registration({
@@ -22,18 +21,13 @@ class _RegistrationState extends State<Registration> {
   TextEditingController otpController = TextEditingController();
 
   final UserService userService = UserService();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = context.watch<LanguageProvider>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Center(child: Text('registration_title'.i18n())),
+        title: Center(child: Text('Login by Phone Number'.i18n())),
       ),
       body: Center(
         child: ListView(
@@ -51,29 +45,7 @@ class _RegistrationState extends State<Registration> {
                 const SizedBox(
                   height: 80,
                 ),
-                DropdownButton<String>(
-                  value: languageProvider.currentLocale.languageCode,
-                  items: <String>['en', 'ar'].map((String value) {
-                    String displayText = (value == 'en') ? 'English' : 'العربية';
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(displayText),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      Locale newLocale;
-                      if (newValue == 'en') {
-                        newLocale = const Locale('en', 'US');
-                      } else if (newValue == 'ar') {
-                        newLocale = const Locale('ar', 'SA');
-                      } else {
-                        newLocale = const Locale('en', 'US');
-                      }
-                      languageProvider.changeLanguage(newLocale);
-                    });
-                  },
-                ),
+                const LanguageDropdown(),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: CustomTextField(

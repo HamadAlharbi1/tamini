@@ -4,19 +4,13 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/components/quotations/quotation_card.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
+import 'package:tamini_app/common/util.dart';
 
 class QuotationData extends StatelessWidget {
   const QuotationData({super.key, required this.request});
   final Quotations request;
   @override
   Widget build(BuildContext context) {
-    String fixNumber(String number) {
-      if (number.startsWith("+966")) {
-        return number.replaceFirst("+966", "0");
-      }
-      return number;
-    }
-
     final requestDate = DateTime.parse(request.requestDate);
     return Column(
       children: [

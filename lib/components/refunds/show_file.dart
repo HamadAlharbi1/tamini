@@ -13,6 +13,8 @@ class ShowFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = Localizations.localeOf(context).languageCode == 'en';
+
     return Card(
       elevation: 5,
       child: Padding(
@@ -24,13 +26,18 @@ class ShowFile extends StatelessWidget {
               child: Expanded(
                 child: Row(
                   children: [
-                    Text(
-                      'file_uploaded'.i18n(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    if (!isEnglish) ...[
+                      Text(
+                        'file_uploaded'.i18n(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                    ],
                     Text(
                       description,
                       style: const TextStyle(
@@ -38,6 +45,18 @@ class ShowFile extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    if (isEnglish) ...[
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'file_uploaded'.i18n(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -63,9 +82,7 @@ class ShowFile extends StatelessWidget {
               },
               child: Text(
                 'View_Document'.i18n(),
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
           ],

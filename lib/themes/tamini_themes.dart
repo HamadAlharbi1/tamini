@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 final ThemeData emeraldDusk = ThemeData(
+  brightness: Brightness.light,
   primaryColor: const Color.fromARGB(255, 37, 78, 78),
   colorScheme: const ColorScheme.light(
     primary: Color.fromARGB(255, 67, 105, 56),
@@ -34,7 +35,7 @@ final ThemeData emeraldDusk = ThemeData(
     style: ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 71, 82, 81),
-      textStyle: const TextStyle(fontSize: 14),
+      textStyle: const TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
@@ -43,56 +44,68 @@ final ThemeData emeraldDusk = ThemeData(
 );
 
 final ThemeData slateBlue = ThemeData(
-    primaryColor: const Color(0xFF546E7A),
-    colorScheme: const ColorScheme.light(
-      primary: Color(0xFF607D8B),
-      secondary: Color(0xFF455A64),
+  brightness: Brightness.light,
+  primaryColor: const Color(0xFF546E7A),
+  colorScheme: const ColorScheme.light(
+    primary: Color(0xFF607D8B),
+    secondary: Color(0xFF455A64),
+  ),
+  scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(color: Color(0xFF000000), fontWeight: FontWeight.bold, fontSize: 24),
+    titleMedium: TextStyle(color: Color(0xFF757575), fontSize: 18),
+    bodyMedium: TextStyle(color: Color(0xFF546E7A), fontSize: 16),
+    bodySmall: TextStyle(color: Color(0xFF9E9E9E), fontSize: 14),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFFB0BEC5)),
     ),
-    scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-    textTheme: const TextTheme(
-      titleLarge: TextStyle(color: Color(0xFF000000), fontWeight: FontWeight.bold, fontSize: 24),
-      titleMedium: TextStyle(color: Color(0xFF757575), fontSize: 18),
-      bodyMedium: TextStyle(color: Color(0xFF546E7A), fontSize: 16),
-      bodySmall: TextStyle(color: Color(0xFF9E9E9E), fontSize: 14),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF546E7A)),
     ),
-    inputDecorationTheme: const InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFB0BEC5)),
+    labelStyle: TextStyle(color: Color(0xFF9E9E9E)),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      foregroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFF546E7A),
+      textStyle: const TextStyle(fontSize: 18),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFF546E7A)),
-      ),
-      labelStyle: TextStyle(color: Color(0xFF9E9E9E)),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-            foregroundColor: const Color(0xFFFFFFFF),
-            backgroundColor: const Color(0xFF546E7A),
-            textStyle: const TextStyle(fontSize: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ))));
+  ),
+);
 
 final ThemeData galacticNight = ThemeData(
+  brightness: Brightness.light,
   primaryColor: const Color(0xFF2C384A),
   colorScheme: const ColorScheme.light(
+    primary: Color(0xFF2C384A),
     secondary: Color(0xFF7AC7C4),
   ),
   scaffoldBackgroundColor: const Color(0xFFF6F7F8),
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Color(0xFF2C384A), fontWeight: FontWeight.w500, fontSize: 20),
     titleMedium: TextStyle(color: Color(0xFF2C384A), fontSize: 16),
+    bodyMedium: TextStyle(color: Color(0xFF2C384A), fontSize: 14),
+    bodySmall: TextStyle(color: Color(0xFF7AC7C4), fontSize: 12),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(color: Color(0xFF2C384A)),
-    focusedBorder: UnderlineInputBorder(
+    border: OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF2C384A)),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF2C384A)),
+    ),
+    labelStyle: TextStyle(color: Color(0xFF2C384A)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF2C384A),
       foregroundColor: const Color(0xFFFFFFFF),
+      textStyle: const TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -111,17 +124,23 @@ final ThemeData midnightBlue = ThemeData(
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
     titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+    bodyMedium: TextStyle(color: Color(0xFF0066CC), fontSize: 14),
+    bodySmall: TextStyle(color: Color(0xFF3399FF), fontSize: 12),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
-    focusedBorder: UnderlineInputBorder(
+    border: OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF3399FF)),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF3399FF)),
+    ),
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF0066CC),
       foregroundColor: const Color(0xFFFFFFFF),
+      textStyle: const TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -140,17 +159,23 @@ final ThemeData deepSpace = ThemeData(
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
     titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+    bodyMedium: TextStyle(color: Color(0xFF330099), fontSize: 14),
+    bodySmall: TextStyle(color: Color(0xFF6600CC), fontSize: 12),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
-    focusedBorder: UnderlineInputBorder(
+    border: OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF6600CC)),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF6600CC)),
+    ),
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF330099),
       foregroundColor: const Color(0xFFFFFFFF),
+      textStyle: const TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -169,17 +194,23 @@ final ThemeData twilightPurple = ThemeData(
   textTheme: const TextTheme(
     titleLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500, fontSize: 20),
     titleMedium: TextStyle(color: Color(0xFFCCCCCC), fontSize: 16),
+    bodyMedium: TextStyle(color: Color(0xFF660066), fontSize: 14),
+    bodySmall: TextStyle(color: Color(0xFFCC00CC), fontSize: 12),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
-    focusedBorder: UnderlineInputBorder(
+    border: OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFFCC00CC)),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFFCC00CC)),
+    ),
+    labelStyle: TextStyle(color: Color(0xFFCCCCCC)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF660066),
       foregroundColor: const Color(0xFFFFFFFF),
+      textStyle: const TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),

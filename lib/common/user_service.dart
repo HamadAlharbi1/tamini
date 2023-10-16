@@ -51,7 +51,6 @@ class UserService {
     BuildContext context,
     String phoneNumber,
   ) async {
-    bool isLogin = false;
     if (phoneNumber.startsWith('05')) {
       phoneNumber = '+9665${phoneNumber.substring(2)}';
     }
@@ -75,67 +74,55 @@ class UserService {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('enter_otp'.i18n()),
-              content: OtpInputWidget(
-                onOtpEntered: (otp) async {
-                  FirebaseAuth auth = FirebaseAuth.instance;
-                  String smsCode = otp;
-                  _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-                  auth.signInWithCredential(_credential).then((result) async {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
-                    bool exists = await userExists(result.user!.uid);
-                    if (!exists) {
-                      UserData newUser = UserData(
-                        userId: result.user!.uid,
-                        userName: 'guest',
-                        email: result.user!.email ?? '',
-                        phoneNumber: phoneNumber,
-                        profilePictureUrl: Constants.profileAvatarUrl,
-                        userType: UserType.user.name,
-                      );
-                      await createUser(newUser);
-
-                      showSnackbar(context, "registration_massage".i18n());
-                      isLogin = true;
-                    } else if (exists) {
-                      showSnackbar(context, "login_massage".i18n());
-                      isLogin = true;
-                    }
-                  }).catchError((e) {
-                    displayError(context, e);
-                  });
-                },
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(maskPhoneNumber(phoneNumber.toString())),
+                  OtpInputWidget(
+                    onOtpEntered: (otp) async {
+                      FirebaseAuth auth = FirebaseAuth.instance;
+                      String smsCode = otp;
+                      _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+                      auth.signInWithCredential(_credential).then((result) async {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                        bool exists = await userExists(result.user!.uid);
+                        if (!exists) {
+                          UserData newUser = UserData(
+                            userId: result.user!.uid,
+                            userName: 'guest',
+                            email: result.user!.email ?? '',
+                            phoneNumber: phoneNumber,
+                            profilePictureUrl: Constants.profileAvatarUrl,
+                            userType: UserType.user.name,
+                          );
+                          await createUser(newUser);
+                          showSnackbar(context, "registration_massage".i18n());
+                        } else if (exists) {
+                          showSnackbar(context, "login_massage".i18n());
+                        }
+                      }).catchError((e) {
+                        displayError(context, e);
+                      });
+                    },
+                  ),
+                ],
               ),
             );
           },
         );
       },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        isLogin ? null : context.pop();
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("time_out".i18n()),
-              content: Text("time_out_massage".i18n()),
-              actions: <Widget>[
-                TextButton(
-                  child: Text("ok".i18n()),
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
   /// Checks if a user document exists for the given ID
   Future<bool> userExists(String userId) async {
     DocumentSnapshot doc = await fireStore.collection('users').doc(userId).get();
-    return doc.exists;
+    if (doc.exists) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Updates an existing user document
@@ -146,7 +133,6 @@ class UserService {
 
   /// Updates user's phone number after verification
   Future<void> updatePhoneNumber(BuildContext context, String newPhoneNumber, UserData user) async {
-    bool isLogin = false;
     if (newPhoneNumber.startsWith('05')) {
       newPhoneNumber = '+9665${newPhoneNumber.substring(2)}';
     }
@@ -182,7 +168,6 @@ class UserService {
                     await updateUser(context, user);
                     Navigator.pop(context);
                     Navigator.pop(context);
-                    isLogin = true;
                   } catch (e) {
                     displayError(context, e);
                   }
@@ -192,34 +177,28 @@ class UserService {
           },
         );
       },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        isLogin ? null : context.pop();
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("time_out".i18n()),
-              content: Text("time_out_massage".i18n()),
-              actions: <Widget>[
-                TextButton(
-                  child: Text("ok".i18n()),
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
   /// Gets a user data stream
   Stream<UserData> streamUserData(String userId) {
-    return fireStore.collection('users').doc(userId).snapshots().map((doc) {
-      return UserData.fromMap(doc.data() as Map<String, dynamic>);
+    // Create a reference to the Firestore 'users' collection document for the given userId.
+    final userDocRef = fireStore.collection('users').doc(userId);
+
+    // Create a stream that listens to changes in the document.
+    final userDocStream = userDocRef.snapshots();
+
+    // Map the snapshots to UserData objects and handle potential errors.
+    final userDataStream = userDocStream.asyncMap((doc) async {
+      if (doc.exists) {
+        return UserData.fromMap(doc.data() as Map<String, dynamic>);
+      } else {
+        throw Exception('User document not found for ID: $userId');
+      }
     });
+
+    return userDataStream; //
   }
 
   /// Deletes a user document

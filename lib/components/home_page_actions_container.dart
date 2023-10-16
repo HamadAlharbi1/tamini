@@ -19,7 +19,7 @@ class HomePageActionsContainer extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(16),
         textStyle: const TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ),

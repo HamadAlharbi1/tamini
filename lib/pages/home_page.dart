@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/user_service.dart';
 import 'package:tamini_app/components/home_page_actions_container.dart';
 import 'package:tamini_app/components/user_model.dart';
+import 'package:tamini_app/provider/language_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -30,6 +32,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final languageProvider =
+        Provider.of<LanguageProvider>(context); // this is added since the language could changes on profile_page
     return StreamBuilder<UserData>(
       stream: userService.streamUserData(uid),
       builder: (context, snapshot) {
@@ -90,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         context.go('/profile');
                       },
-                      text: "${'Profile_Page'.i18n()} ${''.i18n()}"),
+                      text: "${'profile_page'.i18n()} ${''.i18n()}"),
                   // Add more HomePageActionsContainer here based on user features
                 ],
               ),

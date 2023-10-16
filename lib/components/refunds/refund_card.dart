@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/quotations/quotation_card.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
 import 'package:tamini_app/components/refunds/refunds_model.dart';
@@ -18,12 +19,6 @@ class _RefundCardState extends State<RefundCard> {
   @override
   Widget build(BuildContext context) {
     final requestDate = DateTime.parse(widget.request.requestDate);
-    String fixNumber(String number) {
-      if (number.startsWith("+966")) {
-        return number.replaceFirst("+966", "0");
-      }
-      return number;
-    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
