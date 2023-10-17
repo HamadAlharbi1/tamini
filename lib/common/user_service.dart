@@ -12,7 +12,6 @@ import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/otp_input_widget.dart';
 import 'package:tamini_app/components/user_model.dart';
-import 'package:tamini_app/pages/home_page.dart';
 
 class UserService {
   /// Gets an instance of Firebase Firestore
@@ -60,7 +59,7 @@ class UserService {
       verificationCompleted: (AuthCredential credential) async {
         _credential = credential;
         try {
-          auth.signInWithCredential(_credential).then((value) => context.go('/registration'));
+          auth.signInWithCredential(_credential);
         } catch (e) {
           displayError(context, e);
         }
@@ -77,14 +76,13 @@ class UserService {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(maskPhoneNumber(phoneNumber.toString())),
+                  Text(maskPhoneNumber(context, phoneNumber)),
                   OtpInputWidget(
                     onOtpEntered: (otp) async {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       String smsCode = otp;
                       _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
                       auth.signInWithCredential(_credential).then((result) async {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                         bool exists = await userExists(result.user!.uid);
                         if (!exists) {
                           UserData newUser = UserData(
@@ -97,11 +95,13 @@ class UserService {
                           );
                           await createUser(newUser);
                           showSnackbar(context, "registration_massage".i18n());
+                          context.go('/home_page');
                         } else if (exists) {
                           showSnackbar(context, "login_massage".i18n());
+                          context.go('/home_page');
                         }
                       }).catchError((e) {
-                        displayError(context, e);
+                        showSnackbar(context, "Invalid_OTP".i18n());
                       });
                     },
                   ),

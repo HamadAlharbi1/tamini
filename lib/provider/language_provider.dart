@@ -11,15 +11,11 @@ class LanguageProvider with ChangeNotifier {
   Locale get currentLocale => _currentLocale;
 
   void changeLanguage(Locale locale) async {
-    if (_currentLocale == locale) return;
-    if (locale == const Locale("ar", "SA")) {
-      _currentLocale = const Locale("ar", "SA");
-      await _saveLocale("ar", "SA");
-    } else {
-      _currentLocale = const Locale("en", "US");
-      await _saveLocale("en", "US");
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
+      await _saveLocale(locale.languageCode, locale.countryCode!);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   _saveLocale(String languageCode, String countryCode) async {

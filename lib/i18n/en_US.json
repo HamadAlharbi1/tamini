@@ -84,5 +84,6 @@
 	"tawuniya": "Tawuniya",
 	"malath": "Malath",
 	"al_arabia": "Al Arabia",
-	"for_owner": "for owner"
+	"for_owner": "for owner",
+	"Invalid_OTP": "Invalid OTP. Please double-check the code and try again"
 }

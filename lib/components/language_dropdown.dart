@@ -22,9 +22,7 @@ class LanguageDropdown extends StatelessWidget {
       }).toList(),
       onChanged: (newValue) {
         Locale newLocale;
-        if (newValue == 'en') {
-          newLocale = const Locale('en', 'US');
-        } else if (newValue == 'ar') {
+        if (newValue == 'ar') {
           newLocale = const Locale('ar', 'SA');
         } else {
           newLocale = const Locale('en', 'US'); // default to English if something goes wrong
