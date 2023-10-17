@@ -9,12 +9,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Load .env file and Firebase configuration
   await dotenv.load();
-  var config = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions().currentPlatform);
+  var config = await Firebase.initializeApp(options: DefaultFirebaseOptions().currentPlatform);
   if (kDebugMode) {
     print(config.options);
   }
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }

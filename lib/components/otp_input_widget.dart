@@ -17,7 +17,7 @@ class OtpInputWidget extends StatefulWidget {
 
 class _OtpInputWidgetState extends State<OtpInputWidget> {
   TextEditingController otpController = TextEditingController();
-  int timerSeconds = 120; // Initial timer value "maximum 120 seconds"
+  int timerSeconds = 60;
   late Timer timer;
 
   @override
@@ -33,9 +33,31 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
           timerSeconds--;
         } else {
           timer.cancel();
+          _showTimeOutDialog();
         }
       });
     });
+  }
+
+  void _showTimeOutDialog() {
+    Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("time_out".i18n()),
+          content: Text("time_out_massage".i18n()),
+          actions: <Widget>[
+            TextButton(
+              child: Text("ok".i18n()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -59,15 +81,10 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
         const SizedBox(
           height: 4,
         ),
-        timerSeconds == 0
-            ? const Text(
-                '',
-                style: TextStyle(fontSize: 16),
-              )
-            : Text(
-                '$timerSeconds',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+        Text(
+          '$timerSeconds',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(
           height: 4,
         ),

@@ -3,9 +3,9 @@ import 'package:tamini_app/components/custom_button.dart';
 
 class BirthDatePicker extends StatefulWidget {
   const BirthDatePicker({
-    super.key,
+    Key? key,
     required this.onDateChanged,
-  });
+  }) : super(key: key);
 
   final Function(DateTime) onDateChanged;
 
@@ -22,19 +22,13 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color.fromARGB(255, 27, 120, 136),
-            ),
-          ),
+          data: Theme.of(context), // Use the current theme
           child: child!,
         );
       },
     );
 
-    /// if the user selects cancel picked value will be null
     if (picked != null) {
-      debugPrint(picked.toString());
       widget.onDateChanged(picked);
     }
   }
@@ -42,11 +36,14 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomButton(
-        buttonText: '',
-        isText: false,
-        child: const Icon(Icons.date_range),
-        onPressed: () => _selectDate(context),
+      child: Container(
+        color: Theme.of(context).primaryColor, // Using primary color from theme
+        child: CustomButton(
+          buttonText: '',
+          isText: false,
+          child: const Icon(Icons.date_range, color: Colors.white), // Assuming the icon color is white
+          onPressed: () => _selectDate(context),
+        ),
       ),
     );
   }
