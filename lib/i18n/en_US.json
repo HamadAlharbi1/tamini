@@ -61,7 +61,7 @@
 	"ok": "OK",
 	"Delete": "Delete",
 	"Cancel": "Cancel",
-	"registration_massage": "Account Created.",
+	"registration_message": "Congratulations! Your account has been successfully created. Thank you for joining us.",
 	"login_massage": "Welcome Back!",
 	"choose_the_company": "Choose Company",
 	"Upload_ID_card": " ID Card",
@@ -83,7 +83,8 @@
 	"Al_Rajhi_Takaful": "Al Rajhi",
 	"tawuniya": "Tawuniya",
 	"malath": "Malath",
-	"al_arabia": "Al Arabia",
+	"al_arabia": "Al Arabia Takaful",
 	"for_owner": "for owner",
-	"Invalid_OTP": "Invalid OTP. Please double-check the code and try again"
+	"Invalid_OTP": "Invalid OTP. Please double-check the code and try again",
+	"Could_not_launch": "Could not launch"
 }

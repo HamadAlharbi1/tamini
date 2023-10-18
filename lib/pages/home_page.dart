@@ -5,6 +5,7 @@ import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/user_service.dart';
+import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/home_page_actions_container.dart';
 import 'package:tamini_app/components/user_model.dart';
 import 'package:tamini_app/provider/language_provider.dart';
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<UserData>(
       stream: userService.streamUserData(uid),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting || snapshot.data?.userType == null) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -95,6 +96,21 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            floatingActionButton: user.userType == UserType.owner.name
+                ? null
+                : FloatingActionButton(
+                    onPressed: () {
+                      whatsappNavigator(context);
+                    },
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                      child: Image.asset(
+                        'assets/whatsapp.png',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
           );
         }
       },

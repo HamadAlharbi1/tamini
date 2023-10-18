@@ -70,6 +70,9 @@ dependencies:
     #  shared_preferences: Flutter package for storing simple data (e.g., key-value pairs) persistently on the device.
     # URL: https://pub.dev/packages/shared_preferences
     shared_preferences: ^2.2.2
+    # url_launcher: Flutter package that provides a simple way to launch URLs.
+    # https://pub.dev/packages/url_launcher
+    url_launcher: ^6.1.14
 dev_dependencies:
     flutter_test:
         sdk: flutter
@@ -96,6 +99,7 @@ flutter:
         - lib/i18n/ar_SA.json
         - lib/i18n/en_US.json
         - .env
+        - assets/whatsapp.png
     #   - assets/firebase_options.json
     #   - images/a_dot_ham.jpeg
 
