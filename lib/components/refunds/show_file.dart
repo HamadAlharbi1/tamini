@@ -82,7 +82,6 @@ class ShowFile extends StatelessWidget {
               },
               child: Text(
                 'View_Document'.i18n(),
-                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
           ],

@@ -176,23 +176,29 @@ class UserService {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('enter_otp'.i18n()),
-              content: OtpInputWidget(
-                onOtpEntered: (otp) async {
-                  FirebaseAuth auth = FirebaseAuth.instance;
-                  PhoneAuthCredential credential =
-                      PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
-                  try {
-                    await auth.currentUser!.updatePhoneNumber(credential);
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(maskPhoneNumber(context, newPhoneNumber)),
+                  OtpInputWidget(
+                    onOtpEntered: (otp) async {
+                      FirebaseAuth auth = FirebaseAuth.instance;
+                      PhoneAuthCredential credential =
+                          PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+                      try {
+                        await auth.currentUser!.updatePhoneNumber(credential);
 
-                    // Update the phone number in Firestore users collection
-                    user.phoneNumber = newPhoneNumber;
-                    await updateUser(context, user);
-                    context.pop(context);
-                    context.pop(context);
-                  } catch (e) {
-                    displayError(context, e);
-                  }
-                },
+                        // Update the phone number in Firestore users collection
+                        user.phoneNumber = newPhoneNumber;
+                        await updateUser(context, user);
+                        context.pop(context);
+                        context.pop(context);
+                      } catch (e) {
+                        displayError(context, e);
+                      }
+                    },
+                  ),
+                ],
               ),
             );
           },

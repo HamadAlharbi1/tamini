@@ -9,7 +9,7 @@ import 'package:tamini_app/common/user_service.dart';
 import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/language_dropdown.dart';
+import 'package:tamini_app/components/language_changer.dart';
 import 'package:tamini_app/components/theme_changer.dart';
 import 'package:tamini_app/components/user_model.dart';
 
@@ -50,8 +50,8 @@ class _ProfilePageState extends State<ProfilePage> {
               appBar: AppBar(
                 title: Text('profile_page'.i18n()),
                 actions: const <Widget>[
-                  LanguageDropdown(),
                   ThemeChanger(),
+                  LanguageChanger(),
                 ],
               ),
               body: ListView(
@@ -70,6 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                   Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(

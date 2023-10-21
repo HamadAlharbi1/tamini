@@ -5,7 +5,7 @@
 	"phone_number_updated": "Phone Updated",
 	"enter_phone_number": "Enter Phone...",
 	"register": "Register",
-	"enter_otp": "Enter Code",
+	"enter_otp": "Please OTP code sent to",
 	"sign_up_new_user": "Sign Up",
 	"user_name": "Username",
 	"pass_word": "Password",
@@ -86,5 +86,6 @@
 	"al_arabia": "Al Arabia Takaful",
 	"for_owner": "for owner",
 	"Invalid_OTP": "Invalid OTP. Please double-check the code and try again",
-	"Could_not_launch": "Could not launch"
+	"Could_not_launch": "Could not launch",
+	"Select_Language": "Select Language"
 }

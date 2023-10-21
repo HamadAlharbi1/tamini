@@ -4,56 +4,37 @@ import 'package:tamini_app/themes/tamini_themes.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemeData _selectedTheme;
-  String _selectedThemeName;
+  bool _isDarkTheme;
 
-  ThemeProvider(this._selectedTheme, this._selectedThemeName) {
-    loadTheme();
+  ThemeProvider(this._selectedTheme) : _isDarkTheme = _selectedTheme == slateBlueDark {
+    _loadTheme();
   }
 
-  ThemeData get getTheme => _selectedTheme;
-  String get getThemeName => _selectedThemeName;
+  ThemeData getTheme() => _selectedTheme;
+  bool get isDarkTheme => _isDarkTheme;
 
-  void changeTheme(ThemeData theme, String themeName) {
+  setTheme(ThemeData theme) async {
     _selectedTheme = theme;
-    _selectedThemeName = themeName;
-    saveTheme(themeName);
+    _isDarkTheme = theme == slateBlueDark;
+    _saveTheme();
     notifyListeners();
   }
 
-  saveTheme(String themeName) async {
+  _loadTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('themeName', themeName);
-  }
-
-  loadTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? themeName = prefs.getString('themeName');
-
-    if (themeName != null) {
-      switch (themeName) {
-        case 'Slate Blue':
-          _selectedTheme = slateBlue;
-          break;
-        case 'Emerald Dusk':
-          _selectedTheme = emeraldDusk;
-          break;
-        case 'Galactic Night':
-          _selectedTheme = galacticNight;
-          break;
-        case 'Midnight Blue':
-          _selectedTheme = midnightBlue;
-          break;
-        case 'Deep Space':
-          _selectedTheme = deepSpace;
-          break;
-        case 'Twilight Purple':
-          _selectedTheme = twilightPurple;
-          break;
-        default:
-          _selectedTheme = slateBlue;
-      }
-      _selectedThemeName = themeName;
+    String? themeName = prefs.getString('theme');
+    if (themeName == 'dark') {
+      _selectedTheme = slateBlueDark;
+      _isDarkTheme = true;
+    } else {
+      _selectedTheme = slateBlueLight;
+      _isDarkTheme = false;
     }
     notifyListeners();
+  }
+
+  _saveTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme', _isDarkTheme ? 'dark' : 'light');
   }
 }

@@ -79,7 +79,7 @@
 	"Vehicle_Registration_Card": "استمارة السيارة",
 	"IBAN_Bank_Account": "الحساب البنكي",
 	"Insurance_Document": "وثيقة التأمين",
-	"please_upload_all_documents": "ارفاق كل الملفات",
+	"please_upload_all_documents": "يجب ارفاق كل الملفات",
 	"Refund_request_submitted_successfully": "تم ارسال طلب استرجاع التأمين",
 	"View_Document": "عرض",
 	"file_uploaded": "تم ارفاق ",
@@ -92,5 +92,6 @@
 	"malath": "ملاذ",
 	"al_arabia": "العربية",
 	"Invalid_OTP": "الرمز المدخل غير صحيح. الرجاء التحقق من الرمز والمحاولة مرة أخرى",
-	"Could_not_launch": "حدث خطأ"
+	"Could_not_launch": "حدث خطأ",
+	"Select_Language": "اختر اللغه"
 }

@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => languageProvider,
         ),
         ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(slateBlue, 'slateBlue'), // default theme
+          create: (_) => ThemeProvider(slateBlueLight), // default theme
         ),
       ],
       child: Consumer2<LanguageProvider, ThemeProvider>(
@@ -116,7 +116,7 @@ class _MyAppState extends State<MyApp> {
                 return const Locale('en', 'US');
               }
             },
-            theme: themeProvider.getTheme,
+            theme: Provider.of<ThemeProvider>(context).getTheme(),
             debugShowCheckedModeBanner: false,
           );
         },

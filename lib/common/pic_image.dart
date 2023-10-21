@@ -24,10 +24,10 @@ class UploadImage {
       File file = File(imageFile.path);
       try {
         // Create a unique file name for the upload
-        String fileName = "$uid-${DateTime.now().microsecondsSinceEpoch}";
+        String fileName = "${DateTime.now().microsecondsSinceEpoch}";
         // Create a reference to the file location
         FirebaseStorage storage = FirebaseStorage.instance;
-        Reference ref = storage.ref().child("$path/$uid/$fileName");
+        Reference ref = storage.ref().child("$uid/$path/$fileName");
         // Upload the file
         UploadTask uploadTask = ref.putFile(file);
         // Get the download URL

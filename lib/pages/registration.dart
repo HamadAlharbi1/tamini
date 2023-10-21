@@ -5,7 +5,7 @@ import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/language_dropdown.dart';
+import 'package:tamini_app/components/language_changer.dart';
 
 class Registration extends StatefulWidget {
   const Registration({
@@ -56,7 +56,7 @@ class _RegistrationState extends State<Registration> {
                 const SizedBox(
                   height: 80,
                 ),
-                const LanguageDropdown(),
+                const LanguageChanger(),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: CustomTextField(

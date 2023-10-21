@@ -51,7 +51,6 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
             strokeColorBuilder: const FixedColorBuilder(
               Color.fromARGB(255, 50, 122, 128),
             ),
-            textStyle: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
           ),
         ),
         const SizedBox(

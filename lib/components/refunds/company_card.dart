@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 import 'package:tamini_app/components/refunds/company_model.dart';
+import 'package:tamini_app/provider/language_provider.dart';
 
-class CompanyCard extends StatelessWidget {
+class CompanyCard extends StatefulWidget {
   final Company company;
   final bool isSelected;
   final VoidCallback onTap;
@@ -14,9 +17,15 @@ class CompanyCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CompanyCard> createState() => _CompanyCardState();
+}
+
+class _CompanyCardState extends State<CompanyCard> {
+  @override
   Widget build(BuildContext context) {
+    Provider.of<LanguageProvider>(context); // this is added since the language could changes on profile_page
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
@@ -27,14 +36,14 @@ class CompanyCard extends StatelessWidget {
             color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 7,
+                color: Theme.of(context).shadowColor.withOpacity(widget.isSelected ? 0.3 : 0.1),
+                spreadRadius: 1,
+                blurRadius: 4,
                 offset: const Offset(0, 3),
-              ),
+              )
             ],
             border: Border.all(
-              color: isSelected ? Theme.of(context).primaryColor : Colors.transparent,
+              color: widget.isSelected ? Theme.of(context).primaryColor : Colors.transparent,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -44,16 +53,16 @@ class CompanyCard extends StatelessWidget {
               Expanded(
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: company.logo.isNotEmpty
+                    child: widget.company.logo.isNotEmpty
                         ? Image.network(
-                            company.logo,
+                            widget.company.logo,
                             fit: BoxFit.scaleDown,
                           )
                         : const CircularProgressIndicator()),
               ),
               const SizedBox(height: 10),
               Text(
-                company.description,
+                widget.company.description.i18n(),
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).textTheme.bodyLarge!.color,
