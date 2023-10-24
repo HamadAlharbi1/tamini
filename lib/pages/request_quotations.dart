@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/birth_date_picker.dart';
-import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 
 class RequestQuotations extends StatefulWidget {
@@ -53,8 +52,8 @@ class _RequestQuotationsState extends State<RequestQuotations> {
               padding: const EdgeInsets.all(16.0),
               child: CustomTextField(
                 controller: nationalIdNumberController,
-                labelText: 'national_id_number'.i18n(),
-                hintText: 'enter_national_id_number'.i18n(),
+                labelText: 'Governemnt_ID/Iqama_ID'.i18n(),
+                hintText: 'enter_Governemnt_ID/Iqama_ID'.i18n(),
                 keyboardType: TextInputType.phone,
               ),
             ),
@@ -84,13 +83,31 @@ class _RequestQuotationsState extends State<RequestQuotations> {
                 keyboardType: TextInputType.phone,
               ),
             ),
-            CustomButton(
-              onPressed: () {
-                quotationService.requestQuotation(context, nationalIdNumberController.text, birthDateController.text,
-                    carSerialNumberController.text, uid!, phoneNumber!, 'request_added'.i18n());
-              },
-              buttonText: 'send'.i18n(),
-            ),
+            ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 110, 21, 14)),
+                ),
+                onPressed: () {
+                  if (birthDateController.text != formatDate(initialDate) &&
+                      nationalIdNumberController.text.isNotEmpty &&
+                      birthDateController.text.isNotEmpty &&
+                      carSerialNumberController.text.isNotEmpty) {
+                    quotationService.requestQuotation(
+                        context,
+                        nationalIdNumberController.text,
+                        birthDateController.text,
+                        carSerialNumberController.text,
+                        uid!,
+                        phoneNumber!,
+                        'request_added'.i18n());
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Please_ensure_all_fields_are_filled_out_carefully'.i18n())));
+                  }
+                },
+                child: Text(
+                  'request_for_quotation'.i18n(),
+                )),
           ],
         ),
       ),

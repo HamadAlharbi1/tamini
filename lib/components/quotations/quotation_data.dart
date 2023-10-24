@@ -55,7 +55,7 @@ class QuotationData extends StatelessWidget {
                 itemValue: fixNumber(request.phoneNumber),
               ),
               QuotationCardItem(
-                itemDescription: "national_id_number".i18n(),
+                itemDescription: "Governemnt_ID/Iqama_ID".i18n(),
                 itemValue: request.nationalId.i18n(),
               ),
             ],
