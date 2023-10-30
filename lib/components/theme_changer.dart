@@ -31,7 +31,7 @@ class ThemeChanger extends StatelessWidget {
             scale: 0.5,
             child: Icon(
               themeProvider.isDarkTheme ? Icons.wb_sunny : Icons.nightlight_round,
-              color: themeProvider.isDarkTheme ? Colors.white : Colors.black,
+              color: themeProvider.isDarkTheme ? Colors.white : const Color.fromARGB(255, 255, 255, 255),
             ),
           ),
         ),

@@ -90,7 +90,7 @@ class UserService {
                             userName: 'guest',
                             email: result.user!.email ?? '',
                             phoneNumber: phoneNumber,
-                            profilePictureUrl: Constants.profileAvatarUrl,
+                            profilePictureUrl: Constants.refundCost,
                             userType: UserType.user.name,
                           );
                           await createUser(newUser);

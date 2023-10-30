@@ -5,7 +5,7 @@ final ThemeData slateBlueLight = ThemeData(
   primaryColor: const Color(0xFF455A64), // Blue Grey
 
   colorScheme: const ColorScheme.light(
-    primary: Color(0xFFCFD8DC), // Blue Grey
+    primary: Color(0xFF455A64), // Blue Grey
     secondary: Color(0xFF455A64), // Dark Blue Grey
   ),
   scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255), // White

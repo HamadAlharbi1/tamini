@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/pic_image.dart';
 import 'package:tamini_app/common/refund_service.dart';
+import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/refunds/company_card.dart';
 import 'package:tamini_app/components/refunds/company_model.dart';
 import 'package:tamini_app/components/refunds/refund_percent_model.dart';
@@ -45,9 +46,14 @@ class _RequestRefundState extends State<RequestRefund> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          const DescriptionPanel(),
+          const DescriptionPanel(), // refund service description
           const SizedBox(height: 10),
+
+          /// the [ DurationVsPercentPanel ] widget shows Calculating a refund amount based on the percentage of total duration elapsed.
+          /// For example, if the total duration is 1 month the refund could be 75% of the total amount.
           const DurationVsPercentPanel(),
+          const SizedBox(height: 10),
+          const ServiceCost(),
           Text('Select_Company'.i18n(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           SizedBox(
@@ -314,7 +320,7 @@ class _DurationVsPercentPanelState extends State<DurationVsPercentPanel> {
                                   ),
                                   Text(
                                     'day'.i18n(),
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                    style: const TextStyle(fontSize: 11),
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
@@ -336,6 +342,52 @@ class _DurationVsPercentPanelState extends State<DurationVsPercentPanel> {
                     },
                   ),
                 )
+              ],
+            ),
+          ),
+          isExpanded: _isExpanded,
+        ),
+      ],
+    );
+  }
+}
+
+class ServiceCost extends StatefulWidget {
+  const ServiceCost({Key? key}) : super(key: key);
+
+  @override
+  State<ServiceCost> createState() => _ServiceCostState();
+}
+
+class _ServiceCostState extends State<ServiceCost> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          _isExpanded = !_isExpanded;
+        });
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text(
+                'Cost_of_refund_service?'.i18n(),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            );
+          },
+          body: ListTile(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DescriptionAndDoc(
+                  descriptionKey: "${Constants.refundCost} ${"S.R".i18n()}",
+                  docKey: ''.i18n(),
+                ),
               ],
             ),
           ),

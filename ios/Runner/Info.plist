@@ -4,6 +4,8 @@
 <dict>
     <key>NSPhotoLibraryUsageDescription</key>
 	<string>This app require access for Photo Library Usage</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app require access to the camera</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

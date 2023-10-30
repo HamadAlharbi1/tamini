@@ -73,12 +73,14 @@ class _HomePageState extends State<HomePage> {
                         context.go('/request_refund');
                       },
                       text: "Request_Refund".i18n()),
-                  const SizedBox(height: 16),
-                  HomePageActionsContainer(
-                      onPressed: () {
-                        context.go('/user_tracking');
-                      },
-                      text: 'Tracking_Requests'.i18n()),
+                  user.userType == UserType.owner.name ? const SizedBox() : const SizedBox(height: 16),
+                  user.userType == UserType.owner.name
+                      ? const SizedBox()
+                      : HomePageActionsContainer(
+                          onPressed: () {
+                            context.go('/user_tracking');
+                          },
+                          text: 'Tracking_Requests'.i18n()),
                   user.userType == UserType.owner.name ? const SizedBox(height: 16) : const SizedBox(),
                   user.userType == UserType.owner.name
                       ? HomePageActionsContainer(

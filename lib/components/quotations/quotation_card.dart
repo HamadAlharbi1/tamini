@@ -3,8 +3,9 @@ import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/custom_button.dart';
+import 'package:tamini_app/components/decorated_row_card.dart';
+import 'package:tamini_app/components/quotations/quotation_more_details.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
-import 'package:tamini_app/components/quotations/quotation_data.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
 
 class QuotationCard extends StatefulWidget {
@@ -36,8 +37,20 @@ class _QuotationCardState extends State<QuotationCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              QuotationData(
-                request: widget.request,
+              DecoratedRowCard(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RequestCardItem(
+                      itemDescription: "request_id".i18n(),
+                      itemValue: widget.request.requestId,
+                    ),
+                    RequestCardItem(
+                      itemDescription: "request_status".i18n(),
+                      itemValue: widget.request.status.i18n(),
+                    ),
+                  ],
+                ),
               ),
               widget.request.status == QuotationStatus.pending.name
                   ? const SizedBox()
@@ -48,7 +61,7 @@ class _QuotationCardState extends State<QuotationCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              QuotationCardItem(
+                              RequestCardItem(
                                 itemDescription: "insurance_amount".i18n(),
                                 itemValue: widget.request.insuranceAmount.toString(),
                               ),
@@ -76,7 +89,7 @@ class _QuotationCardState extends State<QuotationCard> {
                               child: const Icon(Icons.done),
                             ),
                             DecoratedRowCard(
-                              child: QuotationCardItem(
+                              child: RequestCardItem(
                                 itemDescription: "insurance_amount".i18n(),
                                 itemValue: widget.request.insuranceAmount.toString(),
                               ),
@@ -86,7 +99,7 @@ class _QuotationCardState extends State<QuotationCard> {
                               isText: false,
                               onPressed: () async {
                                 await quotationService.updateQuotation(context, widget.request.requestId,
-                                    {'status': QuotationStatus.reject.name}, QuotationStatus.reject.name);
+                                    {'status': QuotationStatus.rejected.name}, QuotationStatus.rejected.name);
                               },
                               child: const Icon(
                                 Icons.cancel,
@@ -97,40 +110,15 @@ class _QuotationCardState extends State<QuotationCard> {
                         ),
                       ],
                     )
-                  : const SizedBox()
+                  : const SizedBox(),
+              const Divider(),
+              QuotationMoreDetails(
+                request: widget.request,
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class DecoratedRowCard extends StatelessWidget {
-  const DecoratedRowCard({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: child,
     );
   }
 }
