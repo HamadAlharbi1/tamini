@@ -29,6 +29,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
   }
 
   DateTime initialDate = DateTime.now();
+  DateTime initialDateForTest = DateTime.now();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController nationalIdNumberController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
@@ -92,7 +93,7 @@ class _RequestQuotationsState extends State<RequestQuotations> {
                       backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 110, 21, 14)),
                     ),
                     onPressed: () {
-                      if (birthDateController.text != formatDate(initialDate) &&
+                      if (birthDateController.text != formatDate(initialDateForTest) &&
                           nationalIdNumberController.text.isNotEmpty &&
                           birthDateController.text.isNotEmpty &&
                           carSerialNumberController.text.isNotEmpty) {
