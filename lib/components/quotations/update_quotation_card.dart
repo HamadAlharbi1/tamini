@@ -5,8 +5,8 @@ import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/decorated_row_card.dart';
-import 'package:tamini_app/components/quotations/quotation_more_details.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
+import 'package:tamini_app/components/quotations/quotation_more_details.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
 import 'package:tamini_app/components/quotations/update_quotation_status.dart';
 
@@ -150,7 +150,7 @@ class _UpdateQuotationCardItemState extends State<UpdateQuotationCardItem> {
                     context,
                     widget.requestId,
                     {"insuranceAmount": double.parse(itemValueController.text), 'status': QuotationStatus.pending.name},
-                    QuotationStatus.pending.name)
+                    "${'Status updated to :'.i18n()} ${QuotationStatus.pending.name.i18n()}")
                 : null;
             setState(() {
               isEdit = !isEdit;

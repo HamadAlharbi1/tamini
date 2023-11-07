@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -10,11 +11,13 @@ Future<void> showSnackbar(context, String message) async {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-Future<void> displayError(context, Object e) {
-  final snackBar = SnackBar(
-    content: Text('Error: $e'),
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+Future<void> displayError(BuildContext context, Object e) {
+  Flushbar(
+    message: 'Error: $e',
+    flushbarPosition: FlushbarPosition.TOP, // this line makes it appear at the top
+    duration: const Duration(seconds: 3),
+  ).show(context);
+
   return Future.value();
 }
 

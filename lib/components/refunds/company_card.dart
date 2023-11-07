@@ -54,7 +54,7 @@ class _CompanyCardState extends State<CompanyCard> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: widget.company.logo.isNotEmpty
-                        ? Image.network(
+                        ? Image.asset(
                             widget.company.logo,
                             fit: BoxFit.scaleDown,
                           )

@@ -73,6 +73,9 @@ dependencies:
     # url_launcher: Flutter package that provides a simple way to launch URLs.
     # https://pub.dev/packages/url_launcher
     url_launcher: ^6.1.14
+    # Flushbar for displaying snackbars
+    # https://pub.dev/packages/another_flushbar
+    another_flushbar: ^1.12.30
 dev_dependencies:
     flutter_test:
         sdk: flutter
@@ -100,6 +103,12 @@ flutter:
         - lib/i18n/en_US.json
         - .env
         - assets/whatsapp.png
+        - assets/walaa.png
+        - assets/AlRajhiTakaful.png
+        - assets/malath.png
+        - assets/tawuniya.png
+        - assets/avatarprofile.jpeg
+
     #   - assets/firebase_options.json
     #   - images/a_dot_ham.jpeg
 

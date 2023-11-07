@@ -20,7 +20,8 @@ class UploadImage {
     return null;
   }
 
-  Future<String> selectAndUploadImage(BuildContext context, String path, String uid) async {
+  Future<String> selectAndUploadImage(
+      BuildContext context, String path, String uid, Function(bool) onUploadStatusChange) async {
     ImageSource? source = await showDialog<ImageSource>(
       context: context,
       builder: (BuildContext context) {
@@ -53,6 +54,7 @@ class UploadImage {
       final ImagePicker picker = ImagePicker();
       final XFile? imageFile = await picker.pickImage(source: source);
       if (imageFile != null) {
+        onUploadStatusChange(true); // Start uploading
         File file = File(imageFile.path);
         try {
           // Create a unique file name for the upload
@@ -64,8 +66,10 @@ class UploadImage {
           UploadTask uploadTask = ref.putFile(file);
           // Get the download URL
           await uploadTask.whenComplete(() {});
+          onUploadStatusChange(false); // End uploading
           return await ref.getDownloadURL();
         } catch (e) {
+          onUploadStatusChange(false); // End uploading in case of error
           displayError(context, e);
         }
       }

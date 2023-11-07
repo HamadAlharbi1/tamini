@@ -103,7 +103,7 @@ class UserService {
                           context.replace('/home_page');
                         }
                       }).catchError((e) {
-                        showSnackbar(context, "Invalid_OTP".i18n());
+                        displayError(context, "Invalid_OTP".i18n());
                       });
                     },
                   ),
@@ -194,7 +194,7 @@ class UserService {
                         context.pop(context);
                         context.pop(context);
                       } catch (e) {
-                        displayError(context, e);
+                        displayError(context, "Invalid_OTP".i18n());
                       }
                     },
                   ),

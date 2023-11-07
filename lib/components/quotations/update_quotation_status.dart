@@ -16,7 +16,8 @@ class _UpdateQuotationStatusState extends State<UpdateQuotationStatus> {
     // Construct update map with new status
     final updates = {'status': status.name};
     // Call updateRefund method
-    await quotationService.updateQuotation(context, widget.requestId, updates, 'Status updated to ${status.name}');
+    await quotationService.updateQuotation(
+        context, widget.requestId, updates, '${'Status updated to :'.i18n()}${status.name.i18n()}');
   }
 
   @override
@@ -31,6 +32,14 @@ class _UpdateQuotationStatusState extends State<UpdateQuotationStatus> {
         PopupMenuItem(
           value: QuotationStatus.rejected,
           child: Text('rejected'.i18n()),
+        ),
+        PopupMenuItem(
+          value: QuotationStatus.approved,
+          child: Text('approved'.i18n()),
+        ),
+        PopupMenuItem(
+          value: QuotationStatus.newRequest,
+          child: Text('newRequest'.i18n()),
         ),
       ],
     );

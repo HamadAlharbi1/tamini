@@ -18,6 +18,10 @@ class RequestRefund extends StatefulWidget {
 
 class _RequestRefundState extends State<RequestRefund> {
   String? uid;
+  bool uploadingIDcard = false;
+  bool uploadingRegistrationCard = false;
+  bool uploadingIBAN = false;
+  bool uploadingInsuranceDocument = false;
   String? phoneNumber;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   UploadImage upload = UploadImage();
@@ -80,7 +84,11 @@ class _RequestRefundState extends State<RequestRefund> {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
-              idCard = await upload.selectAndUploadImage(context, "ID_card", uid!);
+              idCard = await upload.selectAndUploadImage(context, "ID_card", uid!, (uploading) {
+                setState(() {
+                  uploadingIDcard = uploading;
+                });
+              });
               setState(() {});
             },
             child: Text('Upload_ID_card'.i18n()),
@@ -90,10 +98,17 @@ class _RequestRefundState extends State<RequestRefund> {
                   file: idCard,
                   description: "ID_card".i18n(),
                 )
-              : Container(),
+              : uploadingIDcard
+                  ? const Loading()
+                  : Container(),
           ElevatedButton(
             onPressed: () async {
-              vehicleRegistrationCard = await upload.selectAndUploadImage(context, "Vehicle_Registration_Card", uid!);
+              vehicleRegistrationCard =
+                  await upload.selectAndUploadImage(context, "Vehicle_Registration_Card", uid!, (uploading) {
+                setState(() {
+                  uploadingRegistrationCard = uploading;
+                });
+              });
               setState(() {});
             },
             child: Text('Upload_Vehicle_Registration_Card'.i18n()),
@@ -103,10 +118,16 @@ class _RequestRefundState extends State<RequestRefund> {
                   file: vehicleRegistrationCard,
                   description: "Vehicle_Registration_Card".i18n(),
                 )
-              : Container(),
+              : uploadingRegistrationCard
+                  ? const Loading()
+                  : const SizedBox(),
           ElevatedButton(
             onPressed: () async {
-              ibanBankAccount = await upload.selectAndUploadImage(context, "IBAN_bank_account", uid!);
+              ibanBankAccount = await upload.selectAndUploadImage(context, "IBAN_bank_account", uid!, (uploading) {
+                setState(() {
+                  uploadingIBAN = uploading;
+                });
+              });
               setState(() {});
             },
             child: Text('Upload_IBAN_Bank_Account'.i18n()),
@@ -116,10 +137,16 @@ class _RequestRefundState extends State<RequestRefund> {
                   file: ibanBankAccount,
                   description: "IBAN_Bank_Account".i18n(),
                 )
-              : Container(),
+              : uploadingIBAN
+                  ? const Loading()
+                  : const SizedBox(),
           ElevatedButton(
             onPressed: () async {
-              insuranceDocument = await upload.selectAndUploadImage(context, "Insurance_Document", uid!);
+              insuranceDocument = await upload.selectAndUploadImage(context, "Insurance_Document", uid!, (uploading) {
+                setState(() {
+                  uploadingInsuranceDocument = uploading;
+                });
+              });
               setState(() {});
             },
             child: Text('Upload_Insurance_Document'.i18n()),
@@ -129,7 +156,9 @@ class _RequestRefundState extends State<RequestRefund> {
                   file: insuranceDocument,
                   description: "Insurance_Document".i18n(),
                 )
-              : Container(),
+              : uploadingInsuranceDocument
+                  ? const Loading()
+                  : const SizedBox(),
           const SizedBox(
             height: 20,
           ),
@@ -162,6 +191,22 @@ class _RequestRefundState extends State<RequestRefund> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class Loading extends StatelessWidget {
+  const Loading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(),
+      ],
     );
   }
 }
