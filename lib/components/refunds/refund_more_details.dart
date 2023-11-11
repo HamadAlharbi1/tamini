@@ -67,15 +67,24 @@ class _RefundMoreDetailsState extends State<RefundMoreDetails> {
                     children: [
                       RequestCardItem(
                         itemDescription: "company_name".i18n(),
-                        itemValue: fixNumber(widget.request.companyName),
+                        itemValue: fixNumber(widget.request.companyName.i18n()),
                       ),
                     ],
                   ),
                 ),
-                ShowFile(file: widget.request.idCard, description: 'ID_card'.i18n()),
-                ShowFile(file: widget.request.ibanBankAccount, description: 'IBAN_Bank_Account'.i18n()),
-                ShowFile(file: widget.request.vehicleRegistrationCard, description: 'Vehicle_Registration_Card'.i18n()),
-                ShowFile(file: widget.request.insuranceDocument, description: 'Insurance_Document'.i18n()),
+                ShowFile(onPressedCallback: null, file: widget.request.idCard, fileName: 'ID_card'.i18n()),
+                ShowFile(
+                    onPressedCallback: null,
+                    file: widget.request.ibanBankAccount,
+                    fileName: 'IBAN_Bank_Account'.i18n()),
+                ShowFile(
+                    onPressedCallback: null,
+                    file: widget.request.vehicleRegistrationCard,
+                    fileName: 'Vehicle_Registration_Card'.i18n()),
+                ShowFile(
+                    onPressedCallback: null,
+                    file: widget.request.insuranceDocument,
+                    fileName: 'Insurance_Document'.i18n()),
               ],
             ),
           ),

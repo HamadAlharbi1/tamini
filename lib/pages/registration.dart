@@ -35,6 +35,7 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = Localizations.localeOf(context).languageCode == 'en';
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -45,18 +46,52 @@ class _RegistrationState extends State<Registration> {
           children: [
             Column(
               children: [
+                const SizedBox(
+                  height: 80,
+                ),
                 Container(
+                  width: 300,
                   clipBehavior: Clip.hardEdge,
                   decoration: const BoxDecoration(
                     shape: BoxShape.rectangle,
                   ),
-                  margin: const EdgeInsets.all(50),
-                  child: Image.network(Constants.appLogoUrl),
+                  margin: const EdgeInsets.all(0),
+                  child: Image.asset(Constants.appLogoUrl),
                 ),
                 const SizedBox(
                   height: 80,
                 ),
-                const LanguageChanger(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Welcome'.i18n(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const LanguageChanger(),
+                    isEnglish
+                        ? Text(
+                            'English'.i18n(),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Text(
+                            'al_arabia'.i18n(),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: CustomTextField(

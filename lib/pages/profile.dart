@@ -81,19 +81,36 @@ class _ProfilePageState extends State<ProfilePage> {
                                 width: 150,
                                 height: 150,
                                 clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: user.profilePictureUrl.isEmpty
-                                        ? Image.asset(
-                                            Constants.profileAvatarUrl,
-                                          ).image
-                                        : Image.network(
-                                            user.profilePictureUrl,
-                                          ).image,
-                                  ),
                                 ),
+                                child: user.profilePictureUrl.isEmpty
+                                    ? Image.asset(
+                                        fit: BoxFit.cover,
+                                        Constants.profileAvatarUrl,
+                                      )
+                                    : Image.network(
+                                        fit: BoxFit.cover,
+                                        user.profilePictureUrl,
+                                        loadingBuilder:
+                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) return child;
+                                          return Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(2),
+                                                child: CircularProgressIndicator(
+                                                  value: loadingProgress.expectedTotalBytes != null
+                                                      ? loadingProgress.cumulativeBytesLoaded /
+                                                          loadingProgress.expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
                               ),
                       ),
                     ],

@@ -118,5 +118,9 @@
 	"why_should_i_ask_for_quotation?": "Why Should I Request a Quote?",
 	"request_quotation_description": "We strive to provide competitive insurance quotes for vehicle policies.",
 	"Cost_of_quotation_service?": "Cost of Quote Service?",
-	"company_name": "Company Name"
+	"company_name": "Company Name",
+	"change_file": "change file",
+	"company_Name_should_not_empty": "You must choose the company",
+	"Loading...": "uploading ",
+	"Welcome": "Welcome to Tameenak app Join us now and start using the app by entering your phone number."
 }

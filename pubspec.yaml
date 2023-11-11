@@ -76,6 +76,7 @@ dependencies:
     # Flushbar for displaying snackbars
     # https://pub.dev/packages/another_flushbar
     another_flushbar: ^1.12.30
+
 dev_dependencies:
     flutter_test:
         sdk: flutter
@@ -108,6 +109,7 @@ flutter:
         - assets/malath.png
         - assets/tawuniya.png
         - assets/avatarprofile.jpeg
+        - assets/tameenklogo.jpg
 
     #   - assets/firebase_options.json
     #   - images/a_dot_ham.jpeg

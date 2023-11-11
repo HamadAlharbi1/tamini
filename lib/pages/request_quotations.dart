@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/components/birth_date_picker.dart';
-import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
+import 'package:tamini_app/components/quotations/quotation_description_panel.dart';
+import 'package:tamini_app/components/quotations/quotation_service_cost.dart';
 
 class RequestQuotations extends StatefulWidget {
   const RequestQuotations({
@@ -118,98 +119,6 @@ class _RequestQuotationsState extends State<RequestQuotations> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class QuotationDescriptionPanel extends StatefulWidget {
-  const QuotationDescriptionPanel({Key? key}) : super(key: key);
-
-  @override
-  State<QuotationDescriptionPanel> createState() => _QuotationDescriptionPanelState();
-}
-
-class _QuotationDescriptionPanelState extends State<QuotationDescriptionPanel> {
-  bool _isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _isExpanded = !_isExpanded;
-        });
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text(
-                'why_should_i_ask_for_quotation?'.i18n(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            );
-          },
-          body: ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'request_quotation_description'.i18n(),
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          isExpanded: _isExpanded,
-        ),
-      ],
-    );
-  }
-}
-
-class QuotationServiceCost extends StatefulWidget {
-  const QuotationServiceCost({Key? key}) : super(key: key);
-
-  @override
-  State<QuotationServiceCost> createState() => _QuotationServiceCostState();
-}
-
-class _QuotationServiceCostState extends State<QuotationServiceCost> {
-  bool _isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _isExpanded = !_isExpanded;
-        });
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text(
-                'Cost_of_quotation_service?'.i18n(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            );
-          },
-          body: ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${Constants.quotationCost} ${"S.R".i18n()}",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          isExpanded: _isExpanded,
-        ),
-      ],
     );
   }
 }
