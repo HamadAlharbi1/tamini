@@ -36,7 +36,7 @@ class _RefundServiceCostState extends State<RefundServiceCost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DescriptionAndDoc(
-                  descriptionKey: "${Constants.refundCost} ${"S.R".i18n()}",
+                  descriptionKey: "${Constants.refundCost} ${"S.R".i18n()} ${"after_complete".i18n()}",
                   docKey: ''.i18n(),
                 ),
               ],

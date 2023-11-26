@@ -35,7 +35,7 @@ class _QuotationServiceCostState extends State<QuotationServiceCost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${Constants.quotationCost} ${"S.R".i18n()}",
+                  "${Constants.quotationCost} ${"S.R".i18n()} ${"after_complete".i18n()}",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],

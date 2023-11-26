@@ -61,7 +61,7 @@ class _DurationVsPercentPanelState extends State<DurationVsPercentPanel> {
                                 children: [
                                   Text(
                                     '${refundPercentList[index].days} ',
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(
@@ -73,7 +73,7 @@ class _DurationVsPercentPanelState extends State<DurationVsPercentPanel> {
                               ),
                               Text(
                                 '%${refundPercentList[index].refundPercent}',
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ),
                               Text(

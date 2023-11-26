@@ -33,7 +33,9 @@ class _CompanyCardState extends State<CompanyCard> {
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor == const Color.fromARGB(255, 38, 50, 56)
+                ? const Color.fromARGB(255, 55, 63, 70)
+                : Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).shadowColor.withOpacity(widget.isSelected ? 0.3 : 0.1),

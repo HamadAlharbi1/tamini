@@ -102,11 +102,12 @@ class _HomePageState extends State<HomePage> {
                 ? null
                 : FloatingActionButton(
                     onPressed: () {
-                      whatsappNavigator(context);
+                      launchWhatsAppString();
                     },
                     child: Container(
                       clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255), borderRadius: BorderRadius.circular(12)),
                       child: Image.asset(
                         'assets/whatsapp.png',
                         fit: BoxFit.fill,

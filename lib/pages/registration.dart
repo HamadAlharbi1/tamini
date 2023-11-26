@@ -35,84 +35,71 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
-    final isEnglish = Localizations.localeOf(context).languageCode == 'en';
     return Scaffold(
       appBar: AppBar(
+        leading: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LanguageChanger(),
+          ],
+        ),
         automaticallyImplyLeading: false,
         title: Center(child: Text('Login by Phone Number'.i18n())),
       ),
       body: Center(
         child: ListView(
           children: [
-            Column(
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                Container(
-                  width: 300,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 7,
                   ),
-                  margin: const EdgeInsets.all(0),
-                  child: Image.asset(Constants.appLogoUrl),
-                ),
-                const SizedBox(
-                  height: 80,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Welcome'.i18n(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    width: 200,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle,
+                    ),
+                    margin: const EdgeInsets.all(0),
+                    child: Image.asset(Constants.appLogoUrl),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Welcome'.i18n(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const LanguageChanger(),
-                    isEnglish
-                        ? Text(
-                            'English'.i18n(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        : Text(
-                            'al_arabia'.i18n(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CustomTextField(
-                    controller: phoneNumberController,
-                    labelText: 'phone_number'.i18n(),
-                    hintText: 'enter_phone_number'.i18n(),
-                    keyboardType: TextInputType.phone,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CustomTextField(
+                      controller: phoneNumberController,
+                      labelText: 'phone_number'.i18n(),
+                      hintText: 'enter_phone_number'.i18n(),
+                      keyboardType: TextInputType.phone,
+                    ),
                   ),
-                ),
-                CustomButton(
-                  onPressed: () async {
-                    try {
-                      await userService.createNewUserFromMobile(context, phoneNumberController.text);
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      displayError(context, e);
-                    }
-                  },
-                  buttonText: 'continue'.i18n(),
-                ),
-              ],
+                  CustomButton(
+                    onPressed: () async {
+                      try {
+                        await userService.createNewUserFromMobile(context, phoneNumberController.text);
+                      } catch (e) {
+                        // ignore: use_build_context_synchronously
+                        displayError(context, e);
+                      }
+                    },
+                    buttonText: 'continue'.i18n(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localization/localization.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 Future<void> showSnackbar(context, String message) async {
   final snackBar = SnackBar(content: Text(message));
@@ -40,23 +38,16 @@ String maskPhoneNumber(context, String number) {
   return result;
 }
 
-whatsappNavigator(context) async {
+launchWhatsAppString() async {
   DocumentSnapshot doc = await FirebaseFirestore.instance.collection('metadata').doc('whatsappService').get();
   String contactNumber = doc['contactNumber'];
-  String appUrl;
-  String phone = contactNumber;
-
-  if (Platform.isAndroid) {
-    appUrl = "whatsapp://send?phone=$phone"; // URL for Android devices
-  } else {
-    appUrl = "https://api.whatsapp.com/send?phone=$phone"; // URL for non-Android devices
-  }
-  // check if the URL can be launched
-  if (await canLaunchUrl(Uri.parse(appUrl))) {
-    // launch the URL
-    await launchUrl(Uri.parse(appUrl));
-  } else {
-    // throw an error if the URL cannot be launched
-    showSnackbar(context, "Could_not_launch".i18n());
-  }
+  String? phone = contactNumber;
+  WhatsAppUnilink link = WhatsAppUnilink(
+    phoneNumber: phone,
+    text: "",
+  );
+  // Convert the WhatsAppUnilink instance to a string.
+  // Use either Dart's string interpolation or the toString() method.
+  // The "launchUrlString" method is part of "url_launcher_string".
+  await launchUrlString('$link');
 }

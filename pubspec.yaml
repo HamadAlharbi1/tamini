@@ -76,6 +76,15 @@ dependencies:
     # Flushbar for displaying snackbars
     # https://pub.dev/packages/another_flushbar
     another_flushbar: ^1.12.30
+    # Allows setting custom app icons for Android and iOS
+    # Useful for branding and customizing icon assets
+    # https://pub.dev/packages/flutter_launcher_icons
+    flutter_launcher_icons: ^0.13.1
+    # Enables opening WhatsApp and prefilling messages
+    # Useful for sharing content directly to WhatsApp users
+    # Can set pre-filled text, image, video, etc.
+    # https://pub.dev/packages/whatsapp_unilink
+    whatsapp_unilink: ^2.1.0
 
 dev_dependencies:
     flutter_test:
@@ -86,8 +95,12 @@ dev_dependencies:
     # package. See that file for information about deactivating specific lint
     # rules and activating additional ones.
     flutter_lints: ^2.0.0
-
-# For information on the generic Dart part of this file, see the
+flutter_launcher_icons:
+    android: true
+    ios: true
+    image_path: 'assets/tameenklogo.jpg'
+    min_sdk_android: 21 # android min sdk min:16, default 21
+    # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
@@ -110,7 +123,7 @@ flutter:
         - assets/tawuniya.png
         - assets/avatarprofile.jpeg
         - assets/tameenklogo.jpg
-
+        - assets/tameenklogologin.jpeg
     #   - assets/firebase_options.json
     #   - images/a_dot_ham.jpeg
 
