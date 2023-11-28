@@ -257,5 +257,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "files.associations": {
         "memory": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/hamad/Projects/tamini/linux"
 }

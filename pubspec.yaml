@@ -65,10 +65,10 @@ dependencies:
     #  https://pub.dev/packages/firebase_storage
     firebase_storage: ^11.2.8
     #  provider: state management package for Flutter that makes it easy to handle and share data between widgets.
-    # URL: https://pub.dev/packages/provider
+    # https://pub.dev/packages/provider
     provider: ^6.0.5
     #  shared_preferences: Flutter package for storing simple data (e.g., key-value pairs) persistently on the device.
-    # URL: https://pub.dev/packages/shared_preferences
+    # https://pub.dev/packages/shared_preferences
     shared_preferences: ^2.2.2
     # url_launcher: Flutter package that provides a simple way to launch URLs.
     # https://pub.dev/packages/url_launcher
@@ -85,6 +85,7 @@ dependencies:
     # Can set pre-filled text, image, video, etc.
     # https://pub.dev/packages/whatsapp_unilink
     whatsapp_unilink: ^2.1.0
+    rename: ^3.0.1
 
 dev_dependencies:
     flutter_test:

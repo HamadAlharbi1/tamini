@@ -110,7 +110,7 @@
 	"refund_amount_calculation_mechanism": "يتم حساب المبلغ المسترجع بناءً على الفترة المنقضية من التأمين بحيث :",
 	"out_of_insurance_amount": "من قيمة التأمين ",
 	"Cost_of_refund_service?": "ماهي تكلفة استرجاع التأمين ؟",
-	"S.R": "ريال سعودي",
+	"S_R": "ريال سعودي",
 	"more_details": "عرض المزيد",
 	"Select_option": "حدد الخيار",
 	"Camera": "الكاميرا",

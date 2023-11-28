@@ -104,7 +104,7 @@
 	"refund_amount_calculation_mechanism": "The refund amount is calculated based on the elapsed period of insurance, as follows:",
 	"out_of_insurance_amount": "of the insurance amount",
 	"Cost_of_refund_service?": "Cost of refund service?",
-	"S.R": "S.R",
+	"S_R": "S.R",
 	"Select_Language": "Select Language",
 	"more_details": "more details",
 	"Select_option": "Select Option",
@@ -122,5 +122,6 @@
 	"change_file": "change file",
 	"company_Name_should_not_empty": "You must choose the company",
 	"Loading...": "uploading ",
-	"Welcome": "Welcome to Tameenak app Join us now and start using the app by entering your phone number."
+	"Welcome": "Welcome to Tameenak app Join us now and start using the app by entering your phone number.",
+	"after_complete": "After Complete"
 }
