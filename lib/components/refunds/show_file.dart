@@ -23,21 +23,20 @@ class ShowFile extends StatefulWidget {
 
 class _ShowFileState extends State<ShowFile> {
   late ValueNotifier<String> imageUrlNotifier;
-  late String currentImageUrl;
 
   @override
   void initState() {
     super.initState();
     imageUrlNotifier = ValueNotifier<String>(widget.file);
-    currentImageUrl = widget.file;
   }
 
   @override
   void didUpdateWidget(covariant ShowFile oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.file != widget.file) {
-      imageUrlNotifier.value = widget.file;
-      currentImageUrl = widget.file;
+      Future.microtask(() {
+        imageUrlNotifier.value = widget.file;
+      });
     }
   }
 
@@ -115,31 +114,36 @@ class _ShowFileState extends State<ShowFile> {
                               const SizedBox(
                                 height: 4,
                               ),
-                              Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                child: Image.network(
-                                  currentImageUrl,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(2),
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress.expectedTotalBytes != null
-                                                ? loadingProgress.cumulativeBytesLoaded /
-                                                    loadingProgress.expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
+                              ValueListenableBuilder<String>(
+                                valueListenable: imageUrlNotifier,
+                                builder: (context, imageUrl, child) {
+                                  return Container(
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                                    child: Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder:
+                                          (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(2),
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress.expectedTotalBytes != null
+                                                    ? loadingProgress.cumulativeBytesLoaded /
+                                                        loadingProgress.expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -160,8 +164,10 @@ class _ShowFileState extends State<ShowFile> {
                                         child: Text("change_file".i18n()),
                                         onPressed: () async {
                                           await widget.onPressedCallback!();
-                                          setState(() {
-                                            currentImageUrl = widget.file;
+                                          Future.delayed(Duration.zero, () {
+                                            setState(() {
+                                              imageUrlNotifier.value = widget.file;
+                                            });
                                           });
                                         },
                                       ),

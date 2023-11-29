@@ -12,7 +12,7 @@ class Loading extends StatelessWidget {
     Provider.of<LanguageProvider>(context); // this is added since the language could changes on profile_page
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [const CircularProgressIndicator(), const SizedBox(width: 16), Text('${'Loading...'.i18n()}$filename')],
+      children: [const CircularProgressIndicator(), const SizedBox(width: 16), Text('${'Loading'.i18n()}$filename')],
     );
   }
 }

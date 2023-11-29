@@ -121,7 +121,7 @@
 	"company_name": "Company Name",
 	"change_file": "change file",
 	"company_Name_should_not_empty": "You must choose the company",
-	"Loading...": "uploading ",
+	"Loading": "uploading ",
 	"Welcome": "Welcome to Tameenak app Join us now and start using the app by entering your phone number.",
 	"after_complete": "After Complete"
 }
