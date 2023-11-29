@@ -53,44 +53,40 @@ class _ShowFileState extends State<ShowFile> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              child: Expanded(
-                child: Row(
-                  children: [
-                    if (!isEnglish) ...[
-                      Text(
-                        'file_uploaded'.i18n(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                    ],
-                    Text(
-                      widget.fileName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+            Row(
+              children: [
+                if (!isEnglish) ...[
+                  Text(
+                    'file_uploaded'.i18n(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                    if (isEnglish) ...[
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        'file_uploaded'.i18n(),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ],
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                ],
+                Text(
+                  widget.fileName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+                if (isEnglish) ...[
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    'file_uploaded'.i18n(),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ],
             ),
             const SizedBox(width: 10),
             ElevatedButton(
