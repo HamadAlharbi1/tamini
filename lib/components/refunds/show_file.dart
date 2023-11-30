@@ -9,13 +9,9 @@ class ShowFile extends StatefulWidget {
     required this.file,
     required this.onPressedCallback,
     required this.fileName,
-    this.isFileChanged = false,
   }) : super(key: key);
-
   final String file;
   final String fileName;
-
-  final bool isFileChanged;
   final Function? onPressedCallback;
   @override
   State<ShowFile> createState() => _ShowFileState();
