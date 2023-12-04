@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tamini_app/components/custom_button.dart';
 
 class BirthDatePicker extends StatefulWidget {
   const BirthDatePicker({
@@ -37,12 +36,14 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        color: Theme.of(context).primaryColor, // Using primary color from theme
-        child: CustomButton(
-          buttonText: '',
-          isText: false,
-          child: const Icon(Icons.date_range, color: Colors.white), // Assuming the icon color is white
-          onPressed: () => _selectDate(context),
+        // Using primary color from theme
+        decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(6)),
+        child: InkWell(
+          child: const Padding(
+            padding: EdgeInsets.all(5),
+            child: Icon(Icons.date_range, color: Colors.white),
+          ), // Assuming the icon color is white
+          onTap: () => _selectDate(context),
         ),
       ),
     );

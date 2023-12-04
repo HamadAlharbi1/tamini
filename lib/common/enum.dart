@@ -10,3 +10,5 @@ enum UserType { user, owner }
 enum RequestType { quotation, refund }
 
 enum RefundStatus { newRequest, inProgress, pending, approved, rejected, docsNotAccepted }
+
+enum QuotationType { newCarQuotation, transferQuotation }

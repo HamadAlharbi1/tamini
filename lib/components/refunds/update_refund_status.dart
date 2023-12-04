@@ -35,11 +35,11 @@ class _UpdateRefundStatusState extends State<UpdateRefundStatus> {
         ),
         PopupMenuItem(
           value: RefundStatus.approved,
-          child: Text('approved'.i18n()),
+          child: Text('refundApproved'.i18n()),
         ),
         PopupMenuItem(
           value: RefundStatus.rejected,
-          child: Text('rejected'.i18n()),
+          child: Text('RefundRejected'.i18n()),
         ),
         PopupMenuItem(
           value: RefundStatus.docsNotAccepted,

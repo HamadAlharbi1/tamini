@@ -31,7 +31,7 @@ class _UpdateQuotationStatusState extends State<UpdateQuotationStatus> {
         ),
         PopupMenuItem(
           value: QuotationStatus.rejected,
-          child: Text('rejected'.i18n()),
+          child: Text('RequestRejected'.i18n()),
         ),
         PopupMenuItem(
           value: QuotationStatus.approved,

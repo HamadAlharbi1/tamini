@@ -86,13 +86,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: user.profilePictureUrl.isEmpty
-                                    ? Image.asset(
+                                    ? Image.network(
                                         fit: BoxFit.cover,
                                         Constants.profileAvatarUrl,
                                       )
                                     : Image.network(
                                         fit: BoxFit.cover,
-                                        user.profilePictureUrl,
+                                        user.profilePictureUrl.isEmpty
+                                            ? Constants.profileAvatarUrl
+                                            : user.profilePictureUrl,
                                         loadingBuilder:
                                             (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                           if (loadingProgress == null) return child;
