@@ -7,6 +7,7 @@ import 'package:tamini_app/components/birth_date_picker.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
 import 'package:tamini_app/components/quotations/quotation_description_panel.dart';
 import 'package:tamini_app/components/quotations/quotation_service_cost.dart';
+import 'package:tamini_app/components/start_insurance_date_picker.dart';
 
 class RequestQuotations extends StatefulWidget {
   const RequestQuotations({
@@ -31,6 +32,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
     phoneNumber = user?.phoneNumber;
     birthDateController.text = formatDate(initialDate);
     sellerBirthDateController.text = formatDate(initialDate);
+    startInsuranceDate.text = formatDate(initialDate);
     _tabController = TabController(length: 2, vsync: this);
     // Add listener to the TabController
     _tabController.addListener(_handleTabSelection);
@@ -61,6 +63,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController nationalIdNumberController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
+  TextEditingController startInsuranceDate = TextEditingController();
   TextEditingController sellerNationalIdNumberController = TextEditingController();
   TextEditingController sellerBirthDateController = TextEditingController();
   TextEditingController carSerialNumberController = TextEditingController();
@@ -74,7 +77,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request_Quotations'.i18n()), // Use the i18n() method to get the translated string
+        title: Text('Request_Quotations'.i18n()),
       ),
       body: Center(
           child: ListView(children: [
@@ -104,7 +107,9 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height / 1.36),
+          height: MediaQuery.of(context).size.height > 667
+              ? MediaQuery.of(context).size.height - MediaQuery.of(context).size.height / 1.36
+              : MediaQuery.of(context).size.height - MediaQuery.of(context).size.height / 1.45,
           child: TabBarView(
             controller: _tabController,
             children: [
@@ -224,6 +229,23 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: CustomTextField(
+            prefixIcon: StartInsuranceDatePicker(
+              onDateChanged: (newDate) {
+                setState(() {
+                  initialDate = newDate;
+                  startInsuranceDate.text = formatDate(initialDate);
+                });
+              },
+            ),
+            controller: startInsuranceDate,
+            labelText: 'startInsuranceDate'.i18n(),
+            hintText: 'enter_startInsuranceDate'.i18n(),
+            keyboardType: TextInputType.datetime,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomTextField(
             controller: carSerialNumberController,
             labelText: 'vehicle_serial_number'.i18n(),
             hintText: 'enter_vehicle_serial_number'.i18n(),
@@ -239,6 +261,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
                 onPressed: () {
                   if (birthDateController.text != formatDate(initialDateForTest) &&
                       nationalIdNumberController.text.isNotEmpty &&
+                      startInsuranceDate.text.isNotEmpty &&
                       birthDateController.text.isNotEmpty &&
                       carSerialNumberController.text.isNotEmpty) {
                     if (quotationType == QuotationType.transferQuotation.name) {
@@ -249,6 +272,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
                             context,
                             quotationType,
                             nationalIdNumberController.text,
+                            startInsuranceDate.text,
                             birthDateController.text,
                             sellerNationalIdNumberController.text,
                             sellerBirthDateController.text,
@@ -265,6 +289,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
                           context,
                           quotationType,
                           nationalIdNumberController.text,
+                          startInsuranceDate.text,
                           birthDateController.text,
                           sellerNationalIdNumberController.text,
                           sellerBirthDateController.text,

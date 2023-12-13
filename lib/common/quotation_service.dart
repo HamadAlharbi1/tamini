@@ -54,9 +54,10 @@ class QuotationService {
   /// Shows a snackbar with the given message on success.
   Future<void> requestQuotation(
     BuildContext context,
+    String birthDate,
     String quotationType,
     String nationalId,
-    String birthDate,
+    String startInsuranceDate,
     String sellerNationalId,
     String sellerBirthDate,
     String carSerialNumber,
@@ -96,6 +97,7 @@ class QuotationService {
         'requestId': newRequestId.toString(),
         'requestType': RequestType.quotation.name,
         'requestDate': requestDate.toString(),
+        "startInsuranceDate": startInsuranceDate
       });
       context.replace('/home_page');
       showSnackbar(context, message);

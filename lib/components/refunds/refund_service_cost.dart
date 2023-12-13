@@ -27,7 +27,7 @@ class _RefundServiceCostState extends State<RefundServiceCost> {
             return ListTile(
               title: Text(
                 'Cost_of_refund_service?'.i18n(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             );
           },

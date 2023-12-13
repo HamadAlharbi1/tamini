@@ -50,6 +50,18 @@ class _QuotationMoreDetailsState extends State<QuotationMoreDetails> {
                         itemDescription: "request_date".i18n(),
                         itemValue: ' ${DateFormat('dd/MM/yyyy').format(requestDate)}',
                       ),
+                    ],
+                  ),
+                ),
+                const Divider(),
+                DecoratedRowCard(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RequestCardItem(
+                        itemDescription: "startInsuranceDate".i18n(),
+                        itemValue: widget.request.startInsuranceDate,
+                      ),
                       RequestCardItem(
                         itemDescription: "quotationType".i18n(),
                         itemValue: widget.request.quotationType.i18n(),

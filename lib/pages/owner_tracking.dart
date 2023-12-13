@@ -28,7 +28,6 @@ class _OwnerTrackingState extends State<OwnerTracking> with SingleTickerProvider
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? uid;
   late TabController _tabController;
-
   @override
   void initState() {
     User? user = _auth.currentUser;
@@ -59,8 +58,7 @@ class _OwnerTrackingState extends State<OwnerTracking> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}"), // Use the i18n() method to get the translated string
+        title: Text("owner_tracking".i18n()),
         bottom: TabBar(
           controller: _tabController,
           tabs: [

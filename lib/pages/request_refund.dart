@@ -62,7 +62,8 @@ class _RequestRefundState extends State<RequestRefund> {
           const DurationVsPercentPanel(),
           const SizedBox(height: 10),
           const RefundServiceCost(),
-          Text('Select_Company'.i18n(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 10),
+          Text('Select_Company'.i18n(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           SizedBox(
             height: 220,
@@ -84,9 +85,8 @@ class _RequestRefundState extends State<RequestRefund> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Upload_Documents'.i18n(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text('Upload_Documents'.i18n(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-
           idCard.isNotEmpty
               ? ShowFile(
                   onPressedCallback: () async {

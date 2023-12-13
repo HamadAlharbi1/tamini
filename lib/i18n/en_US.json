@@ -145,5 +145,8 @@
 	"buyer_enter_Governemnt_ID/Iqama_ID": "enter buyer's Government ID",
 	"quotationType": "insurance request type",
 	"transferQuotation": "Ownership Transfer",
-	"newCarQuotation": "New Car Insurance"
+	"newCarQuotation": "New Car Insurance",
+	"owner_tracking": "owner tracking ",
+	"startInsuranceDate": "start insurance Date",
+	"enter_startInsuranceDate": "Enter start insurance Date"
 }

@@ -25,7 +25,7 @@ class _RefundDescriptionPanelState extends State<RefundDescriptionPanel> {
             return ListTile(
               title: Text(
                 'When_can_you_get_a_refund_on_your_car_insurance?'.i18n(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             );
           },

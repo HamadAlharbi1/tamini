@@ -26,7 +26,7 @@ class _DurationVsPercentPanelState extends State<DurationVsPercentPanel> {
             return ListTile(
               title: Text(
                 'How_much_is_the_refund_amount?'.i18n(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             );
           },
