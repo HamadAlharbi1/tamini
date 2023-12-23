@@ -84,26 +84,39 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
         const QuotationDescriptionPanel(),
         const QuotationServiceCost(),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TabBar(
-            controller: _tabController,
-            tabs: [
-              Tab(
-                  child: Text(
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
-                'NewCarQuotation'.i18n(),
-              )),
-              Tab(
-                child: Text(
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  'TransferQuotation'.i18n(),
-                ),
+          padding: const EdgeInsets.all(16),
+          child: Material(
+            elevation: .3,
+            borderRadius: BorderRadius.circular(14.0),
+            child: TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(14.0),
+                color: Theme.of(context).primaryColor,
               ),
-            ],
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.grey.shade600,
+              tabs: [
+                Tab(
+                  child: Text(
+                    'NewCarQuotation'.i18n(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    'TransferQuotation'.i18n(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -114,6 +127,7 @@ class _RequestQuotationsState extends State<RequestQuotations> with SingleTicker
             controller: _tabController,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 // NewCarQuotation
                 children: [
                   Padding(

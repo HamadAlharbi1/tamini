@@ -24,7 +24,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      autofocus: true,
+      autofocus: false,
       obscureText: false,
       decoration: InputDecoration(
         prefixIcon: widget.prefixIcon != null

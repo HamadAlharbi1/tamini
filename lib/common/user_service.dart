@@ -246,6 +246,19 @@ class UserService {
     return userDataStream; //
   }
 
+  /// Gets a user data
+  Future<UserData> getUserData(String userId) async {
+    final userDocRef = fireStore.collection('users').doc(userId);
+
+    final userDocSnapshot = await userDocRef.get();
+
+    if (userDocSnapshot.exists) {
+      return UserData.fromMap(userDocSnapshot.data() as Map<String, dynamic>);
+    } else {
+      throw Exception('User document not found for ID: $userId');
+    }
+  }
+
   /// Deletes a user document
   Future<void> deleteUser(context, String userId) async {
     showDialog(
