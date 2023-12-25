@@ -31,33 +31,9 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
       setState(() {
         if (timerSeconds > 0) {
           timerSeconds--;
-        } else {
-          timer.cancel();
-          _showTimeOutDialog();
         }
       });
     });
-  }
-
-  void _showTimeOutDialog() {
-    Navigator.of(context).pop();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("time_out".i18n()),
-          content: Text("time_out_massage".i18n()),
-          actions: <Widget>[
-            TextButton(
-              child: Text("ok".i18n()),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -75,7 +51,6 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
             strokeColorBuilder: const FixedColorBuilder(
               Color.fromARGB(255, 50, 122, 128),
             ),
-            textStyle: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
           ),
         ),
         const SizedBox(

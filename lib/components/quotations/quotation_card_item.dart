@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class QuotationCardItem extends StatelessWidget {
-  const QuotationCardItem({
+// this widget is used with both refund and quotation requests
+class RequestCardItem extends StatelessWidget {
+  const RequestCardItem({
     Key? key,
     required this.itemDescription,
     required this.itemValue,

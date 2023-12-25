@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:tamini_app/app.dart';
 import 'package:tamini_app/firebase_options.dart';
@@ -13,7 +14,12 @@ Future<void> main() async {
   if (kDebugMode) {
     print(config.options);
   }
-  runApp(
-    const MyApp(),
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then(
+    (value) => runApp(
+      const MyApp(),
+    ),
   );
 }

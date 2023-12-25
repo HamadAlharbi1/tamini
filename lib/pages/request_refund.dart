@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/pic_image.dart';
 import 'package:tamini_app/common/refund_service.dart';
+import 'package:tamini_app/common/util.dart';
+import 'package:tamini_app/components/loading.dart';
 import 'package:tamini_app/components/refunds/company_card.dart';
 import 'package:tamini_app/components/refunds/company_model.dart';
+import 'package:tamini_app/components/refunds/duration_vs_percent_panel.dart';
+import 'package:tamini_app/components/refunds/refund_description_panel.dart';
+import 'package:tamini_app/components/refunds/refund_service_cost.dart';
 import 'package:tamini_app/components/refunds/show_file.dart';
 
 class RequestRefund extends StatefulWidget {
@@ -16,16 +21,13 @@ class RequestRefund extends StatefulWidget {
 
 class _RequestRefundState extends State<RequestRefund> {
   String? uid;
+  bool uploadingIDcard = false;
+  bool uploadingRegistrationCard = false;
+  bool uploadingIBAN = false;
+  bool uploadingInsuranceDocument = false;
   String? phoneNumber;
+  bool isFileChanged = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
-  void initState() {
-    super.initState();
-    User? user = _auth.currentUser;
-    uid = user?.uid;
-    phoneNumber = user?.phoneNumber;
-  }
-
   UploadImage upload = UploadImage();
   final RefundService refundService = RefundService();
   String message = 'Refund_request_submitted_successfully'.i18n();
@@ -36,6 +38,14 @@ class _RequestRefundState extends State<RequestRefund> {
   String insuranceDocument = '';
   int selectedIndex = -1;
   @override
+  void initState() {
+    super.initState();
+    User? user = _auth.currentUser;
+    uid = user?.uid;
+    phoneNumber = user?.phoneNumber;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +54,16 @@ class _RequestRefundState extends State<RequestRefund> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          Text('Select_Company'.i18n(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const RefundDescriptionPanel(), // refund service description
+          const SizedBox(height: 10),
+
+          /// the [ DurationVsPercentPanel ] widget shows Calculating a refund amount based on the percentage of total duration elapsed.
+          /// For example, if the total duration is 1 month the refund could be 75% of the total amount.
+          const DurationVsPercentPanel(),
+          const SizedBox(height: 10),
+          const RefundServiceCost(),
+          const SizedBox(height: 10),
+          Text('Select_Company'.i18n(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           SizedBox(
             height: 220,
@@ -66,83 +85,160 @@ class _RequestRefundState extends State<RequestRefund> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Upload_Documents'.i18n(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text('Upload_Documents'.i18n(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () async {
-              idCard = await upload.selectAndUploadImage(context, "ID_card", uid!);
-              setState(() {});
-            },
-            child: Text('Upload_ID_card'.i18n()),
-          ),
           idCard.isNotEmpty
               ? ShowFile(
+                  onPressedCallback: () async {
+                    idCard = await upload.selectAndUploadImage(context, "ID_card", uid!, (uploading) {
+                      setState(() {
+                        uploadingIDcard = uploading;
+                      });
+                    });
+                    setState(() {});
+                  },
                   file: idCard,
-                  description: "ID_card".i18n(),
+                  fileName: "ID_card".i18n(),
                 )
-              : Container(),
-          ElevatedButton(
-            onPressed: () async {
-              vehicleRegistrationCard = await upload.selectAndUploadImage(context, "Vehicle_Registration_Card", uid!);
-              setState(() {});
-            },
-            child: Text('Upload_Vehicle_Registration_Card'.i18n()),
-          ),
+              : uploadingIDcard
+                  ? Loading(
+                      filename: 'Upload_ID_card'.i18n(),
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        idCard = await upload.selectAndUploadImage(context, "ID_card", uid!, (uploading) {
+                          setState(() {
+                            uploadingIDcard = uploading;
+                          });
+                        });
+                        setState(() {});
+                      },
+                      child: Text('Upload_ID_card'.i18n()),
+                    ),
           vehicleRegistrationCard.isNotEmpty
               ? ShowFile(
+                  onPressedCallback: () async {
+                    vehicleRegistrationCard =
+                        await upload.selectAndUploadImage(context, "Vehicle_Registration_Card", uid!, (uploading) {
+                      setState(() {
+                        uploadingRegistrationCard = uploading;
+                      });
+                    });
+                    setState(() {});
+                  },
                   file: vehicleRegistrationCard,
-                  description: "Vehicle_Registration_Card".i18n(),
+                  fileName: "Vehicle_Registration_Card".i18n(),
                 )
-              : Container(),
-          ElevatedButton(
-            onPressed: () async {
-              ibanBankAccount = await upload.selectAndUploadImage(context, "IBAN_bank_account", uid!);
-              setState(() {});
-            },
-            child: Text('Upload_IBAN_Bank_Account'.i18n()),
-          ),
+              : uploadingRegistrationCard
+                  ? Loading(
+                      filename: 'Upload_Vehicle_Registration_Card'.i18n(),
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        vehicleRegistrationCard =
+                            await upload.selectAndUploadImage(context, "Vehicle_Registration_Card", uid!, (uploading) {
+                          setState(() {
+                            uploadingRegistrationCard = uploading;
+                          });
+                        });
+                        setState(() {});
+                      },
+                      child: Text('Upload_Vehicle_Registration_Card'.i18n()),
+                    ),
           ibanBankAccount.isNotEmpty
               ? ShowFile(
+                  onPressedCallback: () async {
+                    ibanBankAccount =
+                        await upload.selectAndUploadImage(context, "IBAN_bank_account", uid!, (uploading) {
+                      setState(() {
+                        uploadingIBAN = uploading;
+                      });
+                    });
+                    setState(() {});
+                  },
                   file: ibanBankAccount,
-                  description: "IBAN_Bank_Account".i18n(),
+                  fileName: "IBAN_Bank_Account".i18n(),
                 )
-              : Container(),
-          ElevatedButton(
-            onPressed: () async {
-              insuranceDocument = await upload.selectAndUploadImage(context, "Insurance_Document", uid!);
-              setState(() {});
-            },
-            child: Text('Upload_Insurance_Document'.i18n()),
-          ),
+              : uploadingIBAN
+                  ? Loading(
+                      filename: 'Upload_IBAN_Bank_Account'.i18n(),
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        ibanBankAccount =
+                            await upload.selectAndUploadImage(context, "IBAN_bank_account", uid!, (uploading) {
+                          setState(() {
+                            uploadingIBAN = uploading;
+                          });
+                        });
+                        setState(() {});
+                      },
+                      child: Text('Upload_IBAN_Bank_Account'.i18n()),
+                    ),
+
           insuranceDocument.isNotEmpty
               ? ShowFile(
+                  onPressedCallback: () async {
+                    insuranceDocument =
+                        await upload.selectAndUploadImage(context, "Insurance_Document", uid!, (uploading) {
+                      setState(() {
+                        uploadingInsuranceDocument = uploading;
+                      });
+                    });
+                    setState(() {});
+                  },
                   file: insuranceDocument,
-                  description: "Insurance_Document".i18n(),
+                  fileName: "Insurance_Document".i18n(),
                 )
-              : Container(),
+              : uploadingInsuranceDocument
+                  ? Loading(
+                      filename: 'Upload_Insurance_Document'.i18n(),
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        insuranceDocument =
+                            await upload.selectAndUploadImage(context, "Insurance_Document", uid!, (uploading) {
+                          setState(() {
+                            uploadingInsuranceDocument = uploading;
+                          });
+                        });
+                        setState(() {});
+                      },
+                      child: Text('Upload_Insurance_Document'.i18n()),
+                    ),
+
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(221, 0, 167, 117)),
+            ),
             onPressed: () {
               if (idCard.isNotEmpty &&
                   vehicleRegistrationCard.isNotEmpty &&
                   ibanBankAccount.isNotEmpty &&
                   insuranceDocument.isNotEmpty) {
-                refundService.requestRefund(
-                  context,
-                  idCard,
-                  ibanBankAccount,
-                  vehicleRegistrationCard,
-                  insuranceDocument,
-                  uid!,
-                  phoneNumber!,
-                  message,
-                  companyName,
-                );
+                if (companyName.isEmpty) {
+                  displayError(context, "company_Name_should_not_empty".i18n());
+                } else {
+                  refundService.requestRefund(
+                    context,
+                    idCard,
+                    ibanBankAccount,
+                    vehicleRegistrationCard,
+                    insuranceDocument,
+                    uid!,
+                    phoneNumber!,
+                    message,
+                    companyName,
+                  );
+                }
               } else {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('please_upload_all_documents'.i18n())));
+                displayError(context, "please_upload_all_documents".i18n());
               }
             },
-            child: Text('send'.i18n()),
+            child: Text('request_for_refund'.i18n()),
           ),
         ],
       ),

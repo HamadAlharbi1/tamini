@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/pic_image.dart';
@@ -9,8 +10,9 @@ import 'package:tamini_app/common/user_service.dart';
 import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/language_dropdown.dart';
+import 'package:tamini_app/components/language_changer.dart';
 import 'package:tamini_app/components/theme_changer.dart';
+import 'package:tamini_app/components/update_phone_number.dart';
 import 'package:tamini_app/components/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String uid = "";
   final UploadImage uploadImage = UploadImage();
 
+  bool uploading = false;
   @override
   void initState() {
     super.initState();
@@ -50,26 +53,72 @@ class _ProfilePageState extends State<ProfilePage> {
               appBar: AppBar(
                 title: Text('profile_page'.i18n()),
                 actions: const <Widget>[
-                  LanguageDropdown(),
                   ThemeChanger(),
+                  LanguageChanger(),
                 ],
               ),
               body: ListView(
                 padding: const EdgeInsets.all(16.0),
                 children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.scaleDown,
-                        image: Image.network(
-                          user.profilePictureUrl.isEmpty ? Constants.profileAvatarUrl : user.profilePictureUrl,
-                        ).image,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          String? imageUrl =
+                              await uploadImage.selectAndUploadImage(context, 'profile_images', uid, (uploading) {
+                            setState(() {
+                              this.uploading = uploading;
+                            });
+                          });
+                          if (imageUrl.isNotEmpty) {
+                            user.profilePictureUrl = imageUrl;
+                            await userService.updateUser(context, user);
+                          }
+                        },
+                        child: uploading
+                            ? const CircularProgressIndicator()
+                            : Container(
+                                width: 150,
+                                height: 150,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: user.profilePictureUrl.isEmpty
+                                    ? Image.network(
+                                        fit: BoxFit.cover,
+                                        Constants.profileAvatarUrl,
+                                      )
+                                    : Image.network(
+                                        fit: BoxFit.cover,
+                                        user.profilePictureUrl.isEmpty
+                                            ? Constants.profileAvatarUrl
+                                            : user.profilePictureUrl,
+                                        loadingBuilder:
+                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) return child;
+                                          return Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(2),
+                                                child: CircularProgressIndicator(
+                                                  value: loadingProgress.expectedTotalBytes != null
+                                                      ? loadingProgress.cumulativeBytesLoaded /
+                                                          loadingProgress.expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                              ),
                       ),
-                    ),
+                    ],
                   ),
+                  const SizedBox(height: 20),
                   Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -113,19 +162,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      String? imageUrl = await uploadImage.selectAndUploadImage(context, 'profile_images', uid);
-                      if (imageUrl.isNotEmpty) {
-                        user.profilePictureUrl = imageUrl;
-                        await userService.updateUser(context, user);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                    ),
-                    child: Text('Update_Profile_Picture'.i18n()),
-                  ),
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
@@ -157,6 +193,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     keyboardType: TextInputType.emailAddress,
                                   ),
                                   const SizedBox(
+                                    height: 16,
+                                  ),
+                                  UpdatePhoneNumber(userService: userService, user: user),
+                                  const SizedBox(height: 10),
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                 ],
@@ -185,60 +226,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: () {
-                      TextEditingController phoneNumberController = TextEditingController();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('update_phone_number'.i18n(), style: Theme.of(context).textTheme.titleLarge),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: [
-                                  CustomTextField(
-                                    controller: phoneNumberController,
-                                    labelText: "phone_number".i18n(),
-                                    hintText: "enter_phone_number".i18n(),
-                                    keyboardType: TextInputType.phone,
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              ElevatedButton(
-                                child: Text('update_phone_number'.i18n()),
-                                onPressed: () async {
-                                  try {
-                                    await userService.updatePhoneNumber(context, phoneNumberController.text, user);
-                                  } catch (e) {
-                                    displayError(context, e);
-                                  }
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("signOut".i18n()),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        const Icon(Icons.logout_outlined, size: 26),
+                      ],
                     ),
-                    child: Text('update_phone_number'.i18n()),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
                     onPressed: () async {
-                      await userService.deleteUser(context, uid);
+                      await FirebaseAuth.instance.signOut();
+                      context.go('/registration');
                     },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                    ),
-                    child: Text('Delete_User'.i18n()),
                   ),
                 ],
               ));

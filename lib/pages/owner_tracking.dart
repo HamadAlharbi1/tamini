@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/quotation_service.dart';
 import 'package:tamini_app/common/refund_service.dart';
 import 'package:tamini_app/components/quotations/quotations_model.dart';
@@ -27,7 +28,6 @@ class _OwnerTrackingState extends State<OwnerTracking> with SingleTickerProvider
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? uid;
   late TabController _tabController;
-
   @override
   void initState() {
     User? user = _auth.currentUser;
@@ -58,29 +58,17 @@ class _OwnerTrackingState extends State<OwnerTracking> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "${'Tracking_Requests'.i18n()} ${'owner'.i18n()}"), // Use the i18n() method to get the translated string
+        title: Text("owner_tracking".i18n()),
         bottom: TabBar(
           controller: _tabController,
           tabs: [
             Tab(
-              child: Text(
-                'Quotations'.i18n(),
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                child: Text(
+              'Quotations'.i18n(),
+            )),
             Tab(
               child: Text(
                 'Refunds'.i18n(),
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
               ),
             ),
           ],
@@ -93,7 +81,7 @@ class _OwnerTrackingState extends State<OwnerTracking> with SingleTickerProvider
             children: [for (var request in ownerQuotations) UpdateQuotationCard(request: request)],
           ),
           ListView(
-            children: [for (var request in ownerRefunds) RefundCard(request: request)],
+            children: [for (var request in ownerRefunds) RefundCard(userType: UserType.owner.name, request: request)],
           ),
         ],
       ),

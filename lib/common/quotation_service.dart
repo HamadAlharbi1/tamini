@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/util.dart';
@@ -49,9 +53,13 @@ class QuotationService {
   /// Requests a new quotation by generating a requestId and adding a document.
   /// Shows a snackbar with the given message on success.
   Future<void> requestQuotation(
-    context,
-    String nationalId,
+    BuildContext context,
     String birthDate,
+    String quotationType,
+    String nationalId,
+    String startInsuranceDate,
+    String sellerNationalId,
+    String sellerBirthDate,
     String carSerialNumber,
     String uid,
     String phoneNumber,
@@ -76,8 +84,11 @@ class QuotationService {
       });
 
       await FirebaseFirestore.instance.collection('quotations').doc(newRequestId.toString()).set({
-        'nationalId': nationalId,
-        'birthDate': birthDate,
+        "quotationType": quotationType,
+        'newOwnerNationalId': nationalId,
+        'newOwnerBirthDate': birthDate,
+        'sellerNationalId': sellerNationalId,
+        'sellerBirthDate': sellerBirthDate,
         'carSerialNumber': carSerialNumber,
         'userId': uid,
         'status': QuotationStatus.newRequest.name,
@@ -86,8 +97,9 @@ class QuotationService {
         'requestId': newRequestId.toString(),
         'requestType': RequestType.quotation.name,
         'requestDate': requestDate.toString(),
+        "startInsuranceDate": startInsuranceDate
       });
-
+      context.replace('/home_page');
       showSnackbar(context, message);
     } catch (e) {
       displayError(context, e);

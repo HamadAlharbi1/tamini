@@ -1,4 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:localization/localization.dart';
 import 'package:tamini_app/common/enum.dart';
 import 'package:tamini_app/common/util.dart';
@@ -46,7 +52,7 @@ class RefundService {
 
   /// Create new refund request
   Future<void> requestRefund(
-    context,
+    BuildContext context,
     String idCard,
     String ibanBankAccount,
     String vehicleRegistrationCard,
@@ -79,13 +85,14 @@ class RefundService {
         'vehicleRegistrationCard': vehicleRegistrationCard,
         'insuranceDocument': insuranceDocument,
         'userId': uid,
-        'status': QuotationStatus.newRequest.name,
+        'status': RefundStatus.newRequest.name,
         'phoneNumber': phoneNumber,
         'requestId': currentRequestId.toString(),
         'requestType': RequestType.refund.name,
         'requestDate': requestDate.toString(),
         'companyName': companyName,
       });
+      context.replace('/home_page');
       showSnackbar(context, message);
     } catch (e) {
       displayError(context, e);

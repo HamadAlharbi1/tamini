@@ -1,25 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
-import 'package:tamini_app/common/util.dart';
-import 'package:tamini_app/components/quotations/quotation_card.dart';
+import 'package:tamini_app/common/enum.dart';
+import 'package:tamini_app/common/user_service.dart';
+import 'package:tamini_app/components/decorated_row_card.dart';
 import 'package:tamini_app/components/quotations/quotation_card_item.dart';
+import 'package:tamini_app/components/refunds/refund_more_details.dart';
 import 'package:tamini_app/components/refunds/refunds_model.dart';
-import 'package:tamini_app/components/refunds/show_file.dart';
+import 'package:tamini_app/components/refunds/update_refund_status.dart';
 
 class RefundCard extends StatefulWidget {
   final Refunds request;
-  const RefundCard({required this.request, Key? key}) : super(key: key);
+  final String userType;
+  const RefundCard({required this.userType, required this.request, Key? key}) : super(key: key);
 
   @override
   State<RefundCard> createState() => _RefundCardState();
 }
 
 class _RefundCardState extends State<RefundCard> {
+  final UserService userService = UserService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String uid = "";
+
+  @override
+  void initState() {
+    super.initState();
+    User? user = _auth.currentUser;
+    uid = user!.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final requestDate = DateTime.parse(widget.request.requestDate);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       child: Card(
@@ -36,50 +48,27 @@ class _RefundCardState extends State<RefundCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    QuotationCardItem(
+                    RequestCardItem(
                       itemDescription: "request_id".i18n(),
                       itemValue: widget.request.requestId,
                     ),
-                    QuotationCardItem(
-                      itemDescription: "request_date".i18n(),
-                      itemValue: DateFormat('yyyy/MM/dd').format(requestDate),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(),
-              DecoratedRowCard(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    QuotationCardItem(
-                      itemDescription: "request_type".i18n(),
-                      itemValue: widget.request.requestType.i18n(),
-                    ),
-                    QuotationCardItem(
+                    RequestCardItem(
                       itemDescription: "request_status".i18n(),
                       itemValue: widget.request.status.i18n(),
                     ),
+                    widget.userType == UserType.user.name
+                        ? const SizedBox()
+                        : UpdateRefundStatus(
+                            requestId: widget.request.requestId,
+                          )
                   ],
                 ),
               ),
               const Divider(),
-              DecoratedRowCard(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    QuotationCardItem(
-                      itemDescription: "phone_number".i18n(),
-                      itemValue: fixNumber(widget.request.phoneNumber),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(),
-              ShowFile(file: widget.request.idCard, description: 'ID_card'.i18n()),
-              ShowFile(file: widget.request.ibanBankAccount, description: 'IBAN_Bank_Account'.i18n()),
-              ShowFile(file: widget.request.vehicleRegistrationCard, description: 'Vehicle_Registration_Card'.i18n()),
-              ShowFile(file: widget.request.insuranceDocument, description: 'Insurance_Document'.i18n()),
+              RefundMoreDetails(
+                // show more details widget
+                request: widget.request,
+              )
             ],
           ),
         ),

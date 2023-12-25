@@ -5,7 +5,7 @@ import 'package:tamini_app/common/util.dart';
 import 'package:tamini_app/components/constants.dart';
 import 'package:tamini_app/components/custom_button.dart';
 import 'package:tamini_app/components/custom_text_field.dart';
-import 'package:tamini_app/components/language_dropdown.dart';
+import 'package:tamini_app/components/language_changer.dart';
 
 class Registration extends StatefulWidget {
   const Registration({
@@ -37,47 +37,69 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LanguageChanger(),
+          ],
+        ),
         automaticallyImplyLeading: false,
         title: Center(child: Text('Login by Phone Number'.i18n())),
       ),
       body: Center(
         child: ListView(
           children: [
-            Column(
-              children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 7,
                   ),
-                  margin: const EdgeInsets.all(50),
-                  child: Image.network(Constants.appLogoUrl),
-                ),
-                const SizedBox(
-                  height: 80,
-                ),
-                const LanguageDropdown(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CustomTextField(
-                    controller: phoneNumberController,
-                    labelText: 'phone_number'.i18n(),
-                    hintText: 'enter_phone_number'.i18n(),
-                    keyboardType: TextInputType.phone,
+                  Container(
+                    width: 200,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle,
+                    ),
+                    margin: const EdgeInsets.all(0),
+                    child: Image.asset(Constants.appLogoUrl),
                   ),
-                ),
-                CustomButton(
-                  onPressed: () async {
-                    try {
-                      await userService.createNewUserFromMobile(context, phoneNumberController.text);
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      displayError(context, e);
-                    }
-                  },
-                  buttonText: 'continue'.i18n(),
-                ),
-              ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Welcome'.i18n(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CustomTextField(
+                      controller: phoneNumberController,
+                      labelText: 'phone_number'.i18n(),
+                      hintText: 'enter_phone_number'.i18n(),
+                      keyboardType: TextInputType.phone,
+                    ),
+                  ),
+                  CustomButton(
+                    onPressed: () async {
+                      try {
+                        await userService.createNewUserFromMobile(context, phoneNumberController.text);
+                      } catch (e) {
+                        // ignore: use_build_context_synchronously
+                        displayError(context, e);
+                      }
+                    },
+                    buttonText: 'continue'.i18n(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

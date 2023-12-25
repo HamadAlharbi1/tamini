@@ -90,18 +90,20 @@ class UserService {
                             userName: 'guest',
                             email: result.user!.email ?? '',
                             phoneNumber: phoneNumber,
-                            profilePictureUrl: Constants.profileAvatarUrl,
+                            profilePictureUrl: Constants.refundCost,
                             userType: UserType.user.name,
                           );
                           await createUser(newUser);
                           showSnackbar(context, "registration_massage".i18n());
-                          context.go('/home_page');
+                          context.pop(context);
+                          context.replace('/home_page');
                         } else if (exists) {
                           showSnackbar(context, "login_massage".i18n());
-                          context.go('/home_page');
+                          context.pop(context);
+                          context.replace('/home_page');
                         }
                       }).catchError((e) {
-                        showSnackbar(context, "Invalid_OTP".i18n());
+                        displayError(context, "Invalid_OTP".i18n());
                       });
                     },
                   ),
@@ -111,7 +113,26 @@ class UserService {
           },
         );
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+        context.pop(context);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("time_out".i18n()),
+              content: Text("time_out_massage".i18n()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("ok".i18n()),
+                  onPressed: () {
+                    context.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
@@ -155,29 +176,54 @@ class UserService {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('enter_otp'.i18n()),
-              content: OtpInputWidget(
-                onOtpEntered: (otp) async {
-                  FirebaseAuth auth = FirebaseAuth.instance;
-                  PhoneAuthCredential credential =
-                      PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
-                  try {
-                    await auth.currentUser!.updatePhoneNumber(credential);
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(maskPhoneNumber(context, newPhoneNumber)),
+                  OtpInputWidget(
+                    onOtpEntered: (otp) async {
+                      FirebaseAuth auth = FirebaseAuth.instance;
+                      PhoneAuthCredential credential =
+                          PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+                      try {
+                        await auth.currentUser!.updatePhoneNumber(credential);
 
-                    // Update the phone number in Firestore users collection
-                    user.phoneNumber = newPhoneNumber;
-                    await updateUser(context, user);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  } catch (e) {
-                    displayError(context, e);
-                  }
-                },
+                        // Update the phone number in Firestore users collection
+                        user.phoneNumber = newPhoneNumber;
+                        await updateUser(context, user);
+                        context.pop(context);
+                        context.pop(context);
+                      } catch (e) {
+                        displayError(context, "Invalid_OTP".i18n());
+                      }
+                    },
+                  ),
+                ],
               ),
             );
           },
         );
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+        context.pop(context);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("time_out".i18n()),
+              content: Text("time_out_massage".i18n()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("ok".i18n()),
+                  onPressed: () {
+                    context.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
@@ -197,8 +243,20 @@ class UserService {
         throw Exception('User document not found for ID: $userId');
       }
     });
-
     return userDataStream; //
+  }
+
+  /// Gets a user data
+  Future<UserData> getUserData(String userId) async {
+    final userDocRef = fireStore.collection('users').doc(userId);
+
+    final userDocSnapshot = await userDocRef.get();
+
+    if (userDocSnapshot.exists) {
+      return UserData.fromMap(userDocSnapshot.data() as Map<String, dynamic>);
+    } else {
+      throw Exception('User document not found for ID: $userId');
+    }
   }
 
   /// Deletes a user document
@@ -220,7 +278,6 @@ class UserService {
               child: Text('Delete'.i18n()),
               onPressed: () async {
                 await fireStore.collection('users').doc(userId).delete();
-
                 context.go('/registration');
                 showSnackbar(context, "user_account_deleted".i18n());
               },

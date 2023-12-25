@@ -16,8 +16,7 @@ class CustomTextField extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
@@ -25,7 +24,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      autofocus: true,
+      autofocus: false,
       obscureText: false,
       decoration: InputDecoration(
         prefixIcon: widget.prefixIcon != null
